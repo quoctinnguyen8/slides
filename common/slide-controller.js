@@ -1,14 +1,18 @@
 (function () {
+    // Kích thước chuẩn thiết kế của mỗi slide (tỉ lệ 16:9)
     const SLIDE_WIDTH = 1280;
     const SLIDE_HEIGHT = 720;
 
+    // Lấy toàn bộ slide trong trang, nếu không có thì dừng
     const slides = Array.from(document.querySelectorAll('.slide-container'));
     if (!slides.length) return;
 
+    // Trạng thái điều hướng hiện tại
     const totalSlides = slides.length;
     let currentIndex = 0;
     document.body.classList.add('slide-controller-active');
 
+    // Tự động gắn stylesheet dành riêng cho chế độ in
     const ensurePrintStylesheet = () => {
         if (document.querySelector('link[data-slide-print="true"]')) return;
 
@@ -28,6 +32,7 @@
     };
     ensurePrintStylesheet();
 
+    // Dựng lớp khung hiển thị slide: viewport -> stage -> slide
     const stage = document.createElement('div');
     stage.className = 'slide-stage';
     slides[0].before(stage);
@@ -38,6 +43,7 @@
     stage.before(viewport);
     viewport.appendChild(stage);
 
+    // Gắn số trang ở góc dưới phải cho từng slide
     slides.forEach((slide, index) => {
         const pageNumber = document.createElement('div');
         pageNumber.className = 'slide-page-number';
@@ -48,15 +54,18 @@
     const nav = document.createElement('div');
     nav.className = 'slide-nav';
 
+    // Nút lùi slide
     const backButton = document.createElement('button');
     backButton.type = 'button';
     backButton.setAttribute('aria-label', 'Slide trước');
     backButton.textContent = '‹';
 
+    // Ô nhập số trang để nhảy nhanh
     const indexInput = document.createElement('input');
     indexInput.type = 'text';
     indexInput.setAttribute('aria-label', 'Vị trí slide');
 
+    // Nút tiến slide
     const nextButton = document.createElement('button');
     nextButton.type = 'button';
     nextButton.setAttribute('aria-label', 'Slide tiếp theo');
@@ -65,29 +74,38 @@
     nav.append(backButton, indexInput, nextButton);
     document.body.appendChild(nav);
 
+    // Nút in slide (mở hộp thoại in mặc định của trình duyệt)
     const printButton = document.createElement('button');
     printButton.type = 'button';
     printButton.className = 'slide-print-btn';
     printButton.setAttribute('aria-label', 'In slide');
     printButton.innerHTML = '<i class="fa-solid fa-print" aria-hidden="true"></i>';
     printButton.addEventListener('click', () => window.print());
-    document.body.appendChild(printButton);
 
+    // Nút bật/tắt chế độ toàn màn hình
     const fullscreenButton = document.createElement('button');
     fullscreenButton.type = 'button';
     fullscreenButton.className = 'slide-fullscreen-btn';
     fullscreenButton.setAttribute('aria-label', 'Toàn màn hình');
     fullscreenButton.innerHTML = '<i class="fa-solid fa-expand" aria-hidden="true"></i>';
-    document.body.appendChild(fullscreenButton);
 
+    // Gom các nút hành động góc phải vào một cụm để dễ ẩn/hiện sau này
+    const topActions = document.createElement('div');
+    topActions.className = 'slide-top-actions';
+    topActions.append(printButton, fullscreenButton);
+    document.body.appendChild(topActions);
+
+    // Kiểm tra trạng thái full screen hiện tại
     const isFullscreen = () => !!document.fullscreenElement;
 
+    // Đồng bộ class trên body để CSS xử lý ẩn/hiện controls
     const updateFullscreenState = () => {
         const active = isFullscreen();
         document.body.classList.toggle('slide-fullscreen-active', active);
         scheduleFitStage();
     };
 
+    // Bật/tắt full screen
     const toggleFullscreen = async () => {
         try {
             if (!isFullscreen()) {
@@ -104,6 +122,8 @@
     document.addEventListener('fullscreenchange', updateFullscreenState);
 
     let fitRaf = 0;
+    // Tính scale để slide luôn vừa màn hình theo tỉ lệ 16:9
+    // Giới hạn hiển thị tối đa 95% viewport để chừa khoảng thở thẩm mỹ
     const fitStage = () => {
         const navHeight = nav.offsetHeight || 56;
         const maxViewportWidth = Math.max(window.innerWidth * 0.95, 280);
@@ -118,6 +138,7 @@
         stage.style.transform = `scale(${scale})`;
     };
 
+    // Chống gọi fit liên tục khi resize bằng requestAnimationFrame
     const scheduleFitStage = () => {
         if (fitRaf) cancelAnimationFrame(fitRaf);
         fitRaf = requestAnimationFrame(() => {
@@ -126,6 +147,7 @@
         });
     };
 
+    // Cập nhật trạng thái hiển thị slide và trạng thái điều hướng
     const applyState = () => {
         slides.forEach((slide, index) => {
             slide.classList.remove('is-active', 'is-prev', 'is-next');
@@ -143,6 +165,7 @@
         nextButton.disabled = currentIndex === totalSlides - 1;
     };
 
+    // Chuyển đến slide theo chỉ số (có chặn biên)
     const goToSlide = (index) => {
         const safeIndex = Math.min(Math.max(index, 0), totalSlides - 1);
         if (safeIndex === currentIndex) {
@@ -153,6 +176,7 @@
         applyState();
     };
 
+    // Parse input người dùng: chấp nhận dạng "5" hoặc "5/21"
     const parseInput = () => {
         const rawValue = indexInput.value.trim();
         const matched = rawValue.match(/^\s*(\d+)/);
@@ -166,6 +190,7 @@
     backButton.addEventListener('click', () => goToSlide(currentIndex - 1));
     nextButton.addEventListener('click', () => goToSlide(currentIndex + 1));
 
+    // Enter để xác nhận nhảy trang
     indexInput.addEventListener('keydown', (event) => {
         if (event.key === 'Enter') {
             parseInput();
@@ -175,15 +200,18 @@
 
     indexInput.addEventListener('blur', parseInput);
 
+    // Hỗ trợ phím mũi tên trái/phải để chuyển slide nhanh
     document.addEventListener('keydown', (event) => {
         if (event.target === indexInput) return;
         if (event.key === 'ArrowLeft') goToSlide(currentIndex - 1);
         if (event.key === 'ArrowRight') goToSlide(currentIndex + 1);
     });
 
+    // Tự fit lại khi đổi kích thước cửa sổ hoặc xoay màn hình
     window.addEventListener('resize', scheduleFitStage);
     window.addEventListener('orientationchange', scheduleFitStage);
 
+    // Khởi tạo trạng thái ban đầu
     applyState();
     updateFullscreenState();
     scheduleFitStage();
