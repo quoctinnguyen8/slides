@@ -411,10 +411,15 @@ body.slide-controller-active {
     overflow: hidden;
 }
 
+.slide-viewport {
+    position: relative;
+}
+
 .slide-stage {
     position: relative;
     width: 1280px;
     height: 720px;
+    transform-origin: top left;
 }
 
 .slide-stage .slide-container {
@@ -519,4 +524,37 @@ body.slide-controller-active {
 .slide-nav input:focus {
     border-color: #10a37f;
     box-shadow: 0 0 0 3px rgba(16, 163, 127, 0.15);
+}
+
+@media (max-width: 768px) {
+    body.slide-controller-active {
+        padding: 12px 10px 66px;
+    }
+
+    .slide-page-number {
+        right: 12px;
+        bottom: 10px;
+        padding: 4px 8px;
+        font-size: 13px;
+        border-radius: 6px;
+    }
+
+    .slide-nav {
+        bottom: 12px;
+        gap: 8px;
+        padding: 6px 8px;
+        border-radius: 10px;
+    }
+
+    .slide-nav button {
+        width: 36px;
+        height: 36px;
+        font-size: 20px;
+    }
+
+    .slide-nav input {
+        width: 76px;
+        height: 36px;
+        font-size: 14px;
+    }
 }

@@ -1,4 +1,7 @@
 (function () {
+    const SLIDE_WIDTH = 1280;
+    const SLIDE_HEIGHT = 720;
+
     const slides = Array.from(document.querySelectorAll('.slide-container'));
     if (!slides.length) return;
 
@@ -10,6 +13,11 @@
     stage.className = 'slide-stage';
     slides[0].before(stage);
     slides.forEach((slide) => stage.appendChild(slide));
+
+    const viewport = document.createElement('div');
+    viewport.className = 'slide-viewport';
+    stage.before(viewport);
+    viewport.appendChild(stage);
 
     slides.forEach((slide, index) => {
         const pageNumber = document.createElement('div');
@@ -37,6 +45,31 @@
 
     nav.append(backButton, indexInput, nextButton);
     document.body.appendChild(nav);
+
+    let fitRaf = 0;
+    const fitStage = () => {
+        const navHeight = nav.offsetHeight || 56;
+        const horizontalPadding = 20;
+        const verticalPadding = 16;
+        const availableWidth = Math.max(window.innerWidth - horizontalPadding, 280);
+        const availableHeight = Math.max(window.innerHeight - navHeight - 20 - verticalPadding, 180);
+
+        const scale = Math.min(availableWidth / SLIDE_WIDTH, availableHeight / SLIDE_HEIGHT, 1);
+        const viewportWidth = Math.round(SLIDE_WIDTH * scale);
+        const viewportHeight = Math.round(SLIDE_HEIGHT * scale);
+
+        viewport.style.width = `${viewportWidth}px`;
+        viewport.style.height = `${viewportHeight}px`;
+        stage.style.transform = `scale(${scale})`;
+    };
+
+    const scheduleFitStage = () => {
+        if (fitRaf) cancelAnimationFrame(fitRaf);
+        fitRaf = requestAnimationFrame(() => {
+            fitStage();
+            fitRaf = 0;
+        });
+    };
 
     const applyState = () => {
         slides.forEach((slide, index) => {
@@ -93,5 +126,9 @@
         if (event.key === 'ArrowRight') goToSlide(currentIndex + 1);
     });
 
+    window.addEventListener('resize', scheduleFitStage);
+    window.addEventListener('orientationchange', scheduleFitStage);
+
     applyState();
+    scheduleFitStage();
 })();
