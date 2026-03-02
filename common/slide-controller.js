@@ -73,15 +73,43 @@
     printButton.addEventListener('click', () => window.print());
     document.body.appendChild(printButton);
 
+    const fullscreenButton = document.createElement('button');
+    fullscreenButton.type = 'button';
+    fullscreenButton.className = 'slide-fullscreen-btn';
+    fullscreenButton.setAttribute('aria-label', 'Toàn màn hình');
+    fullscreenButton.innerHTML = '<i class="fa-solid fa-expand" aria-hidden="true"></i>';
+    document.body.appendChild(fullscreenButton);
+
+    const isFullscreen = () => !!document.fullscreenElement;
+
+    const updateFullscreenState = () => {
+        const active = isFullscreen();
+        document.body.classList.toggle('slide-fullscreen-active', active);
+        scheduleFitStage();
+    };
+
+    const toggleFullscreen = async () => {
+        try {
+            if (!isFullscreen()) {
+                await document.documentElement.requestFullscreen();
+            } else {
+                await document.exitFullscreen();
+            }
+        } catch (error) {
+            console.error('Không thể chuyển chế độ toàn màn hình:', error);
+        }
+    };
+
+    fullscreenButton.addEventListener('click', toggleFullscreen);
+    document.addEventListener('fullscreenchange', updateFullscreenState);
+
     let fitRaf = 0;
     const fitStage = () => {
         const navHeight = nav.offsetHeight || 56;
-        const horizontalPadding = 20;
-        const verticalPadding = 16;
-        const availableWidth = Math.max(window.innerWidth - horizontalPadding, 280);
-        const availableHeight = Math.max(window.innerHeight - navHeight - 20 - verticalPadding, 180);
+        const maxViewportWidth = Math.max(window.innerWidth * 0.95, 280);
+        const maxViewportHeight = Math.max((window.innerHeight - navHeight - 20) * 0.95, 180);
 
-        const scale = Math.min(availableWidth / SLIDE_WIDTH, availableHeight / SLIDE_HEIGHT, 1);
+        const scale = Math.max(Math.min(maxViewportWidth / SLIDE_WIDTH, maxViewportHeight / SLIDE_HEIGHT), 0.1);
         const viewportWidth = Math.round(SLIDE_WIDTH * scale);
         const viewportHeight = Math.round(SLIDE_HEIGHT * scale);
 
@@ -157,5 +185,6 @@
     window.addEventListener('orientationchange', scheduleFitStage);
 
     applyState();
+    updateFullscreenState();
     scheduleFitStage();
 })();
