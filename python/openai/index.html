@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hướng dẫn sử dụng Python và OpenAI API</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../common/slide-style.css">
+</head>
+<body>
+
+<!-- Slide 1: Full_Background_Image (Title Slide) -->
+<div class="slide-container full-bg-image" id="slide1" style="background-image: linear-gradient(rgba(255,255,255,0.4), rgba(255,255,255,0.4)), url('http://googleusercontent.com/image_collection/image_retrieval/14711144726266988770');">
+    <div class="content-overlay">
+        <h1>Lập Trình AI với <span style="color: #10a37f;">Python & OpenAI API</span></h1>
+        <p class="subtitle">Hướng dẫn toàn diện từ cơ bản đến nâng cao: Text, JSON & Function Calling</p>
+    </div>
+</div>
+
+<!-- Slide 2: Tiled_Text_With_Icons (Menu) -->
+<div class="slide-container" id="slide2">
+    <h2 class="slide-title">Menu Nội Dung Học</h2>
+    <div class="content-area">
+        <div class="tiled-content">
+            <div class="tile">
+                <div class="icon"><i class="fa-solid fa-screwdriver-wrench"></i></div>
+                <h3>1. Chuẩn bị</h3>
+                <p>Khởi tạo project Python, cài đặt package, lấy và bảo mật API Key.</p>
+            </div>
+            <div class="tile">
+                <div class="icon"><i class="fa-solid fa-message"></i></div>
+                <h3>2. API Cơ bản</h3>
+                <p>Hiểu về Roles (System, User, Assistant), gửi request và tinh chỉnh Parameters.</p>
+            </div>
+            <div class="tile">
+                <div class="icon"><i class="fa-solid fa-code"></i></div>
+                <h3>3. API Nâng cao</h3>
+                <p>Xử lý dữ liệu định dạng JSON Schema (Structured Outputs) và Function Calling.</p>
+            </div>
+            <div class="tile">
+                <div class="icon"><i class="fa-solid fa-laptop-code"></i></div>
+                <h3>4. Thực hành & Project</h3>
+                <p>Bài tập vận dụng từng phần và Project cuối khóa tổng hợp kiến thức.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 3: Styled_Bullet_Points (Tài liệu tham khảo) -->
+<div class="slide-container" id="slide3">
+    <h2 class="slide-title">Tài Liệu Tham Khảo</h2>
+    <div class="content-area">
+        <div class="bullet-list">
+            <ul>
+                <li><i class="fa-solid fa-book-open"></i> <strong>OpenAI API Documentation:</strong> Nguồn tài liệu chính thức, cung cấp định nghĩa chi tiết về mọi endpoint và parameters (platform.openai.com/docs).</li>
+                <li><i class="fa-brands fa-python"></i> <strong>Thư viện openai-python:</strong> Repository Github chính thức của OpenAI hỗ trợ Python, có rất nhiều ví dụ mẫu và hướng dẫn cập nhật SDK.</li>
+                <li><i class="fa-solid fa-cube"></i> <strong>Tài liệu Pydantic:</strong> Cực kỳ quan trọng để định nghĩa Data Models khi làm việc với tính năng Structured Outputs (đảm bảo AI trả về JSON chuẩn xác 100%).</li>
+                <li><i class="fa-solid fa-terminal"></i> <strong>Python Official Docs:</strong> Tài liệu cơ bản về môi trường ảo (.venv), xử lý chuỗi và cấu trúc dữ liệu trong Python.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 4: Image_Right_Text_Left (Đăng ký OpenAI API Key) -->
+<div class="slide-container" id="slide4">
+    <h2 class="slide-title">Đăng Ký OpenAI API Key</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <ul>
+                    <li><strong>Bước 1:</strong> Truy cập vào <span class="highlight">platform.openai.com</span> và đăng nhập/tạo tài khoản.</li>
+                    <li><strong>Bước 2:</strong> Vào mục <strong>Dashboard > API Keys</strong> (bên thanh menu trái).</li>
+                    <li><strong>Bước 3:</strong> Click <strong>"Create new secret key"</strong>. Đặt tên cho key (ví dụ: "Python Project Key").</li>
+                    <li><strong>Bước 4:</strong> Copy key vừa tạo (bắt đầu bằng <span class="code-inline">sk-proj-...</span>). Lưu ý key chỉ hiện ra một lần duy nhất.</li>
+                    <li><strong>Bảo mật:</strong> <strong>Tuyệt đối không</strong> dán trực tiếp key vào code hoặc push lên Github. Chúng ta sẽ lưu nó trong file <span class="code-inline">.env</span>.</li>
+                </ul>
+            </div>
+            <div>
+                <div class="image-wrapper"><img src="http://googleusercontent.com/image_collection/image_retrieval/17267677518333061372" alt="OpenAI API developer dashboard technology concept"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 5: Two_Column (Tạo Project Python) -->
+<div class="slide-container" id="slide5">
+    <h2 class="slide-title">Tạo Project Python (Step-by-Step)</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <p><strong>1. Khởi tạo môi trường ảo (.venv):</strong><br>
+                Mở Terminal/CMD tại thư mục project và chạy lệnh:</p>
+                <div class="code-container" style="padding: 15px; margin-bottom: 20px;">
+<pre><code>python -m venv .venv
+<span class="cmt"># Kích hoạt (Windows):</span> .venv\Scripts\activate
+<span class="cmt"># Kích hoạt (Mac/Linux):</span> source .venv/bin/activate</code></pre>
+                </div>
+                
+                <p><strong>2. Cài đặt các Package cần thiết:</strong></p>
+                <div class="code-container" style="padding: 15px; margin-bottom: 20px;">
+<pre><code>pip install openai python-dotenv pydantic</code></pre>
+                </div>
+                
+                <p><strong>3. Thiết lập biến môi trường (.env):</strong><br>
+                Tạo file <span class="code-inline">.env</span> ngang hàng với code và thêm:</p>
+                <div class="code-container" style="padding: 15px;">
+<pre><code>OPENAI_API_KEY=sk-proj-xxyyzz...</code></pre>
+                </div>
+            </div>
+            <div style="align-self: flex-start;">
+                <p><strong>Giải thích chi tiết:</strong></p>
+                <ul>
+                    <li>Sử dụng <span class="code-inline">.venv</span> giúp thư mục môi trường được ẩn đi, tránh gây rối mắt trong cấu trúc project.</li>
+                    <li><span class="code-inline">openai</span>: SDK chính thức để tương tác với API.</li>
+                    <li><span class="code-inline">python-dotenv</span>: Tự động load API Key từ file <span class="code-inline">.env</span> vào chương trình, giúp code bảo mật hơn.</li>
+                    <li><span class="code-inline">pydantic</span>: Dùng để định nghĩa kiểu dữ liệu JSON Schema ở phần nâng cao.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 6: Tiled_Text_With_Icons (Roles) -->
+<div class="slide-container" id="slide6">
+    <h2 class="slide-title">Hiểu Về Các Roles (Vai Trò)</h2>
+    <div class="content-area">
+        <p style="margin-bottom: 30px;">Khi giao tiếp với AI, hội thoại được cấu trúc dưới dạng một danh sách các "tin nhắn" (messages). Mỗi tin nhắn phải thuộc về một trong 3 vai trò sau:</p>
+        <div class="tiled-content">
+            <div class="tile">
+                <div class="icon"><i class="fa-solid fa-server"></i></div>
+                <h3>System</h3>
+                <p>Dùng để thiết lập bối cảnh, nhân cách và các quy tắc cốt lõi cho AI. Thường đặt ở đầu danh sách.<br><br><em style="color:#6b7280; font-size: 16px;">VD: "Bạn là giáo viên Toán chuyên nghiệp."</em></p>
+            </div>
+            <div class="tile">
+                <div class="icon"><i class="fa-solid fa-user"></i></div>
+                <h3>User</h3>
+                <p>Câu hỏi hoặc mệnh lệnh xuất phát từ người dùng cuối (chúng ta). AI sẽ đọc và trả lời những yêu cầu này.<br><br><em style="color:#6b7280; font-size: 16px;">VD: "Giải thích cho tôi định lý Pytago là gì?"</em></p>
+            </div>
+            <div class="tile">
+                <div class="icon"><i class="fa-solid fa-robot"></i></div>
+                <h3>Assistant</h3>
+                <p>Câu trả lời sinh ra từ mô hình AI. Ta có thể tự chèn các tin nhắn này để định hướng AI phản hồi tiếp theo.<br><br><em style="color:#6b7280; font-size: 16px;">VD: "Định lý Pytago phát biểu rằng..."</em></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 7: Two_Column (Gửi và Nhận Response Cơ Bản) -->
+<div class="slide-container" id="slide7">
+    <h2 class="slide-title">Gửi & Nhận Response Thông Thường (Text)</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <p>Đoạn code bên phải minh họa cách tối giản nhất để kết nối tới OpenAI API và nhận về một câu trả lời dạng văn bản.</p>
+                <ul>
+                    <li><span class="code-inline">load_dotenv()</span> tự động tìm file .env và đưa <span class="code-inline">OPENAI_API_KEY</span> vào hệ thống.</li>
+                    <li><span class="code-inline">OpenAI()</span> khởi tạo client. Mặc định nó sẽ tự tìm biến API Key.</li>
+                    <li>Hàm <span class="code-inline">create(...)</span> là hàm chính để gọi model.</li>
+                    <li>Response trả về là một Object phức tạp. Văn bản thực sự nằm ở <span class="code-inline">response.choices[0].message.content</span>.</li>
+                </ul>
+            </div>
+            <div>
+                <div class="code-container">
+<pre><code><span class="kw">import</span> os
+<span class="kw">from</span> openai <span class="kw">import</span> OpenAI
+<span class="kw">from</span> dotenv <span class="kw">import</span> load_dotenv
+
+<span class="cmt"># Load API Key từ file .env</span>
+<span class="func">load_dotenv</span>()
+
+<span class="cmt"># Khởi tạo OpenAI client</span>
+client = <span class="cls">OpenAI</span>() 
+
+<span class="cmt"># Gửi Request</span>
+response = client.chat.completions.<span class="func">create</span>(
+    model=<span class="str">"gpt-4o-mini"</span>,
+    messages=[
+        {<span class="str">"role"</span>: <span class="str">"system"</span>, <span class="str">"content"</span>: <span class="str">"Bạn là trợ lý."</span>},
+        {<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: <span class="str">"Xin chào!"</span>}
+    ]
+)
+
+<span class="cmt"># In ra phản hồi (Text)</span>
+<span class="builtin">print</span>(response.choices[<span class="builtin">0</span>].message.content)</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 8: Two_Column (Options: Temperature, Top_p, Max_tokens) -->
+<div class="slide-container" id="slide8">
+    <h2 class="slide-title">Một Số Options (Tham Số) Cần Thiết</h2>
+    <div class="content-area">
+        <div class="two-column" style="align-items: flex-start;">
+            <div>
+                <p style="margin-bottom: 20px;">Khi gọi hàm <span class="code-inline">create()</span>, bạn có thể truyền thêm các tham số để kiểm soát đầu ra của AI:</p>
+                <ul>
+                    <li><strong class="highlight">Temperature (0.0 - 2.0):</strong> Kiểm soát tính sáng tạo. Số thấp (0.1) ra kết quả logic, ổn định. Số cao (0.8+) cho kết quả sáng tạo, tự nhiên hơn.</li>
+                    <li><strong class="highlight">Top_p (0.0 - 1.0):</strong> "Nucleus sampling". Lọc các token tiềm năng dựa trên tổng xác suất. Thay vì ngẫu nhiên toàn cục, AI chỉ chọn trong tập từ vựng hữu hạn.<br><em style="font-size: 17px; color: #6b7280;">*Khuyến nghị từ OpenAI: Chỉ nên thay đổi 1 trong 2 tham số (Temperature hoặc Top_p), không đổi cả hai cùng lúc.</em></li>
+                    <li><strong class="highlight">Max Tokens:</strong> Giới hạn độ dài output, giúp kiểm soát chi phí API và tránh AI sinh ra văn bản quá dài không cần thiết.</li>
+                </ul>
+            </div>
+            <div>
+                <div class="code-container">
+<pre><code><span class="cmt"># Gửi request với các tham số tùy chỉnh</span>
+response = client.chat.completions.<span class="func">create</span>(
+    model=<span class="str">"gpt-4o-mini"</span>,
+    messages=[
+        {
+            <span class="str">"role"</span>: <span class="str">"user"</span>, 
+            <span class="str">"content"</span>: <span class="str">"Kể một câu chuyện ngắn."</span>
+        }
+    ],
+    <span class="cmt"># Tăng tính sáng tạo của câu chuyện</span>
+    temperature=<span class="builtin">0.8</span>,  
+    <span class="cmt"># Giữ mặc định vì đã chỉnh temperature</span>
+    top_p=<span class="builtin">1.0</span>,        
+    <span class="cmt"># Giới hạn sinh ra khoảng ~350 chữ</span>
+    max_tokens=<span class="builtin">500</span>    
+)
+
+<span class="builtin">print</span>(response.choices[<span class="builtin">0</span>].message.content)</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 9: Section_Title (Bài tập vận dụng 1) -->
+<div class="slide-container section-slide" id="slide9">
+    <div class="section-title-layout">
+        <hr>
+        <h2>Bài Tập Vận Dụng 1: CLI Chatbot</h2>
+        <p><strong>Yêu cầu:</strong> Viết một chương trình Python chạy trên Terminal cho phép người dùng chat liên tục với AI. Chương trình phải có "bộ nhớ" (nhớ được những câu hỏi và trả lời trước đó). Gõ "exit" để thoát.</p>
+    </div>
+</div>
+
+<!-- Slide 10: Two_Column (Cách Giải Bài Tập 1) -->
+<div class="slide-container" id="slide10">
+    <h2 class="slide-title">Cách Giải Bài Tập 1 (Chatbot Có Bộ Nhớ)</h2>
+    <div class="content-area">
+        <div class="two-column" style="align-items: flex-start;">
+            <div>
+                <p><strong>Giải thích thuật toán:</strong></p>
+                <ul>
+                    <li>AI vốn không có "bộ nhớ". Để AI nhớ ngữ cảnh, ta phải <strong>gửi lại toàn bộ lịch sử chat</strong> trong mỗi request.</li>
+                    <li>Tạo một List <span class="code-inline">messages</span> khởi đầu với vai trò <span class="code-inline">system</span>.</li>
+                    <li>Sử dụng vòng lặp <span class="code-inline">while True</span> để liên tục nhận input.</li>
+                    <li>Mỗi khi User nhập, dùng <span class="code-inline">append()</span> thêm vào <span class="code-inline">messages</span> với role <span class="code-inline">user</span>.</li>
+                    <li>Nhận phản hồi từ AI, tiếp tục dùng <span class="code-inline">append()</span> thêm vào với role <span class="code-inline">assistant</span>.</li>
+                </ul>
+            </div>
+            <div>
+                <div class="code-container" style="font-size: 14px;">
+<pre><code><span class="kw">from</span> openai <span class="kw">import</span> OpenAI
+client = <span class="cls">OpenAI</span>()
+
+<span class="cmt"># Khởi tạo bộ nhớ (lịch sử hội thoại)</span>
+messages = [{<span class="str">"role"</span>: <span class="str">"system"</span>, <span class="str">"content"</span>: <span class="str">"Bạn là trợ lý."</span>}]
+
+<span class="kw">while True</span>:
+    user_input = <span class="builtin">input</span>(<span class="str">"Bạn: "</span>)
+    <span class="kw">if</span> user_input.lower() == <span class="str">"exit"</span>: 
+        <span class="builtin">print</span>(<span class="str">"Tạm biệt!"</span>); <span class="kw">break</span>
+    
+    <span class="cmt"># Thêm câu hỏi vào lịch sử</span>
+    messages.append({<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: user_input})
+    
+    response = client.chat.completions.<span class="func">create</span>(
+        model=<span class="str">"gpt-4o-mini"</span>, messages=messages
+    )
+    
+    reply = response.choices[<span class="builtin">0</span>].message.content
+    <span class="builtin">print</span>(<span class="str">"AI: "</span> + reply)
+    
+    <span class="cmt"># Quan trọng: Thêm câu trả lời vào lịch sử</span>
+    messages.append({<span class="str">"role"</span>: <span class="str">"assistant"</span>, <span class="str">"content"</span>: reply})
+</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 11: Two_Column (JSON Cơ Bản) -->
+<div class="slide-container" id="slide11">
+    <h2 class="slide-title">Gửi & Nhận Response Dạng JSON (Cơ Bản)</h2>
+    <div class="content-area">
+        <div class="two-column" style="align-items: flex-start;">
+            <div>
+                <p>Trong thực tế, ta thường cần AI trả về dữ liệu có cấu trúc (JSON) thay vì text thuần để dễ dàng xử lý bằng code (ví dụ: lưu vào database).</p>
+                <p><strong>Cách tiếp cận cơ bản:</strong></p>
+                <ul>
+                    <li>Thêm tham số <span class="code-inline">response_format={ "type": "json_object" }</span>.</li>
+                    <li><strong>Bắt buộc:</strong> Phải ra lệnh rõ trong Prompt yêu cầu AI "trả về định dạng JSON". Nếu không API sẽ báo lỗi.</li>
+                    <li>Tuy nhiên, cách này chỉ đảm bảo trả về JSON hợp lệ, <strong>không đảm bảo đúng 100% cấu trúc/keys</strong> mà bạn cần.</li>
+                </ul>
+            </div>
+            <div>
+                <div class="code-container" style="font-size: 14px;">
+<pre><code>response = client.chat.completions.<span class="func">create</span>(
+    model=<span class="str">"gpt-4o-mini"</span>,
+    <span class="cmt"># Ép kiểu dữ liệu trả về thành JSON Object</span>
+    response_format={ <span class="str">"type"</span>: <span class="str">"json_object"</span> },
+    messages=[
+        {
+            <span class="str">"role"</span>: <span class="str">"system"</span>, 
+            <span class="str">"content"</span>: <span class="str">"Bạn là một API. Hãy trả về JSON."</span>
+        },
+        {
+            <span class="str">"role"</span>: <span class="str">"user"</span>, 
+            <span class="str">"content"</span>: <span class="str">"Cho tôi tên 2 loại trái cây đỏ."</span>
+        }
+    ]
+)
+
+<span class="kw">import</span> json
+json_str = response.choices[<span class="builtin">0</span>].message.content
+data = json.<span class="func">loads</span>(json_str)
+
+<span class="builtin">print</span>(data) 
+<span class="cmt"># KQ: {'fruits': ['táo', 'dâu tây']}</span></code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 12: Two_Column (JSON Nâng Cao) -->
+<div class="slide-container" id="slide12">
+    <h2 class="slide-title">Gửi & Nhận Response Dạng JSON (Nâng Cao)</h2>
+    <div class="content-area">
+        <div class="two-column" style="align-items: flex-start;">
+            <div>
+                <p>Tính năng <strong>Structured Outputs</strong> đảm bảo 100% AI trả về JSON khớp đúng với cấu trúc (Schema) bạn đã định nghĩa trước.</p>
+                <ul>
+                    <li>Dùng thư viện <span class="code-inline">Pydantic</span> để định nghĩa Model cấu trúc dữ liệu.</li>
+                    <li>Sử dụng method <span class="code-inline">client.beta.chat.completions.parse</span> thay vì hàm <span class="code-inline">create</span>.</li>
+                    <li>Truyền Model vào tham số <span class="code-inline">response_format</span>.</li>
+                    <li>Kết quả trả về không cần <span class="code-inline">json.loads</span>, <span class="code-inline">.parsed</span> sẽ tự động build object Python cho bạn.</li>
+                </ul>
+            </div>
+            <div>
+                <div class="code-container" style="font-size: 14px;">
+<pre><code><span class="kw">from</span> pydantic <span class="kw">import</span> BaseModel
+<span class="kw">from</span> openai <span class="kw">import</span> OpenAI
+client = <span class="cls">OpenAI</span>()
+
+<span class="cmt"># Định nghĩa Schema (Cấu trúc mong muốn)</span>
+<span class="kw">class</span> <span class="cls">UserInfo</span>(BaseModel):
+    name: <span class="builtin">str</span>
+    age: <span class="builtin">int</span>
+
+<span class="cmt"># Sử dụng .parse thay vì .create</span>
+completion = client.beta.chat.completions.<span class="func">parse</span>(
+    model=<span class="str">"gpt-4o-2024-08-06"</span>, <span class="cmt"># Bắt buộc model hỗ trợ</span>
+    messages=[
+        {<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: <span class="str">"Tôi tên Nam, 25 tuổi."</span>}
+    ],
+    response_format=UserInfo, <span class="cmt"># Gắn schema vào</span>
+)
+
+<span class="cmt"># Nhận object trực tiếp</span>
+user = completion.choices[<span class="builtin">0</span>].message.parsed
+<span class="builtin">print</span>(user.name) <span class="cmt"># Output: Nam</span>
+<span class="builtin">print</span>(user.age)  <span class="cmt"># Output: 25</span></code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 13: Image_Right_Text_Left (Function Calling Lý Thuyết) -->
+<div class="slide-container" id="slide13">
+    <h2 class="slide-title">Function Calling (Lý Thuyết)</h2>
+    <div class="content-area">
+        <div class="two-column" style="align-items: flex-start;">
+            <div>
+                <h3>Function Calling là gì?</h3>
+                <p>AI bị giới hạn bởi dữ liệu quá khứ và không thể tự thao tác với thế giới thực. <strong>Function Calling</strong> (hay Tool Calling) là cung cấp cho AI danh sách các "công cụ" (hàm Python) để nó tự chọn gọi khi cần thiết.</p>
+                <br>
+                <h3>Khi nào cần dùng?</h3>
+                <ul>
+                    <li><strong>Truy xuất dữ liệu thời gian thực:</strong> Gọi API thời tiết, giá chứng khoán, tin tức mới nhất.</li>
+                    <li><strong>Tương tác với Cơ sở dữ liệu:</strong> Lấy thông tin khách hàng từ DB SQL/NoSQL nội bộ.</li>
+                    <li><strong>Thực thi hành động:</strong> Gửi email, nhắn tin Slack, lưu file.</li>
+                </ul>
+                <p style="margin-top: 15px; font-size: 18px; color:#6b7280;"><em>*Lưu ý: Mô hình KHÔNG tự chạy hàm. Nó chỉ phân tích và trả về "Yêu cầu gọi hàm X với tham số Y". Code Python của bạn mới là nơi thực thi!</em></p>
+            </div>
+            <div>
+                <div class="image-wrapper"><img src="http://googleusercontent.com/image_collection/image_retrieval/3268189934333705498" alt="API function calling integration concept light theme"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 14: Tiled_Grid (Function Calling - Quy trình 4 bước) -->
+<div class="slide-container" id="slide14">
+    <h2 class="slide-title">Function Calling (Quy Trình Thực Hiện)</h2>
+    <div class="content-area">
+        <div class="tiled-content" style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; width: 100%;">
+            <div class="tile" style="min-width: auto; padding: 30px;">
+                <div class="icon" style="font-size: 32px; margin-bottom: 15px;"><i class="fa-solid fa-1"></i></div>
+                <h3 style="font-size: 24px;">Định Nghĩa Tools</h3>
+                <p style="font-size: 18px;">Khai báo danh sách các hàm (tools) theo chuẩn JSON Schema, mô tả chi tiết tên hàm, mục đích sử dụng và các tham số (parameters) cần thiết để AI hiểu được.</p>
+            </div>
+            <div class="tile" style="min-width: auto; padding: 30px;">
+                <div class="icon" style="font-size: 32px; margin-bottom: 15px;"><i class="fa-solid fa-2"></i></div>
+                <h3 style="font-size: 24px;">Gửi Request</h3>
+                <p style="font-size: 18px;">Truyền câu hỏi của User cùng với mảng <span class="code-inline" style="font-size: 16px;">tools</span> vừa định nghĩa lên API thông qua tham số của hàm <span class="code-inline" style="font-size: 16px;">create()</span>.</p>
+            </div>
+            <div class="tile" style="min-width: auto; padding: 30px;">
+                <div class="icon" style="font-size: 32px; margin-bottom: 15px;"><i class="fa-solid fa-3"></i></div>
+                <h3 style="font-size: 24px;">AI Phân Tích & Phản Hồi</h3>
+                <p style="font-size: 18px;">Kiểm tra kết quả trả về. Nếu AI quyết định cần phải gọi hàm, thông tin sẽ nằm trong biến <span class="code-inline" style="font-size: 16px;">tool_calls</span>. Tiến hành trích xuất tên hàm và tham số.</p>
+            </div>
+            <div class="tile" style="min-width: auto; padding: 30px;">
+                <div class="icon" style="font-size: 32px; margin-bottom: 15px;"><i class="fa-solid fa-4"></i></div>
+                <h3 style="font-size: 24px;">Thực Thi (Local)</h3>
+                <p style="font-size: 18px;">Sử dụng Code Python của bạn để chạy hàm thực tế với tham số nhận được. Sau đó, gửi kết quả ngược lại API để AI tổng hợp câu trả lời.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 15: Two_Column_Code (Function Calling - Code Mẫu) -->
+<div class="slide-container" id="slide15">
+    <h2 class="slide-title">Function Calling (Code Mẫu Chi Tiết)</h2>
+    <div class="content-area">
+        <div class="two-column" style="align-items: stretch;">
+            <div class="code-container" style="font-size: 15px; margin: 0; display: flex; flex-direction: column; justify-content: center; border-radius: 12px;">
+<pre><code><span class="cmt"># 1. Định nghĩa công cụ (JSON Schema)</span>
+tools = [{
+    <span class="str">"type"</span>: <span class="str">"function"</span>,
+    <span class="str">"function"</span>: {
+        <span class="str">"name"</span>: <span class="str">"get_weather"</span>,
+        <span class="str">"description"</span>: <span class="str">"Lấy thời tiết tại một TP"</span>,
+        <span class="str">"parameters"</span>: {
+            <span class="str">"type"</span>: <span class="str">"object"</span>,
+            <span class="str">"properties"</span>: {
+                <span class="str">"location"</span>: {
+                    <span class="str">"type"</span>: <span class="str">"string"</span>, 
+                    <span class="str">"description"</span>: <span class="str">"Tên TP, vd: Hà Nội"</span>
+                }
+            },
+            <span class="str">"required"</span>: [<span class="str">"location"</span>]
+        }
+    }
+}]</code></pre>
+            </div>
+            <div class="code-container" style="font-size: 15px; margin: 0; display: flex; flex-direction: column; justify-content: center; border-radius: 12px;">
+<pre><code><span class="cmt"># 2. Gửi request kèm theo tools</span>
+response = client.chat.completions.<span class="func">create</span>(
+    model=<span class="str">"gpt-4o-mini"</span>,
+    messages=[{
+        <span class="str">"role"</span>: <span class="str">"user"</span>, 
+        <span class="str">"content"</span>: <span class="str">"Hà Nội hôm nay nóng không?"</span>
+    }],
+    tools=tools
+)
+
+<span class="cmt"># 3. Trích xuất yêu cầu gọi hàm từ AI</span>
+tool_call = response.choices[<span class="builtin">0</span>].message.tool_calls[<span class="builtin">0</span>]
+
+<span class="builtin">print</span>(<span class="str">"Tên hàm:"</span>, tool_call.function.name) 
+<span class="cmt"># In ra: get_weather</span>
+
+<span class="builtin">print</span>(<span class="str">"Tham số:"</span>, tool_call.function.arguments) 
+<span class="cmt"># In ra JSON: {"location": "Hà Nội"}</span></code></pre>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 16: Section_Title (Bài Tập Vận Dụng 2) -->
+<div class="slide-container section-slide" id="slide16">
+    <div class="section-title-layout">
+        <hr>
+        <h2>Bài Tập Vận Dụng 2: Data Extraction</h2>
+        <p><strong>Đề bài:</strong> Bạn có một văn bản lộn xộn chứa thông tin khách hàng từ CSKH:<br>
+        <br>
+        <em style="color:#6b7280;">"Hôm qua khách Nguyễn Văn A (tuổi 30) gọi điện. Bảo là thích chơi thể thao. Gửi email xác nhận qua nguyenvana@email.com, SDT là 0912345678."</em><br>
+        <br>
+        Hãy viết code dùng Pydantic Schema và Structured Outputs để bóc tách thông tin trên thành một Object chuẩn hóa chứa (name, age, email, phone, hobbies) và in kết quả.</p>
+    </div>
+</div>
+
+<!-- Slide 17: Styled_Bullet_Points (Hints Bài Tập 2) -->
+<div class="slide-container" id="slide17">
+    <h2 class="slide-title">Gợi Ý Cách Làm (Bài Tập 2)</h2>
+    <div class="content-area">
+        <div class="bullet-list">
+            <ul>
+                <li><i class="fa-solid fa-code"></i> <strong>Bước 1: Import Pydantic</strong><br>Import <code>BaseModel</code> từ thư viện Pydantic. Cần import thêm thư viện <code>typing</code> (dùng List/Optional) nếu thuộc tính hobbies lưu nhiều sở thích.</li>
+                <li><i class="fa-solid fa-cube"></i> <strong>Bước 2: Định nghĩa Schema</strong><br>Tạo class <code>CustomerInfo(BaseModel)</code>. Khai báo kiểu dữ liệu rõ ràng: <code>name: str</code>, <code>age: int</code>, <code>email: str</code>, <code>phone: str</code>, <code>hobbies: list[str]</code>.</li>
+                <li><i class="fa-solid fa-paper-plane"></i> <strong>Bước 3: Gửi Request Bằng parse()</strong><br>Sử dụng <code>client.beta.chat.completions.parse</code>. Đưa đoạn text CSKH vào phần content của User role. Đừng quên truyền <code>response_format=CustomerInfo</code>.</li>
+                <li><i class="fa-solid fa-check-circle"></i> <strong>Bước 4: In Kết Quả</strong><br>Truy xuất dữ liệu dễ dàng như object Python bình thường: <code>customer = response.choices[0].message.parsed</code>. Sau đó in ra <code>customer.email</code>.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 18: Section_Title (Bài Tập Vận Dụng 3) -->
+<div class="slide-container section-slide" id="slide18">
+    <div class="section-title-layout">
+        <hr>
+        <h2>Bài Tập Vận Dụng 3: AI Thời Tiết (Function Calling)</h2>
+        <p style="text-align: left; max-width: 900px; margin-top: 20px;"><strong>Đề bài:</strong> Tạo một hàm Python cơ bản <code>get_weather(location)</code> giả lập việc trả về nhiệt độ mặc định là 30°C và trời nắng. <br><br>Khi người dùng nhập câu hỏi <em>"Thời tiết ở Đà Nẵng thế nào?"</em>, ứng dụng của bạn phải sử dụng Function Calling để: <br>1. AI tự động trích xuất tham số "Đà Nẵng".<br>2. Ứng dụng chạy hàm giả lập đã tạo.<br>3. Gửi kết quả ngược lại cho API để AI tổng hợp thành một câu trả lời tự nhiên (VD: <em>"Hiện tại Đà Nẵng đang khoảng 30 độ C và trời nắng nhé!"</em>).</p>
+    </div>
+</div>
+
+<!-- Slide 19: Styled_Bullet_Points (Hints Bài Tập 3) -->
+<div class="slide-container" id="slide19">
+    <h2 class="slide-title">Gợi Ý Cách Làm (Bài Tập 3)</h2>
+    <div class="content-area">
+        <div class="bullet-list">
+            <ul>
+                <li><i class="fa-solid fa-list"></i> <strong>Bước 1: Khai báo Tools & Gọi API lần 1</strong><br>Tạo mảng <code>tools</code> định nghĩa cấu trúc hàm <code>get_weather</code>. Gọi hàm <code>create()</code> truyền vào tin nhắn của user và tham số <code>tools</code>.</li>
+                <li><i class="fa-solid fa-code-branch"></i> <strong>Bước 2: Xử lý Tool Call & Gọi hàm Local</strong><br>Kiểm tra <code>response.choices[0].message.tool_calls</code>. Trích xuất thuộc tính <code>arguments</code> (dùng <code>json.loads</code> để parse thành Dictionary) để lấy giá trị biến <code>location</code>. Chạy hàm Python <code>get_weather(location)</code> của bạn để lấy dữ liệu dạng chuỗi.</li>
+                <li><i class="fa-solid fa-reply-all"></i> <strong>Bước 3: Cập nhật Lịch sử Hội thoại</strong><br>Dùng <code>append()</code> để đẩy vào mảng <code>messages</code> 2 đối tượng mới: (1) Toàn bộ tin nhắn trả về của Assistant (có chứa tool_calls), và (2) Một tin nhắn mới khai báo <code>role: "tool"</code> chứa <code>tool_call_id</code> tương ứng và <code>content</code> là kết quả nhận được từ hàm.</li>
+                <li><i class="fa-solid fa-paper-plane"></i> <strong>Bước 4: Gọi API Lần 2</strong><br>Tiếp tục gọi hàm <code>create()</code> lần thứ hai với mảng <code>messages</code> đã cập nhật (không cần truyền tools). Lúc này AI sẽ đọc kết quả từ tool và trả lời bình thường.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 20: Tiled_Grid (Final Project) -->
+<div class="slide-container" id="slide20">
+    <h2 class="slide-title">Project Cuối Khóa (Tự Chọn 1 Trong 4)</h2>
+    <div class="content-area">
+        <p style="margin-bottom: 25px;">Hãy áp dụng toàn bộ kiến thức về API, Roles, JSON Schema và Function Calling để xây dựng hoàn thiện một trong các dự án thực tế sau đây:</p>
+        <div class="tiled-content" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%;">
+            <div class="tile" style="min-width: auto; padding: 20px;">
+                <div style="display: flex; justify-content: space-between; width: 100%; align-items: center;">
+                    <h3 style="font-size: 24px;">1. Trợ Lý Ảo Đa Năng</h3>
+                    <div class="icon" style="font-size: 32px; margin-bottom: 15px;"><i class="fa-solid fa-robot"></i></div>
+                </div>
+                <p style="font-size: 16px;"><strong>Yêu cầu:</strong> Xây dựng CLI Chatbot có bộ nhớ và tính cách riêng biệt (VD: Chuyên gia tâm lý, Giáo viên Tiếng Anh).<br><strong>Gợi ý:</strong> Tận dụng System prompt, sử dụng mảng <code>messages</code> để lưu lịch sử hội thoại, tùy chỉnh thông số <code>temperature</code>.</p>
+            </div>
+            <div class="tile" style="min-width: auto; padding: 20px;">
+                <div style="display: flex; justify-content: space-between; width: 100%; align-items: center;">
+                    <h3 style="font-size: 24px;">2. Hệ Thống Đọc Hóa Đơn</h3>
+                    <div class="icon" style="font-size: 32px; margin-bottom: 15px;"><i class="fa-solid fa-file-invoice"></i></div>
+                </div>
+                <p style="font-size: 16px;"><strong>Yêu cầu:</strong> Viết script đọc văn bản ghi chú/hóa đơn tự do và trích xuất thành Data chuẩn (Tên món, Giá, Số lượng).<br><strong>Gợi ý:</strong> Ứng dụng Pydantic định nghĩa <code>BaseModel</code>, sử dụng hàm <code>.parse()</code> để lấy Structured Outputs dưới dạng JSON Object.</p>
+            </div>
+            <div class="tile" style="min-width: auto; padding: 20px;">
+                <div style="display: flex; justify-content: space-between; width: 100%; align-items: center;">
+                    <h3 style="font-size: 24px;">3. Live Weather Bot</h3>
+                    <div class="icon" style="font-size: 32px; margin-bottom: 15px;"><i class="fa-solid fa-cloud-sun"></i></div>
+                </div>
+                <p style="font-size: 16px;"><strong>Yêu cầu:</strong> Xây dựng Chatbot có khả năng trả lời chính xác thông tin thời tiết thực tế ở bất kì khu vực nào.<br><strong>Gợi ý:</strong> Áp dụng kỹ thuật Function Calling kết hợp gọi API miễn phí từ bên thứ 3 (như OpenWeatherMap API).</p>
+            </div>
+            <div class="tile" style="min-width: auto; padding: 20px;">
+                <div style="display: flex; justify-content: space-between; width: 100%; align-items: center;">
+                    <h3 style="font-size: 24px;">4. Chấm CV Xin Việc Tự Động</h3>
+                    <div class="icon" style="font-size: 32px; margin-bottom: 15px;"><i class="fa-solid fa-clipboard-check"></i></div>
+                </div>
+                <p style="font-size: 16px;"><strong>Yêu cầu:</strong> Đưa nội dung 1 CV vào, yêu cầu AI phân tích ưu/nhược điểm, cho điểm (1-10) và tư vấn vị trí phù hợp.<br><strong>Gợi ý:</strong> Kết hợp Role (System giả lập HR) và JSON Structured Outputs chứa các fields: <code>score</code>, <code>pros</code>, <code>cons</code>, <code>advice</code>.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 21: Q&A -->
+<div class="slide-container qa-slide" id="slide21">
+    <div class="qa-layout">
+        <h2>Q&A</h2>
+        <p>Bạn có câu hỏi nào về các Project hoặc OpenAI API không?</p>
+        <div class="contact-info">
+            Tài liệu tham khảo thêm: platform.openai.com/docs
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
