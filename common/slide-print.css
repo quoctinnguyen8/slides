@@ -1,0 +1,91 @@
+@page {
+    size: A4 landscape;
+    margin: 20mm 10mm;
+}
+
+@media print {
+    :root {
+        --print-slide-width: 1280px;
+        --print-slide-height: 720px;
+        --print-scale: 0.818;
+    }
+
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    html,
+    body {
+        background: #ffffff !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: visible !important;
+    }
+
+    body.slide-controller-active {
+        display: block !important;
+        min-height: auto !important;
+        padding: 0 !important;
+    }
+
+    .slide-nav,
+    .slide-print-btn {
+        display: none !important;
+    }
+
+    .slide-viewport {
+        width: auto !important;
+        height: auto !important;
+    }
+
+    .slide-stage {
+        width: auto !important;
+        height: auto !important;
+        transform: none !important;
+        position: static !important;
+    }
+
+    .slide-stage .slide-container {
+        position: relative !important;
+        inset: auto !important;
+        opacity: 1 !important;
+        transform: none !important;
+        pointer-events: auto !important;
+        width: var(--print-slide-width) !important;
+        max-width: none !important;
+        height: var(--print-slide-height) !important;
+        min-height: var(--print-slide-height) !important;
+        overflow: hidden !important;
+        margin: 0 auto !important;
+        zoom: var(--print-scale);
+        box-shadow: none !important;
+        filter: none !important;
+        break-inside: avoid-page;
+        page-break-inside: avoid;
+        break-after: page;
+        page-break-after: always;
+    }
+
+    .slide-stage .slide-container:last-child {
+        margin-bottom: 0 !important;
+        break-after: auto;
+        page-break-after: auto;
+    }
+
+    .slide-stage .slide-container .tiled-content {
+        flex-wrap: nowrap !important;
+    }
+
+    .slide-stage .slide-container .tile {
+        min-width: 0 !important;
+    }
+
+    .slide-stage .slide-container.full-bg-image .content-overlay {
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        background: rgba(255, 255, 255, 0.95) !important;
+        border: 1px solid #e5e7eb !important;
+        opacity: 1 !important;
+    }
+}

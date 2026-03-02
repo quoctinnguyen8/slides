@@ -9,6 +9,25 @@
     let currentIndex = 0;
     document.body.classList.add('slide-controller-active');
 
+    const ensurePrintStylesheet = () => {
+        if (document.querySelector('link[data-slide-print="true"]')) return;
+
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.media = 'print';
+        link.setAttribute('data-slide-print', 'true');
+
+        const scriptElement = document.currentScript || document.querySelector('script[src*="slide-controller.js"]');
+        if (scriptElement && scriptElement.src) {
+            link.href = new URL('slide-print.css', scriptElement.src).href;
+        } else {
+            link.href = 'slide-print.css';
+        }
+
+        document.head.appendChild(link);
+    };
+    ensurePrintStylesheet();
+
     const stage = document.createElement('div');
     stage.className = 'slide-stage';
     slides[0].before(stage);
@@ -45,6 +64,14 @@
 
     nav.append(backButton, indexInput, nextButton);
     document.body.appendChild(nav);
+
+    const printButton = document.createElement('button');
+    printButton.type = 'button';
+    printButton.className = 'slide-print-btn';
+    printButton.setAttribute('aria-label', 'In slide');
+    printButton.innerHTML = '<i class="fa-solid fa-print" aria-hidden="true"></i>';
+    printButton.addEventListener('click', () => window.print());
+    document.body.appendChild(printButton);
 
     let fitRaf = 0;
     const fitStage = () => {
