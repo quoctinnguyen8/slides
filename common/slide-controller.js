@@ -11,6 +11,45 @@
     const totalSlides = slides.length;
     let currentIndex = 0;
     document.body.classList.add('slide-controller-active');
+    document.body.classList.add('slide-loading');
+
+    // Tạo màn hình loading hiển thị ngắn khi mới vào trang/F5
+    const loadingOverlay = document.createElement('div');
+    loadingOverlay.className = 'slide-loading-overlay';
+    loadingOverlay.innerHTML = `
+        <div class="slide-loading-spinner" aria-hidden="true"></div>
+        <div class="slide-loading-text">Đang tải slide...</div>
+    `;
+    document.body.appendChild(loadingOverlay);
+
+    // Khóa localStorage theo từng trang slide (dựa trên pathname)
+    const storageKey = `slide-position:${location.pathname}`;
+
+    // Lưu vị trí slide hiện tại vào localStorage (0-based index)
+    const saveCurrentSlide = () => {
+        try {
+            localStorage.setItem(storageKey, String(currentIndex));
+        } catch (error) {
+            console.warn('Không thể lưu vị trí slide vào localStorage:', error);
+        }
+    };
+
+    // Đọc vị trí slide đã lưu và kiểm tra hợp lệ
+    const getStoredSlide = () => {
+        try {
+            const rawValue = localStorage.getItem(storageKey);
+            if (rawValue === null) return null;
+
+            const parsedIndex = Number.parseInt(rawValue, 10);
+            if (!Number.isInteger(parsedIndex)) return null;
+            if (parsedIndex < 0 || parsedIndex >= totalSlides) return null;
+
+            return parsedIndex;
+        } catch (error) {
+            console.warn('Không thể đọc vị trí slide từ localStorage:', error);
+            return null;
+        }
+    };
 
     // Tự động gắn stylesheet dành riêng cho chế độ in
     const ensurePrintStylesheet = () => {
@@ -176,6 +215,7 @@
         }
         currentIndex = safeIndex;
         applyState();
+        saveCurrentSlide();
     };
 
     // Parse input người dùng: chấp nhận dạng "5" hoặc "5/21"
@@ -220,7 +260,19 @@
     window.addEventListener('orientationchange', scheduleFitStage);
 
     // Khởi tạo trạng thái ban đầu
+    const storedIndex = getStoredSlide();
+    if (storedIndex !== null) {
+        currentIndex = storedIndex;
+    }
     applyState();
+    saveCurrentSlide();
     updateFullscreenState();
     scheduleFitStage();
+
+    // Giữ loading tối thiểu 1 giây rồi mới hiển thị slide
+    window.setTimeout(() => {
+        loadingOverlay.classList.add('is-hide');
+        document.body.classList.remove('slide-loading');
+        window.setTimeout(() => loadingOverlay.remove(), 260);
+    }, 1000);
 })();
