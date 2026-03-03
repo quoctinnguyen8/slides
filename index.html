@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Danh mục Slide Bài Học</title>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+    <link rel="shortcut icon" href="common/icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <style>
+        :root {
+            --bg: #f3f4f6;
+            --panel: #ffffff;
+            --text: #111827;
+            --muted: #6b7280;
+            --border: #e5e7eb;
+            --accent: #10a37f;
+            --accent-soft: #e6f7f3;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+            color: var(--text);
+            background: var(--bg);
+        }
+
+        .container {
+            width: min(1100px, 92vw);
+            margin: 28px auto 40px;
+        }
+
+        .header {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 22px;
+            margin-bottom: 18px;
+        }
+
+        .title {
+            margin: 0;
+            font-size: 28px;
+            line-height: 1.25;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .subtitle {
+            margin: 10px 0 0;
+            color: var(--muted);
+            font-size: 15px;
+        }
+
+        .groups {
+            display: grid;
+            gap: 14px;
+        }
+
+        .group-card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            overflow: hidden;
+        }
+
+        .group-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 14px;
+            background: #fcfcfd;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .group-name {
+            margin: 0;
+            font-size: 17px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .badge {
+            font-size: 12px;
+            color: #065f46;
+            background: var(--accent-soft);
+            border: 1px solid #a7f3d0;
+            padding: 4px 8px;
+            border-radius: 999px;
+        }
+
+        .group-body {
+            padding: 10px 14px 14px;
+        }
+
+        .slide-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            gap: 8px;
+        }
+
+        .slide-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--text);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 10px 12px;
+            background: #fff;
+            transition: border-color .2s ease, background-color .2s ease;
+        }
+
+        .slide-link:hover {
+            border-color: var(--accent);
+            background: #f9fffd;
+        }
+
+        .slide-path {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .empty {
+            color: var(--muted);
+            font-size: 14px;
+            padding: 8px 2px;
+        }
+
+        .footer {
+            margin-top: 16px;
+            border-top: 1px solid var(--border);
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .footer strong {
+            color: var(--text);
+        }
+
+        .footer-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .footer-link:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                width: 94vw;
+                margin-top: 16px;
+            }
+
+            .title {
+                font-size: 22px;
+            }
+
+            .group-head {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .footer {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="container">
+        <section class="header">
+            <h1 class="title">
+                <i class="fa-solid fa-book-open"></i>
+                Danh mục slide bài học
+            </h1>
+            <p class="subtitle">Chọn bài học để mở trực tiếp.</p>
+        </section>
+
+        <section id="groups" class="groups" aria-label="Danh sách nhóm thư mục"></section>
+
+        <footer class="footer">
+            <div>Thiết kế bởi <strong>TinNQ</strong> · © <span id="currentYear"></span></div>
+            <a class="footer-link" href="https://github.com/quoctinnguyen8/slides" target="_blank" rel="noopener noreferrer">
+                <i class="fa-brands fa-github"></i>
+                GitHub của dự án
+            </a>
+        </footer>
+    </main>
+
+    <script>
+        const folderGroups = [
+            { name: 'C', slides: [] },
+            { name: 'C++', slides: [] },
+            { name: 'JavaScript', slides: [] },
+            { name: 'PHP', slides: [] },
+            {
+                name: 'Python',
+                slides: [
+                    { title: 'Python OOP', href: 'python/basic/oop.html', path: 'python/basic/oop.html' },
+                    { title: 'OpenAI API', href: 'python/openai/index.html', path: 'python/openai/index.html' }
+                ]
+            }
+        ];
+
+        const groupsEl = document.getElementById('groups');
+
+        function createSlideItem(slide) {
+            const item = document.createElement('li');
+            const link = document.createElement('a');
+            link.className = 'slide-link';
+            link.href = slide.href;
+
+            const left = document.createElement('div');
+            left.innerHTML = `<strong>${slide.title}</strong><div class="slide-path">${slide.path}</div>`;
+
+            const icon = document.createElement('i');
+            icon.className = 'fa-solid fa-arrow-up-right-from-square';
+            icon.setAttribute('aria-hidden', 'true');
+
+            link.append(left, icon);
+            item.appendChild(link);
+            return item;
+        }
+
+        function renderGroups() {
+            const fragment = document.createDocumentFragment();
+
+            folderGroups.forEach((group) => {
+                const card = document.createElement('article');
+                card.className = 'group-card';
+
+                const head = document.createElement('div');
+                head.className = 'group-head';
+                head.innerHTML = `
+                    <h2 class="group-name"><i class="fa-regular fa-folder"></i> ${group.name}</h2>
+                    <span class="badge">${group.slides.length} slide</span>
+                `;
+
+                const body = document.createElement('div');
+                body.className = 'group-body';
+
+                if (!group.slides.length) {
+                    const empty = document.createElement('div');
+                    empty.className = 'empty';
+                    empty.textContent = 'Chưa có file slide trong thư mục này.';
+                    body.appendChild(empty);
+                } else {
+                    const list = document.createElement('ul');
+                    list.className = 'slide-list';
+                    group.slides.forEach((slide) => list.appendChild(createSlideItem(slide)));
+                    body.appendChild(list);
+                }
+
+                card.append(head, body);
+                fragment.appendChild(card);
+            });
+
+            groupsEl.appendChild(fragment);
+        }
+
+        renderGroups();
+        document.getElementById('currentYear').textContent = String(new Date().getFullYear());
+    </script>
+</body>
+</html>
