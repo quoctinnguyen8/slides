@@ -166,12 +166,30 @@
     let transitionUnlockTimer = 0;
     let isNavigating = false;
     let queuedIndex = null;
+    let refitBurstTimers = [];
+
+    // Lấy kích thước viewport thực tế trên mobile.
+    // visualViewport phản ánh tốt hơn khi thanh địa chỉ/điều hướng thay đổi.
+    const getViewportSize = () => {
+        if (window.visualViewport) {
+            return {
+                width: Math.max(window.visualViewport.width, 1),
+                height: Math.max(window.visualViewport.height, 1)
+            };
+        }
+
+        return {
+            width: Math.max(window.innerWidth, 1),
+            height: Math.max(window.innerHeight, 1)
+        };
+    };
     // Tính scale để slide luôn vừa màn hình theo tỉ lệ 16:9
     // Giới hạn hiển thị tối đa 95% viewport để chừa khoảng thở thẩm mỹ
     const fitStage = () => {
+        const viewportSize = getViewportSize();
         const navHeight = nav.offsetHeight || 56;
-        const maxViewportWidth = Math.max(window.innerWidth * 0.95, 280);
-        const maxViewportHeight = Math.max((window.innerHeight - navHeight - 20) * 0.95, 180);
+        const maxViewportWidth = Math.max(viewportSize.width * 0.95, 280);
+        const maxViewportHeight = Math.max((viewportSize.height - navHeight - 20) * 0.95, 180);
 
         const scale = Math.max(Math.min(maxViewportWidth / SLIDE_WIDTH, maxViewportHeight / SLIDE_HEIGHT), 0.1);
         const viewportWidth = Math.round(SLIDE_WIDTH * scale);
@@ -188,6 +206,18 @@
         fitRaf = requestAnimationFrame(() => {
             fitStage();
             fitRaf = 0;
+        });
+    };
+
+    // Chạy nhiều nhịp fit liên tiếp để bắt các thay đổi viewport trễ trên mobile
+    // (thường xảy ra sau F5 hoặc xoay màn hình).
+    const scheduleRefitBurst = () => {
+        refitBurstTimers.forEach((timerId) => window.clearTimeout(timerId));
+        refitBurstTimers = [];
+
+        [0, 80, 220, 420].forEach((delay) => {
+            const timerId = window.setTimeout(scheduleFitStage, delay);
+            refitBurstTimers.push(timerId);
         });
     };
 
@@ -344,8 +374,14 @@
     });
 
     // Tự fit lại khi đổi kích thước cửa sổ hoặc xoay màn hình
-    window.addEventListener('resize', scheduleFitStage);
-    window.addEventListener('orientationchange', scheduleFitStage);
+    window.addEventListener('resize', scheduleRefitBurst);
+    window.addEventListener('orientationchange', scheduleRefitBurst);
+    window.addEventListener('load', scheduleRefitBurst);
+    window.addEventListener('pageshow', scheduleRefitBurst);
+    if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', scheduleRefitBurst);
+        window.visualViewport.addEventListener('scroll', scheduleFitStage);
+    }
 
     // Khởi tạo trạng thái ban đầu
     const storedIndex = getStoredSlide();
@@ -355,12 +391,13 @@
     applyState();
     saveCurrentSlide();
     updateFullscreenState();
-    scheduleFitStage();
+    scheduleRefitBurst();
 
     // Giữ loading tối thiểu 1 giây rồi mới hiển thị slide
     window.setTimeout(() => {
         loadingOverlay.classList.add('is-hide');
         document.body.classList.remove('slide-loading');
+        scheduleRefitBurst();
         window.setTimeout(() => loadingOverlay.remove(), 260);
     }, 1000);
 })();
