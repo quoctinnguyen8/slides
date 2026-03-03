@@ -1,0 +1,311 @@
+/* =========================================
+           1. CẤU TRÚC CƠ BẢN VÀ RESET
+           ========================================= */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #CBD5E1;
+    /* Màu nền web để phân biệt với slide */
+    display: grid;
+    gap: 20px;
+    grid-template-columns: 1fr;
+    place-items: center;
+    min-height: 100vh;
+    padding: 20px 0;
+    font-family: 'Roboto', sans-serif;
+    color: #334155;
+}
+
+/* Container của mỗi slide: Cố định kích thước 1280x720, nền trắng tinh để in ấn */
+.slide-container {
+    background-color: #FFFFFF;
+    /* Đã sửa: Nền trắng tinh không bị ám xám */
+    border-radius: 4px;
+    /* Viền vuông vức hơn một chút */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    /* Đổ bóng nhẹ phân cách */
+    width: 1280px;
+    height: 720px;
+    padding: 50px 70px;
+    /* Giảm padding để thêm không gian nội dung */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    position: relative;
+    overflow: hidden;
+    /* Tránh tràn layout */
+}
+
+/* =========================================
+           2. TYPOGRAPHY (KIỂU CHỮ)
+           ========================================= */
+h1,
+h2,
+h3,
+h4 {
+    font-family: 'Montserrat', sans-serif;
+    color: #1E293B;
+    margin: 0;
+}
+
+h1 {
+    font-size: 56px;
+    /* Giảm nhẹ chống tràn */
+    font-weight: 700;
+    line-height: 1.2;
+    color: #0EA5E9;
+}
+
+.slide-title {
+    font-size: 40px;
+    /* Giảm nhẹ */
+    font-weight: 700;
+    margin-bottom: 30px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    border-bottom: 3px solid #F1F5F9;
+    padding-bottom: 15px;
+}
+
+h3 {
+    font-size: 26px;
+    font-weight: 700;
+    color: #0EA5E9;
+    margin-bottom: 12px;
+}
+
+p,
+li {
+    font-size: 20px;
+    /* Giảm xuống 20px để hiển thị được nhiều nội dung hơn, vẫn dễ đọc */
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    font-size: 24px;
+    color: #475569;
+    margin-top: 15px;
+}
+
+.content-area {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+/* =========================================
+           3. ĐỊNH DẠNG CODE MẪU
+           ========================================= */
+/* Code dùng font Roboto Mono hỗ trợ tiếng việt tốt, thẻ <pre> để tự xuống dòng */
+pre.code-block {
+    background-color: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-left: 5px solid #0EA5E9;
+    border-radius: 6px;
+    padding: 16px 20px;
+    font-family: 'Roboto Mono', Consolas, monospace;
+    /* Đã sửa: Font chuẩn cho code VN */
+    font-size: 18px;
+    /* Giảm size để tránh tràn ngang */
+    line-height: 1.5;
+    color: #334155;
+    width: 100%;
+    white-space: pre-wrap;
+    /* Đã sửa: Tự động xuống dòng, giữ format */
+    word-wrap: break-word;
+    overflow-x: auto;
+    margin-bottom: 15px;
+}
+
+/* Syntax Highlighting */
+.code-block .kw {
+    color: #0284C7;
+    font-weight: bold;
+}
+
+.code-block .type {
+    color: #059669;
+    font-weight: bold;
+}
+
+.code-block .fn {
+    color: #D97706;
+}
+
+.code-block .str {
+    color: #16A34A;
+}
+
+.code-block .cmt {
+    color: #94A3B8;
+    font-style: italic;
+}
+
+.code-block .num {
+    color: #7C3AED;
+}
+
+.code-block .op {
+    color: #E11D48;
+}
+
+/* =========================================
+           4. BỐ CỤC (LAYOUTS)
+           ========================================= */
+.title-layout {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    text-align: center;
+}
+
+.section-title-layout {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    text-align: center;
+}
+
+.section-title-layout hr {
+    width: 120px;
+    height: 6px;
+    background-color: #F59E0B;
+    border: none;
+    margin: 30px 0;
+    border-radius: 3px;
+}
+
+.two-column {
+    display: flex;
+    gap: 40px;
+    width: 100%;
+    height: 100%;
+    align-items: flex-start;
+}
+
+.two-column>div {
+    flex: 1;
+    max-width: 50%;
+    /* Ép cứng tỷ lệ để không bị đẩy lệch */
+}
+
+.image-wrapper {
+    width: 100%;
+    max-height: 450px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #E2E8F0;
+}
+
+.image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.tiled-content {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    align-items: stretch;
+}
+
+.tile {
+    flex: 1;
+    background-color: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-top: 4px solid #0EA5E9;
+    border-radius: 8px;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+}
+
+.tile .icon {
+    font-size: 36px;
+    color: #0EA5E9;
+    margin-bottom: 15px;
+}
+
+.bullet-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 15px 0;
+}
+
+.bullet-list li {
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 15px;
+}
+
+.bullet-list li::before {
+    content: '\f105';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    position: absolute;
+    left: 0;
+    top: 2px;
+    color: #0EA5E9;
+    font-size: 20px;
+}
+
+.exercise-list {
+    list-style: none;
+    padding: 0;
+}
+
+.exercise-list li {
+    background-color: #F8FAFC;
+    border-left: 4px solid #F59E0B;
+    padding: 16px 20px;
+    margin-bottom: 12px;
+    border-radius: 0 6px 6px 0;
+    font-size: 20px;
+    border: 1px solid #E2E8F0;
+    border-left: 4px solid #F59E0B;
+}
+
+.exercise-list li strong {
+    color: #1E293B;
+}
+
+.formula-container {
+    display: math;
+    font-size: 24px;
+    margin: 10px 0;
+    color: #0EA5E9;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    background-color: #fff;
+    border: 1px solid #E2E8F0;
+}
+
+th,
+td {
+    padding: 14px 18px;
+    text-align: left;
+    border-bottom: 1px solid #E2E8F0;
+    font-size: 19px;
+}
+
+th {
+    background-color: #F1F5F9;
+    color: #1E293B;
+    font-weight: 700;
+}

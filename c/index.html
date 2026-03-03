@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khóa Học Lập Trình C Căn Bản</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Roboto+Mono:wght@400;500&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="shortcut icon" href="../common/icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="../common/slide-style-2.css">
+    <link rel="stylesheet" href="../common/slide-controller.css">
+</head>
+<body>
+
+    <!-- Slide 1: Title Slide -->
+    <div class="slide-container">
+        <div class="title-layout">
+            <h1>Lập Trình C Căn Bản</h1>
+            <p class="subtitle">Khóa học dành cho người mới bắt đầu</p>
+        </div>
+    </div>
+
+    <!-- Slide 2: Section 1 Title -->
+    <div class="slide-container">
+        <div class="section-title-layout">
+            <h2>Chương 1</h2>
+            <hr>
+            <h1 style="color: #1E293B;">Cơ Bản Về Ngôn Ngữ C</h1>
+            <p class="subtitle">Giới thiệu, cài đặt và viết chương trình đầu tiên</p>
+        </div>
+    </div>
+
+    <!-- Slide 3: Giới thiệu C & DevC++ -->
+    <div class="slide-container">
+        <h2 class="slide-title">Giới thiệu ngôn ngữ C & Công cụ</h2>
+        <div class="content-area">
+            <div class="two-column">
+                <div>
+                    <h3>Tại sao chọn C?</h3>
+                    <ul class="bullet-list">
+                        <li><strong>Nền tảng vững chắc:</strong> C là ngôn ngữ mẹ của nhiều ngôn ngữ hiện đại (C++, Java, C#, PHP).</li>
+                        <li><strong>Hiệu suất cao:</strong> Chạy nhanh, tương tác trực tiếp với bộ nhớ và phần cứng.</li>
+                        <li><strong>Tính di động:</strong> Mã C có thể biên dịch trên nhiều hệ điều hành.</li>
+                    </ul>
+                    <h3 style="margin-top: 25px;">Công cụ lập trình (DevC++)</h3>
+                    <ul class="bullet-list">
+                        <li>Môi trường phát triển tích hợp (IDE) nhẹ và miễn phí.</li>
+                        <li>Tích hợp sẵn trình biên dịch MinGW (GCC).</li>
+                        <li>Rất dễ cài đặt và sử dụng cho người mới tiếp cận lập trình.</li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="image-wrapper">
+                        <img src="http://googleusercontent.com/image_collection/image_retrieval/2003198555162669123" alt="C programming language concept">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 4: Chương trình đầu tiên -->
+    <div class="slide-container">
+        <h2 class="slide-title">Chương trình C đầu tiên</h2>
+        <div class="content-area">
+            <div class="two-column">
+                <div>
+<pre class="code-block">
+<span class="cmt">/* Chương trình in ra câu chào */</span>
+<span class="kw">#include</span> &lt;stdio.h&gt;
+
+<span class="type">int</span> <span class="fn">main</span>() {
+    <span class="cmt">// Lệnh in nội dung ra màn hình</span>
+    <span class="fn">printf</span>(<span class="str">"Hello, World!\n"</span>);
+    
+    <span class="kw">return</span> <span class="num">0</span>;
+}
+</pre>
+                </div>
+                <div>
+                    <h3>Giải thích từng dòng lệnh</h3>
+                    <ul class="bullet-list">
+                        <li><strong><span class="kw">#include</span> &lt;stdio.h&gt;</strong>: Khai báo thư viện Standard Input/Output để dùng hàm printf.</li>
+                        <li><strong><span class="type">int</span> <span class="fn">main</span>()</strong>: Hàm chính. Mọi chương trình C đều bắt đầu chạy từ đây.</li>
+                        <li><strong>{ }</strong>: Cặp ngoặc nhọn bao bọc khối lệnh.</li>
+                        <li><strong><span class="fn">printf</span>(...)</strong>: Hàm xuất dữ liệu. <span class="str">\n</span> dùng để xuống dòng.</li>
+                        <li><strong><span class="kw">return</span> <span class="num">0</span>;</strong>: Kết thúc hàm main, báo hiệu chạy thành công.</li>
+                        <li><strong>Dấu ;</strong>: Lệnh trong C bắt buộc kết thúc bằng chấm phẩy.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 5: Kiểu dữ liệu, biến, hằng -->
+    <div class="slide-container">
+        <h2 class="slide-title">Kiểu dữ liệu, Biến và Hằng</h2>
+        <div class="content-area">
+            <div class="tiled-content">
+                <div class="tile">
+                    <div class="icon"><i class="fa-solid fa-cube"></i></div>
+                    <h3>Kiểu Dữ Liệu</h3>
+                    <p>Xác định loại và kích thước lưu trữ.</p>
+                    <ul class="bullet-list">
+                        <li><strong>int:</strong> Số nguyên (VD: 10, -5)</li>
+                        <li><strong>float:</strong> Số thực (VD: 3.14)</li>
+                        <li><strong>double:</strong> Số thực cực lớn</li>
+                        <li><strong>char:</strong> Ký tự (VD: 'A')</li>
+                    </ul>
+                </div>
+                <div class="tile">
+                    <div class="icon"><i class="fa-solid fa-box-open"></i></div>
+                    <h3>Biến (Variables)</h3>
+                    <p>Vùng nhớ dùng để lưu trữ dữ liệu, có thể thay đổi giá trị.</p>
+                    <p><strong>Cú pháp:</strong><br><code>type name = value;</code></p>
+                    <p><strong>Quy tắc đặt tên:</strong><br>Không bắt đầu bằng số, không khoảng trắng, phân biệt hoa/thường.</p>
+                </div>
+                <div class="tile">
+                    <div class="icon"><i class="fa-solid fa-lock"></i></div>
+                    <h3>Hằng (Constants)</h3>
+                    <p>Giá trị cố định, KHÔNG thể thay đổi khi chạy.</p>
+                    <p><strong>Từ khóa const:</strong><br><code>const float PI = 3.14;</code></p>
+                    <p><strong>Macro:</strong><br><code>#define PI 3.14</code></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 6: Các phép toán (Phần 1 - Số học) -->
+    <div class="slide-container">
+        <h2 class="slide-title">Các Phép Toán: 1. Phép toán số học</h2>
+        <div class="content-area">
+            <p>Sử dụng để thực hiện các phép tính toán học cơ bản.</p>
+            <div class="two-column">
+                <div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Ký hiệu</th>
+                                <th>Ý nghĩa</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><code>+</code></td><td>Cộng hai toán hạng</td></tr>
+                            <tr><td><code>-</code></td><td>Trừ hai toán hạng</td></tr>
+                            <tr><td><code>*</code></td><td>Nhân hai toán hạng</td></tr>
+                            <tr><td><code>/</code></td><td>Chia hai toán hạng (lấy nguyên nếu là int)</td></tr>
+                            <tr><td><code>%</code></td><td>Chia lấy phần dư (chỉ dùng cho số nguyên)</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+<pre class="code-block">
+<span class="type">int</span> a = <span class="num">10</span>, b = <span class="num">3</span>;
+
+<span class="type">int</span> tong = a + b;   <span class="cmt">// 13</span>
+<span class="type">int</span> hieu = a - b;   <span class="cmt">// 7</span>
+<span class="type">int</span> tich = a * b;   <span class="cmt">// 30</span>
+<span class="type">int</span> thuong = a / b; <span class="cmt">// 3 (Mất phần thập phân)</span>
+<span class="type">int</span> du = a % b;     <span class="cmt">// 1 (10 chia 3 dư 1)</span>
+</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 7: Các phép toán (Phần 2 - So sánh) -->
+    <div class="slide-container">
+        <h2 class="slide-title">Các Phép Toán: 2. Phép toán so sánh</h2>
+        <div class="content-area">
+            <p>Dùng để so sánh 2 giá trị. Kết quả trả về là <strong>1 (Đúng - True)</strong> hoặc <strong>0 (Sai - False)</strong>.</p>
+            <div class="two-column">
+                <div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Ký hiệu</th>
+                                <th>Ý nghĩa</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><code>==</code></td><td>Bằng nhau</td></tr>
+                            <tr><td><code>!=</code></td><td>Khác nhau</td></tr>
+                            <tr><td><code>&gt;</code></td><td>Lớn hơn</td></tr>
+                            <tr><td><code>&lt;</code></td><td>Nhỏ hơn</td></tr>
+                            <tr><td><code>&gt;=</code></td><td>Lớn hơn hoặc bằng</td></tr>
+                            <tr><td><code>&lt;=</code></td><td>Nhỏ hơn hoặc bằng</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+<pre class="code-block" style="font-size: 17px;">
+<span class="type">int</span> a = <span class="num">5</span>, b = <span class="num">8</span>;
+
+<span class="fn">printf</span>(<span class="str">"%d"</span>, a == b); <span class="cmt">// In ra 0 (Sai)</span>
+<span class="fn">printf</span>(<span class="str">"%d"</span>, a != b); <span class="cmt">// In ra 1 (Đúng)</span>
+<span class="fn">printf</span>(<span class="str">"%d"</span>, a &lt; b);  <span class="cmt">// In ra 1 (Đúng)</span>
+
+<span class="cmt">// Rất dễ nhầm lẫn giữa = (gán) và == (so sánh)</span>
+</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 8: Các phép toán (Phần 3 - Logic) -->
+    <div class="slide-container">
+        <h2 class="slide-title">Các Phép Toán: 3. Phép toán Logic</h2>
+        <div class="content-area">
+            <p>Dùng để kết hợp nhiều điều kiện với nhau (thường dùng trong lệnh if, while).</p>
+            <div class="two-column">
+                <div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Ký hiệu</th>
+                                <th>Tên gọi</th>
+                                <th>Điều kiện Đúng khi nào?</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><code>&&</code></td><td>AND (Và)</td><td>Khi <strong>TẤT CẢ</strong> các điều kiện đều đúng.</td></tr>
+                            <tr><td><code>||</code></td><td>OR (Hoặc)</td><td>Khi có <strong>ÍT NHẤT 1</strong> điều kiện đúng.</td></tr>
+                            <tr><td><code>!</code></td><td>NOT (Phủ định)</td><td>Đảo ngược kết quả (Đúng thành Sai, Sai thành Đúng).</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+<pre class="code-block" style="font-size: 17px;">
+<span class="type">int</span> diem = <span class="num">8</span>;
+<span class="type">int</span> hanh_kiem = <span class="num">1</span>; <span class="cmt">// 1 là Tốt</span>
+
+<span class="cmt">// Học sinh giỏi nếu điểm >= 8 VÀ hạnh kiểm tốt</span>
+<span class="type">int</span> isHSG = (diem &gt;= <span class="num">8</span>) && (hanh_kiem == <span class="num">1</span>); 
+
+<span class="cmt">// Đậu nếu điểm Toán hoặc Lý >= 5</span>
+<span class="type">int</span> isDau = (toan &gt;= <span class="num">5</span>) || (ly &gt;= <span class="num">5</span>);
+</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 9: Các phép toán (Phần 4 - Gán & Tăng giảm) -->
+    <div class="slide-container">
+        <h2 class="slide-title">Các Phép Toán: 4. Gán và Tăng/Giảm</h2>
+        <div class="content-area">
+            <div class="two-column">
+                <div>
+                    <h3>Phép Gán (Assignment)</h3>
+                    <p>Dùng để gán giá trị từ bên phải sang biến bên trái.</p>
+                    <table>
+                        <tbody>
+                            <tr><td><code>=</code></td><td><code>a = 5</code></td></tr>
+                            <tr><td><code>+=</code></td><td><code>a += 3</code> (Tương đương <code>a = a + 3</code>)</td></tr>
+                            <tr><td><code>-=</code></td><td><code>a -= 2</code> (Tương đương <code>a = a - 2</code>)</td></tr>
+                            <tr><td><code>*=</code>, <code>/=</code></td><td>Hoạt động tương tự</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <h3>Phép Tăng / Giảm</h3>
+                    <p>Dùng để tăng hoặc giảm biến đi 1 đơn vị.</p>
+                    <ul class="bullet-list">
+                        <li><code>++a</code> hoặc <code>a++</code> : Tăng a lên 1.</li>
+                        <li><code>--a</code> hoặc <code>a--</code> : Giảm a đi 1.</li>
+                    </ul>
+<pre class="code-block" style="margin-top: 10px;">
+<span class="type">int</span> x = <span class="num">10</span>;
+x++; <span class="cmt">// Lúc này x = 11</span>
+x--; <span class="cmt">// Trở lại x = 10</span>
+</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 10: Nhập Xuất & Comment -->
+    <div class="slide-container">
+        <h2 class="slide-title">Lệnh Nhập/Xuất & Chú Thích (Comment)</h2>
+        <div class="content-area">
+            <div class="two-column">
+                <div>
+<pre class="code-block" style="font-size: 16px;">
+<span class="kw">#include</span> &lt;stdio.h&gt;
+
+<span class="type">int</span> <span class="fn">main</span>() {
+    <span class="type">int</span> age;
+    <span class="type">float</span> weight;
+
+    <span class="cmt">// printf dùng để xuất văn bản</span>
+    <span class="fn">printf</span>(<span class="str">"Nhap tuoi cua ban: "</span>);
+
+    <span class="cmt">/* scanf dùng để đọc dữ liệu từ bàn phím.
+       CHÚ Ý: Phải có dấu & trước tên biến */</span>
+    <span class="fn">scanf</span>(<span class="str">"%d"</span>, &amp;age);
+
+    <span class="fn">printf</span>(<span class="str">"Nhap can nang (kg): "</span>);
+    <span class="fn">scanf</span>(<span class="str">"%f"</span>, &amp;weight);
+
+    <span class="cmt">// In dữ liệu ra màn hình</span>
+    <span class="fn">printf</span>(<span class="str">"Ban %d tuoi, %.1f kg."</span>, age, weight);
+    <span class="kw">return</span> <span class="num">0</span>;
+}
+</pre>
+                </div>
+                <div>
+                    <h3>Lưu ý quan trọng</h3>
+                    <ul class="bullet-list">
+                        <li>Hàm <strong>scanf</strong> bắt buộc phải có dấu <strong>&amp;</strong> (ampersand) trước tên biến (VD: <code>&amp;age</code>) để truyền địa chỉ bộ nhớ.</li>
+                        <li>Hàm <strong>printf</strong> KHÔNG CẦN dấu <code>&amp;</code> khi in giá trị ra.</li>
+                        <li><strong>Chú thích 1 dòng:</strong> Dùng <code>// nội dung</code></li>
+                        <li><strong>Chú thích nhiều dòng:</strong> Dùng <code>/* nội dung */</code></li>
+                        <li>Máy tính sẽ bỏ qua chú thích khi chạy chương trình. Nhằm mục đích cho người đọc code hiểu.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 11: Chuỗi định dạng -->
+    <div class="slide-container">
+        <h2 class="slide-title">Chuỗi định dạng (Format Specifiers)</h2>
+        <div class="content-area">
+            <p>Chuỗi định dạng được sử dụng trong <code>printf</code> và <code>scanf</code> để cho máy tính biết bạn đang muốn làm việc với loại dữ liệu nào.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Ký hiệu</th>
+                        <th>Kiểu dữ liệu</th>
+                        <th>Giải thích & Ví dụ minh họa</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>%d</code></td>
+                        <td><strong>int</strong> (Số nguyên)</td>
+                        <td>Dùng cho số nguyên. VD: <code>printf("Tuổi: %d", 20);</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>%f</code></td>
+                        <td><strong>float</strong> (Số thực)</td>
+                        <td>Số thực độ chính xác thường. Có thể dùng <code>%.2f</code> để làm tròn 2 chữ số thập phân.</td>
+                    </tr>
+                    <tr>
+                        <td><code>%lf</code></td>
+                        <td><strong>double</strong> (Số thực lớn)</td>
+                        <td>Dùng khi cần số thực chính xác cao. Bắt buộc dùng <code>%lf</code> khi <code>scanf</code> kiểu double.</td>
+                    </tr>
+                    <tr>
+                        <td><code>%c</code></td>
+                        <td><strong>char</strong> (Ký tự)</td>
+                        <td>In ra 1 ký tự duy nhất. VD: <code>printf("Hạng: %c", 'A');</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>%s</code></td>
+                        <td><strong>char[]</strong> (Chuỗi)</td>
+                        <td>In ra chuỗi ký tự (mảng char). VD: <code>printf("Tên: %s", "John");</code></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Slide 12: Bài tập Chương 1 -->
+    <div class="slide-container">
+        <h2 class="slide-title">Bài tập vận dụng: Chương 1</h2>
+        <div class="content-area">
+            <ul class="exercise-list">
+                <li><strong>Bài 1:</strong> Viết chương trình nhập vào 2 số nguyên a và b. Thực hiện hoán vị (đổi chỗ) giá trị của 2 biến này và in kết quả ra màn hình.</li>
+                <li><strong>Bài 2:</strong> Nhập vào bán kính r của một hình tròn. Tính và in ra chu vi và diện tích của hình tròn đó (Sử dụng <code>const float PI = 3.14;</code>).</li>
+                <li><strong>Bài 3:</strong> Viết chương trình tính diện tích và chu vi hình chữ nhật với chiều dài và chiều rộng được nhập từ bàn phím.</li>
+                <li><strong>Bài 4:</strong> Nhập vào một số nguyên x. Tính và in ra giá trị bình phương của x.</li>
+                <li><strong>Bài 5:</strong> Nhập vào một số thực dương n. Hãy tính và in ra căn bậc 2 của n. (Gợi ý: Sử dụng thư viện <code>#include &lt;math.h&gt;</code> và hàm <code>sqrt(n)</code>).</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Slide 13: Section 2 Title -->
+    <div class="slide-container">
+        <div class="section-title-layout">
+            <h2>Chương 2</h2>
+            <hr>
+            <h1 style="color: #1E293B;">Cấu Trúc Điều Khiển</h1>
+            <p class="subtitle">Lệnh rẽ nhánh (If, Switch) và Vòng lặp (For, While)</p>
+        </div>
+    </div>
+
+    <!-- Slide 14: Rẽ nhánh If chi tiết -->
+    <div class="slide-container">
+        <h2 class="slide-title">Cấu trúc rẽ nhánh (If - Else)</h2>
+        <div class="content-area">
+            <div class="two-column">
+                <div>
+                    <h3>1. Lệnh if cơ bản</h3>
+                    <p>Chỉ thực hiện nếu điều kiện ĐÚNG.</p>
+<pre class="code-block" style="font-size: 16px;">
+<span class="kw">if</span> (tuoi &gt;= <span class="num">18</span>) {
+    <span class="fn">printf</span>(<span class="str">"Duoc phep lai xe."</span>);
+}
+</pre>
+                    <h3>2. Lệnh if - else</h3>
+                    <p>Xử lý 2 trường hợp Đúng / Sai.</p>
+<pre class="code-block" style="font-size: 16px;">
+<span class="kw">if</span> (diem &gt;= <span class="num">5.0</span>) {
+    <span class="fn">printf</span>(<span class="str">"Dau"</span>);
+} <span class="kw">else</span> {
+    <span class="fn">printf</span>(<span class="str">"Rot"</span>);
+}
+</pre>
+                </div>
+                <div>
+                    <h3>3. Lệnh if - else if - else</h3>
+                    <p>Kiểm tra nhiều điều kiện liên tiếp nhau.</p>
+<pre class="code-block" style="font-size: 16px;">
+<span class="type">float</span> diem = <span class="num">7.5</span>;
+
+<span class="kw">if</span> (diem &gt;= <span class="num">8.0</span>) {
+    <span class="fn">printf</span>(<span class="str">"Xep loai: Gioi"</span>);
+} 
+<span class="kw">else if</span> (diem &gt;= <span class="num">6.5</span>) {
+    <span class="fn">printf</span>(<span class="str">"Xep loai: Kha"</span>);
+} 
+<span class="kw">else if</span> (diem &gt;= <span class="num">5.0</span>) {
+    <span class="fn">printf</span>(<span class="str">"Xep loai: Trung Binh"</span>);
+} 
+<span class="kw">else</span> {
+    <span class="cmt">// Chạy khi tất cả các đk trên đều SAI</span>
+    <span class="fn">printf</span>(<span class="str">"Xep loai: Yeu"</span>);
+}
+</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 15: Switch Case -->
+    <div class="slide-container">
+        <h2 class="slide-title">Câu lệnh Switch - Case</h2>
+        <div class="content-area">
+            <div class="two-column">
+                <div>
+                    <p>Sử dụng thay thế cho <code>if-else if</code> kéo dài khi biến chỉ nhận các giá trị rời rạc cụ thể (số nguyên int hoặc ký tự char).</p>
+                    <ul class="bullet-list">
+                        <li><code>case</code>: Xác định giá trị cụ thể.</li>
+                        <li><code>break</code>: Thoát khỏi switch, nếu thiếu sẽ bị "trôi" sang case tiếp theo.</li>
+                        <li><code>default</code>: Chạy khi không khớp case nào (tương đương <code>else</code>).</li>
+                    </ul>
+                </div>
+                <div>
+<pre class="code-block">
+<span class="type">int</span> lua_chon = <span class="num">2</span>;
+
+<span class="kw">switch</span> (lua_chon) {
+    <span class="kw">case</span> <span class="num">1</span>:
+        <span class="fn">printf</span>(<span class="str">"Ban chon Them moi"</span>);
+        <span class="kw">break</span>;
+    <span class="kw">case</span> <span class="num">2</span>:
+        <span class="fn">printf</span>(<span class="str">"Ban chon Chinh sua"</span>);
+        <span class="kw">break</span>;
+    <span class="kw">case</span> <span class="num">3</span>:
+        <span class="fn">printf</span>(<span class="str">"Ban chon Xoa"</span>);
+        <span class="kw">break</span>;
+    <span class="kw">default</span>:
+        <span class="fn">printf</span>(<span class="str">"Lua chon khong hop le!"</span>);
+}
+</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 16: Bài tập If - Switch -->
+    <div class="slide-container">
+        <h2 class="slide-title">Bài tập vận dụng: If &amp; Switch</h2>
+        <div class="content-area">
+            <ul class="exercise-list">
+                <li><strong>Bài 1:</strong> Nhập vào một số nguyên n. Kiểm tra và thông báo n là số chẵn hay số lẻ ra màn hình.</li>
+                <li><strong>Bài 2:</strong> Nhập vào 3 số thực a, b, c. Tìm và in ra giá trị lớn nhất trong 3 số đó.</li>
+                <li><strong>Bài 3:</strong> Giải phương trình bậc nhất: <code>ax + b = 0</code>. Hãy xét kỹ trường hợp a=0 (phương trình vô nghiệm hoặc vô số nghiệm) và a khác 0.</li>
+                <li><strong>Bài 4:</strong> Tính tiền điện: Nhập số chữ điện tiêu thụ. Tính theo giá lũy tiến: 50 chữ đầu (1500đ/chữ), 50 chữ tiếp theo (2000đ/chữ), phần còn lại (3000đ/chữ).</li>
+                <li><strong>Bài 5:</strong> Viết chương trình máy tính cầm tay. Nhập 2 số và 1 ký tự phép toán (+, -, *, /). Dùng <code>switch-case</code> để kiểm tra phép toán, in ra kết quả.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Slide 17: Vòng lặp For -->
+    <div class="slide-container">
+        <h2 class="slide-title">Vòng lặp For</h2>
+        <div class="content-area">
+            <div class="two-column">
+                <div>
+                    <h3>Định nghĩa và Cú pháp</h3>
+                    <p>Sử dụng khi bạn <strong>đã biết trước</strong> số lần lặp cụ thể.</p>
+<pre class="code-block">
+<span class="kw">for</span> (khởi_tạo; điều_kiện; bước_nhảy) {
+    <span class="cmt">// Khối lệnh lặp lại</span>
+}
+</pre>
+                    <ul class="bullet-list">
+                        <li><strong>Khởi tạo:</strong> Thực hiện 1 lần duy nhất đầu tiên (VD: <code>int i = 1;</code>).</li>
+                        <li><strong>Điều kiện:</strong> Kiểm tra trước mỗi vòng lặp. Đúng thì chạy, Sai thì dừng (VD: <code>i &lt;= 10;</code>).</li>
+                        <li><strong>Bước nhảy:</strong> Thực hiện vào cuối mỗi vòng (VD: <code>i++</code>).</li>
+                    </ul>
+                </div>
+                <div>
+<pre class="code-block">
+<span class="cmt">// Ví dụ: In ra các số từ 1 đến 5</span>
+<span class="type">int</span> i;
+<span class="kw">for</span> (i = <span class="num">1</span>; i &lt;= <span class="num">5</span>; i++) {
+    <span class="fn">printf</span>(<span class="str">"%d "</span>, i);
+}
+<span class="cmt">// Kết quả in ra: 1 2 3 4 5</span>
+
+<span class="cmt">// Vòng lặp chạy lùi</span>
+<span class="kw">for</span> (i = <span class="num">5</span>; i &gt; <span class="num">0</span>; i--) {
+    <span class="fn">printf</span>(<span class="str">"%d "</span>, i);
+}
+<span class="cmt">// Kết quả: 5 4 3 2 1</span>
+</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 18: Bài tập Vòng lặp For -->
+    <div class="slide-container">
+        <h2 class="slide-title">Bài tập vận dụng: Vòng lặp For</h2>
+        <div class="content-area">
+            <ul class="exercise-list">
+                <li><strong>Bài 1:</strong> Nhập vào số nguyên dương n. Viết vòng lặp tính tổng: S = 1 + 2 + 3 + ... + n.</li>
+                <li><strong>Bài 2:</strong> Nhập vào số nguyên dương n, tính giai thừa của n (n! = 1 * 2 * ... * n).</li>
+                <li><strong>Bài 3:</strong> In ra màn hình bảng cửu chương của một số N (Nhập N từ 2 đến 9).</li>
+                <li><strong>Bài 4:</strong> Nhập vào số nguyên dương n. Tìm và in ra tất cả các ước số của n.</li>
+                <li><strong>Bài 5:</strong> Vẽ hình chữ nhật đặc bằng các dấu <code>*</code> dựa vào chiều dài và chiều rộng nhập từ bàn phím (sử dụng 2 vòng lặp lồng nhau).</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Slide 19: Vòng lặp While & Do-While -->
+    <div class="slide-container">
+        <h2 class="slide-title">Vòng lặp While &amp; Do-While</h2>
+        <div class="content-area">
+            <div class="two-column">
+                <div>
+                    <h3>Vòng lặp while</h3>
+                    <p>Kiểm tra điều kiện TRƯỚC. Dùng khi <strong>chưa biết trước</strong> số lần lặp.</p>
+<pre class="code-block" style="font-size: 16px;">
+<span class="type">int</span> n = <span class="num">5</span>;
+<span class="kw">while</span> (n &gt; <span class="num">0</span>) {
+    <span class="fn">printf</span>(<span class="str">"%d "</span>, n);
+    n--; <span class="cmt">// Quan trọng: tránh lặp vô hạn</span>
+}
+</pre>
+                </div>
+                <div>
+                    <h3>Vòng lặp do - while</h3>
+                    <p>Thực hiện lệnh ÍT NHẤT 1 LẦN, sau đó mới kiểm tra điều kiện. (Thường dùng ép người dùng nhập lại).</p>
+<pre class="code-block" style="font-size: 16px;">
+<span class="type">int</span> age;
+<span class="kw">do</span> {
+    <span class="fn">printf</span>(<span class="str">"Nhap tuoi (&gt;0): "</span>);
+    <span class="fn">scanf</span>(<span class="str">"%d"</span>, &amp;age);
+} <span class="kw">while</span> (age &lt;= <span class="num">0</span>);
+</pre>
+                </div>
+            </div>
+            <p class="subtitle" style="text-align: center; margin-top: 15px;"><strong>Lưu ý:</strong> Cẩn thận với vòng lặp vô tận (Infinite Loops) nếu quên thay đổi giá trị của điều kiện dừng.</p>
+        </div>
+    </div>
+
+    <!-- Slide 20: Bài tập While & Do-While -->
+    <div class="slide-container">
+        <h2 class="slide-title">Bài tập vận dụng: While &amp; Do-While</h2>
+        <div class="content-area">
+            <ul class="exercise-list">
+                <li><strong>Bài 1:</strong> Dùng <code>do-while</code> để yêu cầu nhập 1 số trong khoảng 1 đến 10. Nếu nhập sai, in thông báo lỗi và yêu cầu nhập lại liên tục.</li>
+                <li><strong>Bài 2:</strong> Nhập vào một số nguyên dương. Dùng <code>while</code> để đếm xem số đó có bao nhiêu chữ số (bằng cách chia liên tiếp cho 10).</li>
+                <li><strong>Bài 3:</strong> Nhập vào một số nguyên dương n. Hãy đảo ngược thứ tự các chữ số của n và in ra.</li>
+                <li><strong>Bài 4:</strong> Tìm Ước chung lớn nhất (UCLN) của hai số a và b bằng thuật toán Euclid (chia lấy dư trong vòng lặp while).</li>
+                <li><strong>Bài 5:</strong> Trò chơi đoán số: Random 1 số (1-100). Cho người chơi nhập vòng lặp, in ra gợi ý "Lớn hơn" hoặc "Nhỏ hơn" cho tới khi đoán trúng.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Slide 21: Section 3 Title -->
+    <div class="slide-container">
+        <div class="section-title-layout">
+            <h2>Chương 3</h2>
+            <hr>
+            <h1 style="color: #1E293B;">Hàm & Cấu Trúc Chương Trình</h1>
+            <p class="subtitle">Tái sử dụng mã nguồn và chia nhỏ chương trình</p>
+        </div>
+    </div>
+
+    <!-- Slide 22: Hàm trả về giá trị -->
+    <div class="slide-container">
+        <h2 class="slide-title">Hàm có giá trị trả về (Return)</h2>
+        <div class="content-area">
+            <div class="two-column">
+                <div>
+                    <p>Hàm là một khối lệnh độc lập nhận đầu vào (tham số), xử lý và <strong>trả về một kết quả</strong> ra bên ngoài thông qua từ khóa <code>return</code>.</p>
+                    <ul class="bullet-list">
+                        <li><strong>Kiểu trả về:</strong> Là <code>int</code>, <code>float</code>, <code>char</code>... ứng với giá trị trả ra.</li>
+                        <li><strong>return:</strong> Ngay khi gặp lệnh return, hàm sẽ lập tức kết thúc.</li>
+                    </ul>
+                </div>
+                <div>
+<pre class="code-block" style="font-size: 16px;">
+<span class="cmt">// Hàm nhận vào 2 số, trả về 1 số int</span>
+<span class="type">int</span> <span class="fn">tinhTong</span>(<span class="type">int</span> a, <span class="type">int</span> b) {
+    <span class="type">int</span> ketQua = a + b;
+    <span class="kw">return</span> ketQua; <span class="cmt">// Trả giá trị ra</span>
+}
+
+<span class="type">int</span> <span class="fn">main</span>() {
+    <span class="cmt">// Gọi hàm và lưu kết quả vào biến</span>
+    <span class="type">int</span> tongToanLy = <span class="fn">tinhTong</span>(<span class="num">8</span>, <span class="num">9</span>);
+    <span class="fn">printf</span>(<span class="str">"Tong la: %d"</span>, tongToanLy);
+    <span class="kw">return</span> <span class="num">0</span>;
+}
+</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 23: Hàm Không trả về giá trị -->
+    <div class="slide-container">
+        <h2 class="slide-title">Hàm KHÔNG trả về giá trị (Void)</h2>
+        <div class="content-area">
+            <div class="two-column">
+                <div>
+                    <p>Được sử dụng khi hàm chỉ thực hiện các thao tác (như in ra màn hình, ghi file) mà <strong>không cần</strong> xuất ra giá trị nào để tính toán tiếp.</p>
+                    <ul class="bullet-list">
+                        <li>Sử dụng từ khóa <code>void</code> thay cho kiểu dữ liệu.</li>
+                        <li>Không bắt buộc phải có lệnh <code>return;</code> ở cuối hàm.</li>
+                    </ul>
+                </div>
+                <div>
+<pre class="code-block" style="font-size: 16px;">
+<span class="cmt">// Hàm void chỉ in ra, không trả về gì</span>
+<span class="type">void</span> <span class="fn">inLoiChao</span>(<span class="type">char</span> ten[]) {
+    <span class="fn">printf</span>(<span class="str">"==================\n"</span>);
+    <span class="fn">printf</span>(<span class="str">"Xin chao ban %s!\n"</span>, ten);
+    <span class="fn">printf</span>(<span class="str">"==================\n"</span>);
+}
+
+<span class="type">int</span> <span class="fn">main</span>() {
+    <span class="cmt">// Chỉ cần gọi hàm là chạy lệnh bên trong</span>
+    <span class="fn">inLoiChao</span>(<span class="str">"Sinh vien"</span>);
+    <span class="kw">return</span> <span class="num">0</span>;
+}
+</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 24: Bài tập Hàm -->
+    <div class="slide-container">
+        <h2 class="slide-title">Bài tập vận dụng: Hàm</h2>
+        <div class="content-area">
+            <ul class="exercise-list">
+                <li><strong>Bài 1:</strong> Viết hàm <code>int kiemTraSNT(int n)</code> trả về 1 nếu n là số nguyên tố, trả về 0 nếu sai. Dùng hàm này in các SNT từ 1 đến 100.</li>
+                <li><strong>Bài 2:</strong> Viết hàm <code>int timMax(int a, int b, int c)</code> trả về số lớn nhất.</li>
+                <li><strong>Bài 3:</strong> Viết hàm <code>float chuyenDoiDoC(float doF)</code> chuyển đổi từ Fahrenheit sang Celsius: C = (F - 32) * 5/9.</li>
+                <li><strong>Bài 4:</strong> Viết hàm <code>void veHinhVuong(int canh)</code> chỉ làm nhiệm vụ in ra màn hình một hình vuông dấu <code>*</code> cạnh bằng N.</li>
+                <li><strong>Bài 5:</strong> Viết hàm <code>int tinhFibonacci(int n)</code> trả về số Fibonacci thứ n trong dãy (F0=0, F1=1, Fn = Fn-1 + Fn-2).</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Slide 25: File Header -->
+    <div class="slide-container">
+        <h2 class="slide-title">Làm việc với nhiều File Header (.h)</h2>
+        <div class="content-area">
+            <p>Chia nhỏ chương trình thành các module để quản lý dự án lớn dễ dàng hơn.</p>
+            <div class="two-column">
+                <div>
+                    <h3>1. File Header (math_utils.h)</h3>
+                    <p>Chứa "Khai báo hàm" (Declaration).</p>
+<pre class="code-block" style="font-size: 16px;">
+<span class="kw">#ifndef</span> MATH_UTILS_H
+<span class="kw">#define</span> MATH_UTILS_H
+
+<span class="type">int</span> <span class="fn">cong</span>(<span class="type">int</span> a, <span class="type">int</span> b);
+<span class="type">int</span> <span class="fn">tru</span>(<span class="type">int</span> a, <span class="type">int</span> b);
+
+<span class="kw">#endif</span>
+</pre>
+                </div>
+                <div>
+                    <h3>2. File Mã Nguồn (main.c)</h3>
+                    <p>Include file <code>.h</code> (bằng dấu <code>" "</code>) để sử dụng.</p>
+<pre class="code-block" style="font-size: 16px;">
+<span class="kw">#include</span> &lt;stdio.h&gt;
+<span class="kw">#include</span> <span class="str">"math_utils.h"</span>
+
+<span class="type">int</span> <span class="fn">main</span>() {
+    <span class="type">int</span> kq = <span class="fn">cong</span>(<span class="num">5</span>, <span class="num">3</span>);
+    <span class="fn">printf</span>(<span class="str">"KQ = %d"</span>, kq);
+    <span class="kw">return</span> <span class="num">0</span>;
+}
+</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 26: Bài tập Header -->
+    <div class="slide-container">
+        <h2 class="slide-title">Bài tập vận dụng: Chia File Header</h2>
+        <div class="content-area">
+            <ul class="exercise-list">
+                <li><strong>Bài 1:</strong> Tạo thư viện <code>basic_math.h</code> và <code>basic_math.c</code> chứa các hàm cộng, trừ, nhân, chia. Gọi chúng ở file <code>main.c</code>.</li>
+                <li><strong>Bài 2:</strong> Tạo thư viện <code>geometry.h</code> định nghĩa các hàm tính diện tích/chu vi hình tròn, hình chữ nhật. Viết <code>main.c</code> để dùng.</li>
+                <li><strong>Bài 3:</strong> Viết một thư viện <code>string_utils.h</code> chứa hàm để đếm độ dài của một chuỗi ký tự tự viết.</li>
+                <li><strong>Bài 4:</strong> Phân tách hàm kiểm tra nguyên tố (SNT) ra một file <code>number_check.h</code> riêng biệt và tích hợp vào <code>main.c</code>.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Slide 27: Section 4 Title -->
+    <div class="slide-container">
+        <div class="section-title-layout">
+            <h2>Chương 4</h2>
+            <hr>
+            <h1 style="color: #1E293B;">Cấu Trúc Dữ Liệu Nâng Cao</h1>
+            <p class="subtitle">Mảng, Struct, Con Trỏ & Danh Sách Liên Kết</p>
+        </div>
+    </div>
+
+    <!-- Slide 28: Mảng 1 chiều -->
+    <div class="slide-container">
+        <h2 class="slide-title">Mảng 1 chiều (1D Arrays)</h2>
+        <div class="content-area">
+            <div class="two-column">
+                <div>
+                    <h3>Khái niệm</h3>
+                    <p>Tập hợp các biến có <strong>cùng kiểu dữ liệu</strong>, được lưu trữ ở các ô nhớ liên tiếp nhau.</p>
+                    <ul class="bullet-list">
+                        <li><strong>Chỉ số (Index):</strong> Bắt đầu từ <code>0</code> đến <code>n-1</code>.</li>
+                        <li><strong>Khai báo:</strong> <code>int arr[5];</code></li>
+                        <li><strong>Khởi tạo:</strong> <code>int arr[3] = {10, 20, 30};</code></li>
+                    </ul>
+                </div>
+                <div>
+<pre class="code-block" style="font-size: 16px;">
+<span class="cmt">// Duyệt mảng bằng vòng lặp for</span>
+<span class="type">int</span> diem[<span class="num">4</span>] = {<span class="num">7</span>, <span class="num">8</span>, <span class="num">9</span>, <span class="num">10</span>};
+
+<span class="kw">for</span> (<span class="type">int</span> i = <span class="num">0</span>; i &lt; <span class="num">4</span>; i++) {
+    <span class="fn">printf</span>(<span class="str">"Diem phan tu %d la: %d\n"</span>, i, diem[i]);
+}
+</pre>
+                </div>
+            </div>
+            <p style="margin-top: 10px;"><strong>Bài tập vận dụng:</strong><br>
+            1. Khai báo mảng N phần tử. Viết vòng lặp nhập xuất mảng, tính tổng.<br>
+            2. Tìm phần tử lớn nhất (MAX) và nhỏ nhất (MIN) trong mảng.<br>
+            3. Viết thuật toán Bubble Sort sắp xếp mảng tăng dần.</p>
+        </div>
+    </div>
+
+    <!-- Slide 29: Struct -->
+    <div class="slide-container">
+        <h2 class="slide-title">Struct (Kiểu cấu trúc)</h2>
+        <div class="content-area">
+            <div class="two-column">
+                <div>
+                    <p>Dùng để nhóm nhiều loại dữ liệu <strong>khác nhau</strong> (int, float, char...) thuộc về một đối tượng cụ thể (VD: Sinh viên, Tọa độ).</p>
+                    <p>Sử dụng dấu chấm <code>.</code> để truy cập thuộc tính.</p>
+<pre class="code-block" style="font-size: 16px;">
+<span class="kw">struct</span> SinhVien {
+    <span class="type">int</span> id;
+    <span class="type">float</span> diem;
+};
+</pre>
+                </div>
+                <div>
+<pre class="code-block" style="font-size: 16px;">
+<span class="type">int</span> <span class="fn">main</span>() {
+    <span class="cmt">// Khai báo biến kiểu struct</span>
+    <span class="kw">struct</span> SinhVien sv1;
+    
+    <span class="cmt">// Gán giá trị</span>
+    sv1.id = <span class="num">101</span>; 
+    sv1.diem = <span class="num">8.5</span>;
+
+    <span class="fn">printf</span>(<span class="str">"ID: %d, Diem: %.1f"</span>, sv1.id, sv1.diem);
+    <span class="kw">return</span> <span class="num">0</span>;
+}
+</pre>
+                </div>
+            </div>
+            <p style="margin-top: 10px;"><strong>Bài tập vận dụng:</strong><br>
+            1. Struct ToaDo (x, y). Viết hàm tính khoảng cách 2 điểm.<br>
+            2. Struct NhanVien. Tạo mảng 5 NV, in ra NV lương cao nhất.</p>
+        </div>
+    </div>
+
+    <!-- Slide 30: Con trỏ (MỚI) -->
+    <div class="slide-container">
+        <h2 class="slide-title">Con Trỏ (Pointers) - Trái tim của C</h2>
+        <div class="content-area">
+            <div class="two-column">
+                <div>
+                    <p>Con trỏ là một biến đặc biệt. Thay vì chứa một giá trị (như 5, 10), nó chứa <strong>địa chỉ bộ nhớ</strong> của biến khác.</p>
+                    <ul class="bullet-list">
+                        <li><code>&amp;a</code> : Lấy địa chỉ của biến a.</li>
+                        <li><code>*p</code> : Khai báo con trỏ HOẶC lấy giá trị tại địa chỉ mà con trỏ đang trỏ tới.</li>
+                    </ul>
+                </div>
+                <div>
+<pre class="code-block" style="font-size: 16px;">
+<span class="type">int</span> a = <span class="num">10</span>;
+<span class="type">int</span> *p = &amp;a; <span class="cmt">// p trỏ tới biến a</span>
+
+<span class="fn">printf</span>(<span class="str">"Gia tri cua a: %d\n"</span>, a);
+<span class="fn">printf</span>(<span class="str">"Dia chi cua a: %p\n"</span>, &amp;a);
+<span class="fn">printf</span>(<span class="str">"Gia tri ma p tro toi: %d\n"</span>, *p);
+
+*p = <span class="num">20</span>; <span class="cmt">// Thay đổi giá trị tại địa chỉ đó</span>
+<span class="fn">printf</span>(<span class="str">"a bay gio la: %d"</span>, a); <span class="cmt">// in ra 20</span>
+</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 31: Danh sách liên kết Khái niệm -->
+    <div class="slide-container">
+        <h2 class="slide-title">Danh sách liên kết (Linked List) - Khái niệm</h2>
+        <div class="content-area">
+            <p>Khác với mảng (kích thước cố định, ô nhớ liên tiếp), danh sách liên kết là cấu trúc <strong>động</strong>. Các khối dữ liệu (gọi là <code>Node</code>) nằm rải rác trong bộ nhớ và móc nối với nhau qua con trỏ.</p>
+            <div style="background: #F1F5F9; padding: 20px; text-align: center; border-radius: 8px; margin: 15px 0; font-family: 'Roboto Mono', monospace; font-size: 20px; font-weight: bold; color: #0EA5E9;">
+                [Head] -> [ Data: 10 | Next ] -> [ Data: 20 | Next ] -> NULL
+            </div>
+            <div class="two-column">
+                <div>
+                    <h3>Thành phần 1 Node:</h3>
+                    <ul class="bullet-list">
+                        <li><strong>Data:</strong> Lưu trữ dữ liệu.</li>
+                        <li><strong>Next:</strong> Con trỏ lưu địa chỉ của Node tiếp theo.</li>
+                    </ul>
+                </div>
+                <div>
+<pre class="code-block" style="font-size: 15px; margin-bottom: 0;">
+<span class="kw">struct</span> Node {
+    <span class="type">int</span> data;
+    <span class="kw">struct</span> Node *next; <span class="cmt">// Con trỏ trỏ tới Node khác</span>
+};
+</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 32: Danh sách liên kết - Cài đặt cơ bản -->
+    <div class="slide-container">
+        <h2 class="slide-title">Danh sách liên kết - Cài đặt bằng tay</h2>
+        <div class="content-area">
+            <div class="two-column">
+                <div>
+                    <p>Đây là cách thức sơ khai nhất để liên kết 3 Node lại với nhau mà không cần dùng hàm cấp phát động phức tạp.</p>
+                    <p style="margin-top: 15px;"><strong>Bài tập vận dụng nâng cao:</strong><br>
+                    1. Viết hàm <code>createNode(int x)</code> sử dụng lệnh <code>malloc</code> để cấp phát động.<br>
+                    2. Viết vòng lặp duyệt qua danh sách liên kết cho đến khi <code>current != NULL</code> để in ra các giá trị.<br>
+                    3. Viết hàm thêm 1 Node vào đầu danh sách (insertAtHead).</p>
+                </div>
+                <div>
+<pre class="code-block" style="font-size: 14px;">
+<span class="type">int</span> <span class="fn">main</span>() {
+    <span class="cmt">// Tạo 3 node tĩnh</span>
+    <span class="kw">struct</span> Node n1, n2, n3;
+
+    <span class="cmt">// Gán dữ liệu</span>
+    n1.data = <span class="num">10</span>;
+    n2.data = <span class="num">20</span>;
+    n3.data = <span class="num">30</span>;
+
+    <span class="cmt">// Liên kết chúng lại bằng con trỏ next</span>
+    n1.next = &amp;n2;
+    n2.next = &amp;n3;
+    n3.next = NULL; <span class="cmt">// Kết thúc danh sách</span>
+
+    <span class="cmt">// In dữ liệu thông qua con trỏ</span>
+    <span class="fn">printf</span>(<span class="str">"Node 2 la: %d\n"</span>, n1.next-&gt;data);
+
+    <span class="kw">return</span> <span class="num">0</span>;
+}
+</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 33: Q&A -->
+    <div class="slide-container">
+        <div class="title-layout">
+            <h1>Hỏi & Đáp</h1>
+            <p class="subtitle">Cảm ơn các bạn đã theo dõi khóa học</p>
+            <hr style="width: 100px; height: 5px; background-color: #0EA5E9; border: none; margin: 30px auto;">
+        </div>
+    </div>
+
+    <script src="../common/slide-controller.js"></script>
+</body>
+</html>
