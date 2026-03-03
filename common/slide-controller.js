@@ -163,6 +163,9 @@
     document.addEventListener('fullscreenchange', updateFullscreenState);
 
     let fitRaf = 0;
+    let transitionUnlockTimer = 0;
+    let isNavigating = false;
+    let queuedIndex = null;
     // Tính scale để slide luôn vừa màn hình theo tỉ lệ 16:9
     // Giới hạn hiển thị tối đa 95% viewport để chừa khoảng thở thẩm mỹ
     const fitStage = () => {
@@ -206,16 +209,40 @@
         nextButton.disabled = currentIndex === totalSlides - 1;
     };
 
+    // Mở khóa điều hướng sau một nhịp chuyển cảnh,
+    // đồng thời xử lý yêu cầu được bấm dồn trong lúc khóa.
+    const unlockNavigation = () => {
+        isNavigating = false;
+
+        if (queuedIndex === null) return;
+        const nextQueuedIndex = queuedIndex;
+        queuedIndex = null;
+        goToSlide(nextQueuedIndex);
+    };
+
     // Chuyển đến slide theo chỉ số (có chặn biên)
     const goToSlide = (index) => {
         const safeIndex = Math.min(Math.max(index, 0), totalSlides - 1);
+
+        if (isNavigating) {
+            queuedIndex = safeIndex;
+            return;
+        }
+
         if (safeIndex === currentIndex) {
             applyState();
             return;
         }
+
+        isNavigating = true;
         currentIndex = safeIndex;
         applyState();
         saveCurrentSlide();
+
+        if (transitionUnlockTimer) {
+            window.clearTimeout(transitionUnlockTimer);
+        }
+        transitionUnlockTimer = window.setTimeout(unlockNavigation, 320);
     };
 
     // Parse input người dùng: chấp nhận dạng "5" hoặc "5/21"
@@ -231,6 +258,67 @@
 
     backButton.addEventListener('click', () => goToSlide(currentIndex - 1));
     nextButton.addEventListener('click', () => goToSlide(currentIndex + 1));
+
+    // Hỗ trợ vuốt ngang trên thiết bị cảm ứng để chuyển slide
+    // (áp dụng cho cả chế độ dọc và xoay ngang vì dựa trên trục vuốt thực tế)
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchCurrentX = 0;
+    let touchCurrentY = 0;
+    let isTouchTracking = false;
+
+    const isInteractiveTarget = (target) => {
+        if (!(target instanceof Element)) return false;
+        return !!target.closest('button, input, a, textarea, select, [contenteditable="true"]');
+    };
+
+    viewport.addEventListener('touchstart', (event) => {
+        if (event.touches.length !== 1) return;
+        if (isInteractiveTarget(event.target)) return;
+
+        const touch = event.touches[0];
+        touchStartX = touch.clientX;
+        touchStartY = touch.clientY;
+        touchCurrentX = touch.clientX;
+        touchCurrentY = touch.clientY;
+        isTouchTracking = true;
+    }, { passive: true });
+
+    viewport.addEventListener('touchmove', (event) => {
+        if (!isTouchTracking || event.touches.length !== 1) return;
+
+        const touch = event.touches[0];
+        touchCurrentX = touch.clientX;
+        touchCurrentY = touch.clientY;
+
+        const deltaX = touchCurrentX - touchStartX;
+        const deltaY = touchCurrentY - touchStartY;
+        if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 10) {
+            event.preventDefault();
+        }
+    }, { passive: false });
+
+    viewport.addEventListener('touchend', () => {
+        if (!isTouchTracking) return;
+        isTouchTracking = false;
+
+        const deltaX = touchCurrentX - touchStartX;
+        const deltaY = touchCurrentY - touchStartY;
+        const horizontalDominant = Math.abs(deltaX) > Math.abs(deltaY) * 1.2;
+        const reachedThreshold = Math.abs(deltaX) >= 50;
+
+        if (!horizontalDominant || !reachedThreshold) return;
+
+        if (deltaX < 0) {
+            goToSlide(currentIndex + 1);
+        } else {
+            goToSlide(currentIndex - 1);
+        }
+    }, { passive: true });
+
+    viewport.addEventListener('touchcancel', () => {
+        isTouchTracking = false;
+    }, { passive: true });
 
     // Enter để xác nhận nhảy trang
     indexInput.addEventListener('keydown', (event) => {
