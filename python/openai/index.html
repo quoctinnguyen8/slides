@@ -14,7 +14,7 @@
 <body>
 
 <!-- Slide 1: Full_Background_Image (Title Slide) -->
-<div class="slide-container full-bg-image" id="slide1" style="background-image: linear-gradient(rgba(255,255,255,0.4), rgba(255,255,255,0.4)), url('../_images/openai-cover.jpg');">
+<div class="slide-container full-bg-image" id="slide1" style="background-image: linear-gradient(rgba(255,255,255,0.4), rgba(255,255,255,0.4)), url('../images/openai-cover.jpg');">
     <div class="content-overlay">
         <h1>Lập Trình AI với <span style="color: #10a37f;">Python & OpenAI API</span></h1>
         <p class="subtitle">Hướng dẫn toàn diện từ cơ bản đến nâng cao: Text, JSON & Function Calling</p>
@@ -80,7 +80,7 @@
                 </ul>
             </div>
             <div>
-                <div class="image-wrapper"><img src="../_images/openai-dashboard.jpg" alt="OpenAI API developer dashboard technology concept"></div>
+                <div class="image-wrapper"><img src="../images/openai-dashboard.jpg" alt="OpenAI API developer dashboard technology concept"></div>
             </div>
         </div>
     </div>
@@ -390,10 +390,10 @@ user = completion.choices[<span class="builtin">0</span>].message.parsed
                     <li><strong>Tương tác với Cơ sở dữ liệu:</strong> Lấy thông tin khách hàng từ DB SQL/NoSQL nội bộ.</li>
                     <li><strong>Thực thi hành động:</strong> Gửi email, nhắn tin Slack, lưu file.</li>
                 </ul>
-                <p style="margin-top: 15px; font-size: 16px; color:#6b7280;"><em>*Lưu ý: Mô hình KHÔNG tự chạy hàm. Nó chỉ phân tích và trả về "Yêu cầu gọi hàm X với tham số Y". Code Python của bạn mới là nơi thực thi!</em></p>
+                <p style="margin-top: 15px; font-size: 18px; color:#6b7280;"><em>*Lưu ý: Mô hình KHÔNG tự chạy hàm. Nó chỉ phân tích và trả về "Yêu cầu gọi hàm X với tham số Y". Code Python của bạn mới là nơi thực thi!</em></p>
             </div>
             <div>
-                <div class="image-wrapper" style="height: 510px;"><img src="../_images/openai-function-calling.jpg" alt="API function calling integration concept light theme"></div>
+                <div class="image-wrapper" style="height: 510px;"><img src="../images/openai-function-calling.jpg" alt="API function calling integration concept light theme"></div>
             </div>
         </div>
     </div>
@@ -403,23 +403,23 @@ user = completion.choices[<span class="builtin">0</span>].message.parsed
 <div class="slide-container" id="slide14">
     <h2 class="slide-title">Function Calling (Quy Trình Thực Hiện)</h2>
     <div class="content-area">
-        <div class="tiled-content" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 100%;">
-            <div class="tile" style="min-width: auto; padding: 20px;">
+        <div class="tiled-content" style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; width: 100%;">
+            <div class="tile" style="min-width: auto; padding: 30px;">
                 <div class="icon" style="font-size: 32px; margin-bottom: 15px;"><i class="fa-solid fa-1"></i></div>
                 <h3 style="font-size: 24px;">Định Nghĩa Tools</h3>
                 <p style="font-size: 18px;">Khai báo danh sách các hàm (tools) theo chuẩn JSON Schema, mô tả chi tiết tên hàm, mục đích sử dụng và các tham số (parameters) cần thiết để AI hiểu được.</p>
             </div>
-            <div class="tile" style="min-width: auto; padding: 20px;">
+            <div class="tile" style="min-width: auto; padding: 30px;">
                 <div class="icon" style="font-size: 32px; margin-bottom: 15px;"><i class="fa-solid fa-2"></i></div>
                 <h3 style="font-size: 24px;">Gửi Request</h3>
                 <p style="font-size: 18px;">Truyền câu hỏi của User cùng với mảng <span class="code-inline" style="font-size: 16px;">tools</span> vừa định nghĩa lên API thông qua tham số của hàm <span class="code-inline" style="font-size: 16px;">create()</span>.</p>
             </div>
-            <div class="tile" style="min-width: auto; padding: 20px;">
+            <div class="tile" style="min-width: auto; padding: 30px;">
                 <div class="icon" style="font-size: 32px; margin-bottom: 15px;"><i class="fa-solid fa-3"></i></div>
                 <h3 style="font-size: 24px;">AI Phân Tích & Phản Hồi</h3>
                 <p style="font-size: 18px;">Kiểm tra kết quả trả về. Nếu AI quyết định cần phải gọi hàm, thông tin sẽ nằm trong biến <span class="code-inline" style="font-size: 16px;">tool_calls</span>. Tiến hành trích xuất tên hàm và tham số.</p>
             </div>
-            <div class="tile" style="min-width: auto; padding: 20px;">
+            <div class="tile" style="min-width: auto; padding: 30px;">
                 <div class="icon" style="font-size: 32px; margin-bottom: 15px;"><i class="fa-solid fa-4"></i></div>
                 <h3 style="font-size: 24px;">Thực Thi (Local)</h3>
                 <p style="font-size: 18px;">Sử dụng Code Python của bạn để chạy hàm thực tế với tham số nhận được. Sau đó, gửi kết quả ngược lại API để AI tổng hợp câu trả lời.</p>
@@ -540,28 +540,28 @@ tool_call = response.choices[<span class="builtin">0</span>].message.tool_calls[
                     <h3 style="font-size: 24px;">1. Trợ Lý Ảo Đa Năng</h3>
                     <div class="icon" style="font-size: 32px; margin-bottom: 15px;"><i class="fa-solid fa-robot"></i></div>
                 </div>
-                <p style="font-size: 16px; margin-bottom: 10px;"><strong>Yêu cầu:</strong> Xây dựng CLI Chatbot có bộ nhớ và tính cách riêng biệt (VD: Chuyên gia tâm lý, Giáo viên Tiếng Anh).<br><strong>Gợi ý:</strong> Tận dụng System prompt, sử dụng mảng <code>messages</code> để lưu lịch sử hội thoại, tùy chỉnh thông số <code>temperature</code>.</p>
+                <p style="font-size: 16px;"><strong>Yêu cầu:</strong> Xây dựng CLI Chatbot có bộ nhớ và tính cách riêng biệt (VD: Chuyên gia tâm lý, Giáo viên Tiếng Anh).<br><strong>Gợi ý:</strong> Tận dụng System prompt, sử dụng mảng <code>messages</code> để lưu lịch sử hội thoại, tùy chỉnh thông số <code>temperature</code>.</p>
             </div>
             <div class="tile" style="min-width: auto; padding: 20px;">
                 <div style="display: flex; justify-content: space-between; width: 100%; align-items: center;">
                     <h3 style="font-size: 24px;">2. Hệ Thống Đọc Hóa Đơn</h3>
                     <div class="icon" style="font-size: 32px; margin-bottom: 15px;"><i class="fa-solid fa-file-invoice"></i></div>
                 </div>
-                <p style="font-size: 16px; margin-bottom: 10px;"><strong>Yêu cầu:</strong> Viết script đọc văn bản ghi chú/hóa đơn tự do và trích xuất thành Data chuẩn (Tên món, Giá, Số lượng).<br><strong>Gợi ý:</strong> Ứng dụng Pydantic định nghĩa <code>BaseModel</code>, sử dụng hàm <code>.parse()</code> để lấy Structured Outputs dưới dạng JSON Object.</p>
+                <p style="font-size: 16px;"><strong>Yêu cầu:</strong> Viết script đọc văn bản ghi chú/hóa đơn tự do và trích xuất thành Data chuẩn (Tên món, Giá, Số lượng).<br><strong>Gợi ý:</strong> Ứng dụng Pydantic định nghĩa <code>BaseModel</code>, sử dụng hàm <code>.parse()</code> để lấy Structured Outputs dưới dạng JSON Object.</p>
             </div>
             <div class="tile" style="min-width: auto; padding: 20px;">
                 <div style="display: flex; justify-content: space-between; width: 100%; align-items: center;">
                     <h3 style="font-size: 24px;">3. Live Weather Bot</h3>
                     <div class="icon" style="font-size: 32px; margin-bottom: 15px;"><i class="fa-solid fa-cloud-sun"></i></div>
                 </div>
-                <p style="font-size: 16px; margin-bottom: 10px;"><strong>Yêu cầu:</strong> Xây dựng Chatbot có khả năng trả lời chính xác thông tin thời tiết thực tế ở bất kì khu vực nào.<br><strong>Gợi ý:</strong> Áp dụng kỹ thuật Function Calling kết hợp gọi API miễn phí từ bên thứ 3 (như OpenWeatherMap API).</p>
+                <p style="font-size: 16px;"><strong>Yêu cầu:</strong> Xây dựng Chatbot có khả năng trả lời chính xác thông tin thời tiết thực tế ở bất kì khu vực nào.<br><strong>Gợi ý:</strong> Áp dụng kỹ thuật Function Calling kết hợp gọi API miễn phí từ bên thứ 3 (như OpenWeatherMap API).</p>
             </div>
             <div class="tile" style="min-width: auto; padding: 20px;">
                 <div style="display: flex; justify-content: space-between; width: 100%; align-items: center;">
                     <h3 style="font-size: 24px;">4. Chấm CV Xin Việc Tự Động</h3>
                     <div class="icon" style="font-size: 32px; margin-bottom: 15px;"><i class="fa-solid fa-clipboard-check"></i></div>
                 </div>
-                <p style="font-size: 16px; margin-bottom: 10px;"><strong>Yêu cầu:</strong> Đưa nội dung 1 CV vào, yêu cầu AI phân tích ưu/nhược điểm, cho điểm (1-10) và tư vấn vị trí phù hợp.<br><strong>Gợi ý:</strong> Kết hợp Role (System giả lập HR) và JSON Structured Outputs chứa các fields: <code>score</code>, <code>pros</code>, <code>cons</code>, <code>advice</code>.</p>
+                <p style="font-size: 16px;"><strong>Yêu cầu:</strong> Đưa nội dung 1 CV vào, yêu cầu AI phân tích ưu/nhược điểm, cho điểm (1-10) và tư vấn vị trí phù hợp.<br><strong>Gợi ý:</strong> Kết hợp Role (System giả lập HR) và JSON Structured Outputs chứa các fields: <code>score</code>, <code>pros</code>, <code>cons</code>, <code>advice</code>.</p>
             </div>
         </div>
     </div>

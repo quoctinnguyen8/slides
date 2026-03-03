@@ -1,460 +1,434 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lập trình hướng đối tượng trong Python</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="../../common/slide-style.css">
-    <link rel="shortcut icon" href="../../common/icon.png" type="image/x-icon">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Lập trình hướng đối tượng trong Python</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+	<link rel="stylesheet" href="../../common/slide-style.css">
 </head>
 <body>
 
-<!-- Slide 1: Title -->
-<div class="slide-container full-bg-image" id="slide1" style="background-image: linear-gradient(rgba(255,255,255,0.42), rgba(255,255,255,0.42)), url('../_images/oop-cover.jpg');">
-    <div class="content-overlay">
-        <h1>Lập Trình <span style="color: #10a37f;">Hướng Đối Tượng</span> Trong Python</h1>
-        <p class="subtitle">Lộ trình cho lập trình viên đã biết C++/C#/PHP/JS, chuyển sang Python theo hướng thực chiến</p>
-    </div>
+<!-
+    <link rel="shortcut icon" href="../../common/icon.png" type="image/x-icon">- Slide 1: Title -->
+<div class="slide-container full-bg-image" id="slide1" style="background-image: linear-gradient(rgba(255,255,255,0.42), rgba(255,255,255,0.42)), url('../images/oop-cover.jpg');">
+	<div class="content-overlay">
+		<h1>Lập Trình <span style="color: #10a37f;">Hướng Đối Tượng</span> Trong Python</h1>
+		<p class="subtitle">Lộ trình cho lập trình viên đã biết C++/C#/PHP/JS, chuyển sang Python theo hướng thực chiến</p>
+	</div>
 </div>
 
 <!-- Slide 2: Menu -->
 <div class="slide-container" id="slide2">
-    <h2 class="slide-title">Lộ Trình Nội Dung</h2>
-    <div class="content-area">
-        <div class="tiled-content">
-            <div class="tile">
-                <div class="icon"><i class="fa-solid fa-compass"></i></div>
-                <h3>1. Góc nhìn chuyển hệ</h3>
-                <p>Khác biệt tư duy OOP của Python so với ngôn ngữ kiểu tĩnh quen thuộc.</p>
-            </div>
-            <div class="tile">
-                <div class="icon"><i class="fa-solid fa-cubes"></i></div>
-                <h3>2. Class & Method</h3>
-                <p>Class/Object, self, quy ước property, dunder và quản lý hành vi đối tượng.</p>
-            </div>
-            <div class="tile">
-                <div class="icon"><i class="fa-solid fa-code-branch"></i></div>
-                <h3>3. Pythonic OOP</h3>
-                <p>Phân biệt staticmethod/classmethod, @dataclass, MRO và multiple inheritance.</p>
-            </div>
-            <div class="tile">
-                <div class="icon"><i class="fa-solid fa-laptop-code"></i></div>
-                <h3>4. Bài tập kế thừa</h3>
-                <p>Bài tập + gợi ý + đáp án mẫu theo phong cách code có thể mở rộng.</p>
-            </div>
-        </div>
-    </div>
+	<h2 class="slide-title">Lộ Trình Nội Dung</h2>
+	<div class="content-area">
+		<div class="tiled-content">
+			<div class="tile">
+				<div class="icon"><i class="fa-solid fa-compass"></i></div>
+				<h3>1. Góc nhìn chuyển hệ</h3>
+				<p>Khác biệt tư duy OOP của Python so với ngôn ngữ kiểu tĩnh quen thuộc.</p>
+			</div>
+			<div class="tile">
+				<div class="icon"><i class="fa-solid fa-cubes"></i></div>
+				<h3>2. Class & Method</h3>
+				<p>Class/Object, self, quy ước property, dunder và quản lý hành vi đối tượng.</p>
+			</div>
+			<div class="tile">
+				<div class="icon"><i class="fa-solid fa-code-branch"></i></div>
+				<h3>3. Pythonic OOP</h3>
+				<p>Phân biệt staticmethod/classmethod, @dataclass, MRO và multiple inheritance.</p>
+			</div>
+			<div class="tile">
+				<div class="icon"><i class="fa-solid fa-laptop-code"></i></div>
+				<h3>4. Bài tập kế thừa</h3>
+				<p>Bài tập + gợi ý + đáp án mẫu theo phong cách code có thể mở rộng.</p>
+			</div>
+		</div>
+	</div>
 </div>
 
 <!-- Slide 3: OOP và bối cảnh Python -->
 <div class="slide-container" id="slide3">
-    <h2 class="slide-title">OOP Trong Python: Điểm Chung Và Khác</h2>
-    <div class="content-area">
-        <div class="bullet-list">
-            <ul>
-                <li><i class="fa-solid fa-equals"></i> <strong>Điểm chung:</strong> Vẫn có class, object, kế thừa, đa hình, trừu tượng.</li>
-                <li><i class="fa-solid fa-arrows-left-right"></i> <strong>Khác biệt lớn:</strong> Python không có access modifier cứng, dùng quy ước tên chung.</li>
-                <li><i class="fa-solid fa-hand-pointer"></i> <strong><span class="code-inline">self</span> tường minh:</strong> Method bắt buộc có tham số đầu tiên là <span class="code-inline">self</span>.</li>
-                <li><i class="fa-solid fa-feather"></i> <strong>Duck typing:</strong> Ưu tiên hành vi của object, không quá phụ thuộc kiểu khai báo.</li>
-                <li><i class="fa-solid fa-cube"></i> <strong>Mọi thứ là object:</strong> function/class/module đều có thể truyền như dữ liệu.</li>
-            </ul>
-        </div>
-    </div>
+	<h2 class="slide-title">OOP Trong Python: Điểm Chung Và Khác</h2>
+	<div class="content-area">
+		<div class="bullet-list">
+			<ul>
+				<li><i class="fa-solid fa-equals"></i> <strong>Điểm chung:</strong> Vẫn có class, object, kế thừa, đa hình, trừu tượng.</li>
+				<li><i class="fa-solid fa-arrows-left-right"></i> <strong>Khác biệt lớn:</strong> Python không có access modifier cứng, dùng quy ước tên và discipline của team.</li>
+				<li><i class="fa-solid fa-hand-pointer"></i> <strong><span class="code-inline">self</span> tường minh:</strong> Method instance bắt buộc có tham số đầu tiên là <span class="code-inline">self</span>.</li>
+				<li><i class="fa-solid fa-feather"></i> <strong>Duck typing:</strong> Ưu tiên hành vi của object, không quá phụ thuộc kiểu khai báo.</li>
+				<li><i class="fa-solid fa-cube"></i> <strong>Mọi thứ là object:</strong> function/class/module đều có thể truyền như dữ liệu.</li>
+			</ul>
+		</div>
+	</div>
 </div>
 
 <!-- Slide 3a: Duck typing -->
 <div class="slide-container" id="slide3a">
-    <h2 class="slide-title">Duck Typing Trong Python</h2>
-    <div class="content-area">
-        <div class="two-column" style="align-items: flex-start;">
-            <div>
-                <p><strong>Nguyên tắc:</strong> “Nếu nó đi như vịt và kêu như vịt, thì xem nó như vịt”.</p>
-                <ul>
-                    <li>Không bắt buộc object phải cùng class cha mới dùng được chung hàm.</li>
-                    <li>Chỉ cần object có method/hành vi mà hàm cần gọi.</li>
-                    <li>Giúp code linh hoạt, giảm phụ thuộc theo kiểu dữ liệu cụ thể.</li>
-                    <li>Khi cần an toàn hơn: kết hợp type hints và test.</li>
-                </ul>
-            </div>
-            <div>
-                <div class="code-container">
+	<h2 class="slide-title">Duck Typing Trong Python</h2>
+	<div class="content-area">
+		<div class="two-column" style="align-items: flex-start;">
+			<div>
+				<p><strong>Nguyên tắc:</strong> “Nếu nó đi như vịt, kêu như vịt, thì xem như vịt”.</p>
+				<ul>
+					<li>Không bắt buộc object phải cùng class cha mới dùng được chung hàm.</li>
+					<li>Chỉ cần object có method/hành vi mà hàm cần gọi.</li>
+					<li>Giúp code linh hoạt, giảm coupling theo kiểu dữ liệu cụ thể.</li>
+					<li>Khi cần an toàn hơn: kết hợp type hints và test.</li>
+				</ul>
+			</div>
+			<div>
+				<div class="code-container" style="font-size: 13px;">
 <pre><code><span class="kw">class</span> <span class="cls">Dog</span>:
-    <span class="kw">def</span> <span class="func">speak</span>(self): 
-        <span class="kw">return</span> <span class="str">"Gâu"</span>
+	<span class="kw">def</span> <span class="func">speak</span>(self): <span class="kw">return</span> <span class="str">"Gâu"</span>
 
 <span class="kw">class</span> <span class="cls">Robot</span>:
-    <span class="kw">def</span> <span class="func">speak</span>(self):
-        <span class="kw">return</span> <span class="str">"Xin chào"</span>
+	<span class="kw">def</span> <span class="func">speak</span>(self): <span class="kw">return</span> <span class="str">"Xin chào"</span>
 
 <span class="kw">def</span> <span class="func">talk</span>(obj):
-    <span class="builtin">print</span>(obj.speak())
+	<span class="builtin">print</span>(obj.speak())
 
 talk(Dog())
 talk(Robot())</code></pre>
-                </div>
-            </div>
-        </div>
-    </div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 <!-- Slide 4: Class và Object -->
 <div class="slide-container" id="slide4">
-    <h2 class="slide-title">Class Và Object</h2>
-    <div class="content-area">
-        <div class="two-column" style="align-items: flex-start;">
-            <div>
-                <p><strong>Class</strong> là bản thiết kế. <strong>Object</strong> là thực thể được tạo ra từ class đó.</p>
-                <ul>
-                    <li><span class="code-inline">class Student:</span> định nghĩa khuôn mẫu học viên.</li>
-                    <li><span class="code-inline">an = Student(...)</span> tạo object cụ thể.</li>
-                    <li>Method luôn khai báo <span class="code-inline">self</span> làm tham số đầu tiên.</li>
-                    <li>Không dùng từ khóa <span class="code-inline">new</span> để khởi tạo object.</li>
-                </ul>
-            </div>
-            <div>
-                <div class="code-container">
+	<h2 class="slide-title">Class Và Object</h2>
+	<div class="content-area">
+		<div class="two-column" style="align-items: flex-start;">
+			<div>
+				<p><strong>Class</strong> là bản thiết kế. <strong>Object</strong> là thực thể được tạo ra từ class đó.</p>
+				<ul>
+					<li><span class="code-inline">class Student:</span> định nghĩa khuôn mẫu học viên.</li>
+					<li><span class="code-inline">an = Student(...)</span> tạo object cụ thể.</li>
+					<li>Method instance luôn khai báo <span class="code-inline">self</span> làm tham số đầu tiên.</li>
+				</ul>
+			</div>
+			<div>
+				<div class="code-container">
 <pre><code><span class="kw">class</span> <span class="cls">Student</span>:
-    <span class="kw">def</span> <span class="func">__init__</span>(self, name, age):
-        self.name = name
-        self.age = age
+	<span class="kw">def</span> <span class="func">__init__</span>(self, name, age):
+		self.name = name
+		self.age = age
 
-    <span class="kw">def</span> <span class="func">introduce</span>(self):
-        <span class="kw">return</span> <span class="str">f"Tôi là {self.name}, {self.age} tuổi"</span>
+	<span class="kw">def</span> <span class="func">introduce</span>(self):
+		<span class="kw">return</span> <span class="str">f"Tôi là {self.name}, {self.age} tuổi"</span>
 
 an = <span class="cls">Student</span>(<span class="str">"An"</span>, <span class="builtin">20</span>)
 <span class="builtin">print</span>(an.introduce())</code></pre>
-                </div>
-            </div>
-        </div>
-    </div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 <!-- Slide 4a: Class property vs Object property -->
 <div class="slide-container" id="slide4a">
-    <h2 class="slide-title">Class Property Và Object Property</h2>
-    <div class="content-area">
-        <div class="two-column" style="align-items: flex-start;">
-            <div>
-                <ul>
-                    <li><strong>Class property:</strong> thuộc về class, dùng chung cho mọi object.</li>
-                    <li><strong>Object property:</strong> thuộc từng object, mỗi object có 1 bản riêng.</li>
-                    <li>Sửa class property sẽ ảnh hưởng tất cả object (nếu chưa bị override ở object).</li>
-                </ul>
-            </div>
-            <div>
-                <div class="code-container">
+	<h2 class="slide-title">Class Property Và Object Property</h2>
+	<div class="content-area">
+		<div class="two-column" style="align-items: flex-start;">
+			<div>
+				<ul>
+					<li><strong>Class property:</strong> thuộc về class, dùng chung cho mọi object.</li>
+					<li><strong>Object property (instance property):</strong> thuộc từng object, mỗi object có bản riêng.</li>
+					<li>Sửa class property sẽ ảnh hưởng tất cả object (nếu chưa bị override ở instance).</li>
+					<li>Tránh dùng mutable class property nếu không thật sự muốn chia sẻ dữ liệu.</li>
+				</ul>
+			</div>
+			<div>
+				<div class="code-container" style="font-size: 13px;">
 <pre><code><span class="kw">class</span> <span class="cls">Student</span>:
-    school = <span class="str">"PTIT"</span>          <span class="cmt"># class property</span>
+	school = <span class="str">"PTIT"</span>     <span class="cmt"># class property</span>
 
-    <span class="kw">def</span> <span class="func">__init__</span>(self, name):
-        self.name = name     <span class="cmt"># object property</span>
+	<span class="kw">def</span> <span class="func">__init__</span>(self, name):
+		self.name = name     <span class="cmt"># object property</span>
 
 a = Student(<span class="str">"An"</span>)
 b = Student(<span class="str">"Bình"</span>)
 
 Student.school = <span class="str">"UTE"</span>
 <span class="builtin">print</span>(a.school, b.school)  <span class="cmt"># UTE UTE</span></code></pre>
-                </div>
-            </div>
-        </div>
-    </div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 <!-- Slide 5: Quy ước property + dunder -->
 <div class="slide-container" id="slide5">
-    <h2 class="slide-title">Quy Ước Property Và Dunder Methods</h2>
-    <div class="content-area">
-        <div class="two-column" style="align-items: flex-start;">
-            <div>
-                <ul>
-                    <li><strong>Public:</strong> <span class="code-inline">name</span> — truy cập công khai.</li>
-                    <li><strong>Protected (quy ước):</strong> <span class="code-inline">_score</span> — dùng nội bộ/class con.</li>
-                    <li><strong>Private (name mangling):</strong> <span class="code-inline">__password</span> sẽ được đổi tên thành <span class="code-inline">_ClassName__password</span>.</li>
-                    <li><strong>Dunder phổ biến:</strong></li>
-                    <li><span class="code-inline">__init__</span>: khởi tạo object.</li>
-                    <li><span class="code-inline">__str__</span>: hiển thị object khi print.</li>
-                    <li><span class="code-inline">__repr__</span>: hiển thị kỹ thuật cho debug.</li>
-                    <li><span class="code-inline">__len__</span>: cho phép dùng hàm <span class="code-inline">len()</span>.</li>
-                    <li><span class="code-inline">__eq__</span>: tùy biến so sánh bằng.</li>
-                </ul>
-            </div>
-            <div>
-                <div class="code-container">
+	<h2 class="slide-title">Quy Ước Property Và Dunder Methods</h2>
+	<div class="content-area">
+		<div class="two-column" style="align-items: flex-start;">
+			<div>
+				<ul>
+					<li><strong>Public:</strong> <span class="code-inline">name</span> — truy cập công khai.</li>
+					<li><strong>Protected (quy ước):</strong> <span class="code-inline">_score</span> — dùng nội bộ/class con.</li>
+					<li><strong>Private (name mangling):</strong> <span class="code-inline">__password</span>.</li>
+					<li><strong>Dunder phổ biến:</strong></li>
+					<li><span class="code-inline">__init__</span>: khởi tạo object.</li>
+					<li><span class="code-inline">__str__</span>: hiển thị object khi print.</li>
+					<li><span class="code-inline">__repr__</span>: hiển thị kỹ thuật cho debug.</li>
+					<li><span class="code-inline">__len__</span>: cho phép dùng hàm <span class="code-inline">len()</span>.</li>
+					<li><span class="code-inline">__eq__</span>: tùy biến so sánh bằng.</li>
+				</ul>
+			</div>
+			<div>
+				<div class="code-container" style="font-size: 13px;">
 <pre><code><span class="kw">class</span> <span class="cls">Student</span>:
-    <span class="kw">def</span> <span class="func">__init__</span>(self, name, score):
-        self.name = name          <span class="cmt"># public</span>
-        self._score = score       <span class="cmt"># protected</span>
-        self.__token = <span class="str">"xyz"</span>      <span class="cmt"># private</span>
+	<span class="kw">def</span> <span class="func">__init__</span>(self, name, score):
+		self.name = name          <span class="cmt"># public</span>
+		self._score = score       <span class="cmt"># protected</span>
+		self.__token = <span class="str">"xyz"</span>    <span class="cmt"># private</span>
 
-    <span class="kw">def</span> <span class="func">__str__</span>(self):
-        <span class="kw">return</span> <span class="str">f"Student({self.name})"</span>
+	<span class="kw">def</span> <span class="func">__str__</span>(self):
+		<span class="kw">return</span> <span class="str">f"Student({self.name})"</span>
 
-    <span class="kw">def</span> <span class="func">__eq__</span>(self, other):
-        <span class="kw">return</span> self.name == other.name</code></pre>
-                </div>
-            </div>
-        </div>
-    </div>
+	<span class="kw">def</span> <span class="func">__eq__</span>(self, other):
+		<span class="kw">return</span> self.name == other.name</code></pre>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 <!-- Slide 6: staticmethod vs classmethod -->
 <div class="slide-container" id="slide6">
-    <h2 class="slide-title">Phân Biệt <span class="code-inline">@staticmethod</span> Và <span class="code-inline">@classmethod</span></h2>
-    <div class="content-area">
-        <div class="two-column" style="align-items: flex-start;">
-            <div>
-                <ul>
-                    <li><strong>@staticmethod</strong>: không nhận <span class="code-inline">self</span> hay <span class="code-inline">cls</span>.</li>
-                    <li>Phù hợp cho hàm tiện ích liên quan ngữ nghĩa class.</li>
-                    <li><strong>@classmethod</strong>: nhận <span class="code-inline">cls</span>, thường dùng làm factory method.</li>
-                    <li>Classmethod tạo object theo nhiều cách khởi tạo khác nhau.</li>
-                    <li>Rule nhanh: cần truy cập class -> classmethod; không cần -> staticmethod.</li>
-                </ul>
-            </div>
-            <div>
-                <div class="code-container">
+	<h2 class="slide-title">Phân Biệt @staticmethod Và @classmethod</h2>
+	<div class="content-area">
+		<div class="two-column" style="align-items: flex-start;">
+			<div>
+				<ul>
+					<li><strong>@staticmethod</strong>: không nhận <span class="code-inline">self</span> hay <span class="code-inline">cls</span>.</li>
+					<li>Phù hợp cho hàm tiện ích liên quan ngữ nghĩa class.</li>
+					<li><strong>@classmethod</strong>: nhận <span class="code-inline">cls</span>, thường dùng làm factory method.</li>
+					<li>Classmethod tạo object theo nhiều cách khởi tạo khác nhau.</li>
+					<li>Rule nhanh: cần truy cập class -> classmethod; không cần -> staticmethod.</li>
+				</ul>
+			</div>
+			<div>
+				<div class="code-container" style="font-size: 13px;">
 <pre><code><span class="kw">class</span> <span class="cls">User</span>:
-    <span class="kw">def</span> <span class="func">__init__</span>(self, name, age):
-        self.name, self.age = name, age
+	<span class="kw">def</span> <span class="func">__init__</span>(self, name, age):
+		self.name, self.age = name, age
 
-    <span class="decor">@classmethod</span>
-    <span class="kw">def</span> <span class="func">from_birth_year</span>(cls, name, year):
-        <span class="kw">return</span> cls(name, <span class="builtin">2026</span> - year)
+	<span class="decor">@classmethod</span>
+	<span class="kw">def</span> <span class="func">from_birth_year</span>(cls, name, year):
+		<span class="kw">return</span> cls(name, <span class="builtin">2026</span> - year)
 
-    <span class="decor">@staticmethod</span>
-    <span class="kw">def</span> <span class="func">is_adult</span>(age):
-        <span class="kw">return</span> age &gt;= <span class="builtin">18</span></code></pre>
-                </div>
-            </div>
-        </div>
-    </div>
+	<span class="decor">@staticmethod</span>
+	<span class="kw">def</span> <span class="func">is_adult</span>(age):
+		<span class="kw">return</span> age &gt;= <span class="builtin">18</span></code></pre>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 <!-- Slide 7: Dataclass -->
 <div class="slide-container" id="slide7">
-    <h2 class="slide-title"><span class="code-inline">@dataclass</span>: Khi Nào Dùng Và Lợi Ích</h2>
-    <div class="content-area">
-        <div class="two-column" style="align-items: flex-start;">
-            <div>
-                <p><strong>@dataclass</strong> phù hợp với class chủ yếu để lưu dữ liệu (DTO, config, response model).</p>
-                <ul>
-                    <li>Tự sinh <span class="code-inline">__init__</span>, <span class="code-inline">__repr__</span>, <span class="code-inline">__eq__</span>.</li>
-                    <li>Giảm boilerplate so với viết class thuần thủ công.</li>
-                    <li>Kết hợp type hints giúp IDE kiểm tra tốt hơn.</li>
-                    <li>Dùng <span class="code-inline">frozen=True</span> nếu muốn <strong>khóa</strong> object.</li>
-                    <li><strong>Lưu ý class property:</strong> dùng <span class="code-inline">ClassVar</span> để đánh dấu thuộc tính cấp class.</li>
-                    <li><strong>Lưu ý object property mutable:</strong> dùng <span class="code-inline">field(default_factory=list)</span> thay vì <span class="code-inline">[]</span> để tránh dùng chung dữ liệu.</li>
-                </ul>
-            </div>
-            <div>
-                <div class="code-container">
+	<h2 class="slide-title">@dataclass: Khi Nào Dùng Và Lợi Ích</h2>
+	<div class="content-area">
+		<div class="two-column" style="align-items: flex-start;">
+			<div>
+				<p><strong>@dataclass</strong> phù hợp với class chủ yếu để lưu dữ liệu (DTO, config, response model).</p>
+				<ul>
+					<li>Tự sinh <span class="code-inline">__init__</span>, <span class="code-inline">__repr__</span>, <span class="code-inline">__eq__</span>.</li>
+					<li>Giảm boilerplate so với viết class thuần thủ công.</li>
+					<li>Kết hợp type hints giúp IDE kiểm tra tốt hơn.</li>
+					<li>Dùng <span class="code-inline">frozen=True</span> nếu muốn immutable object.</li>
+					<li><strong>Lưu ý class property:</strong> dùng <span class="code-inline">ClassVar</span> để đánh dấu thuộc tính cấp class, không đưa vào <span class="code-inline">__init__</span>.</li>
+					<li><strong>Lưu ý object property mutable:</strong> dùng <span class="code-inline">field(default_factory=list)</span> thay vì <span class="code-inline">[]</span> để tránh dùng chung dữ liệu.</li>
+				</ul>
+			</div>
+			<div>
+				<div class="code-container" style="font-size: 13px;">
 <pre><code><span class="kw">from</span> dataclasses <span class="kw">import</span> dataclass, field
 <span class="kw">from</span> typing <span class="kw">import</span> ClassVar
 
 <span class="decor">@dataclass</span>
 <span class="kw">class</span> <span class="cls">Product</span>:
-    tax_rate: ClassVar[<span class="builtin">float</span>] = <span class="builtin">0.1</span>  <span class="cmt"># class property</span>
-    name: <span class="builtin">str</span>
-    price: <span class="builtin">float</span>
-    tags: <span class="builtin">list</span>[<span class="builtin">str</span>] = field(default_factory=<span class="builtin">list</span>)
+	tax_rate: ClassVar[<span class="builtin">float</span>] = <span class="builtin">0.1</span>  <span class="cmt"># class property</span>
+	name: <span class="builtin">str</span>
+	price: <span class="builtin">float</span>
+	tags: <span class="builtin">list</span>[<span class="builtin">str</span>] = field(default_factory=<span class="builtin">list</span>)
 
 p = <span class="cls">Product</span>(<span class="str">"Bàn phím"</span>, <span class="builtin">590000</span>)
 p.tags.append(<span class="str">"gaming"</span>)</code></pre>
-                </div>
-            </div>
-        </div>
-    </div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 <!-- Slide 8: Encapsulation -->
 <div class="slide-container" id="slide8">
-    <h2 class="slide-title">Trụ Cột 1: Đóng Gói (Encapsulation)</h2>
-    <div class="content-area">
-        <div class="two-column" style="align-items: flex-start;">
-            <div>
-                <ul>
-                    <li>Ẩn dữ liệu nội bộ để tránh thao tác sai trực tiếp.</li>
-                    <li>Kết hợp <span class="code-inline">@property</span> và setter để kiểm tra dữ liệu.</li>
-                    <li>Thiết kế method class rõ ràng: cái nào cho phép gọi từ bên ngoài.</li>
-                </ul>
-            </div>
-            <div>
-                <div class="code-container">
+	<h2 class="slide-title">Trụ Cột 1: Đóng Gói (Encapsulation)</h2>
+	<div class="content-area">
+		<div class="two-column" style="align-items: flex-start;">
+			<div>
+				<ul>
+					<li>Ẩn dữ liệu nội bộ để tránh thao tác sai trực tiếp.</li>
+					<li>Kết hợp <span class="code-inline">@property</span> và setter để validate dữ liệu.</li>
+					<li>Thiết kế API class rõ ràng: cái nào cho phép gọi từ bên ngoài.</li>
+				</ul>
+			</div>
+			<div>
+				<div class="code-container" style="font-size: 13px;">
 <pre><code><span class="kw">class</span> <span class="cls">BankAccount</span>:
-    <span class="kw">def</span> <span class="func">__init__</span>(self, owner, balance=<span class="builtin">0</span>):
-        self.owner = owner
-        self._balance = balance
+	<span class="kw">def</span> <span class="func">__init__</span>(self, owner, balance=<span class="builtin">0</span>):
+		self.owner = owner
+		self._balance = balance
 
-    <span class="decor">@property</span>
-    <span class="kw">def</span> <span class="func">balance</span>(self):
-        <span class="kw">return</span> self._balance
+	<span class="decor">@property</span>
+	<span class="kw">def</span> <span class="func">balance</span>(self):
+		<span class="kw">return</span> self._balance
 
-    <span class="kw">def</span> <span class="func">deposit</span>(self, amount):
-        <span class="kw">if</span> amount &gt; <span class="builtin">0</span>: self._balance += amount</code></pre>
-                </div>
-            </div>
-        </div>
-    </div>
+	<span class="kw">def</span> <span class="func">deposit</span>(self, amount):
+		<span class="kw">if</span> amount &gt; <span class="builtin">0</span>: self._balance += amount</code></pre>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 <!-- Slide 9: Inheritance -->
 <div class="slide-container" id="slide9">
-    <h2 class="slide-title">Trụ Cột 2: Kế Thừa (Inheritance)</h2>
-    <div class="content-area">
-        <div class="two-column" style="align-items: flex-start;">
-            <div>
-                <ul>
-                    <li>Class con tái sử dụng và mở rộng logic từ class cha.</li>
-                    <li>Dùng <span class="code-inline">super()</span> nhất quán trong constructor/method ghi đè.</li>
-                    <li>Chỉ dùng kế thừa khi quan hệ thật sự là <em>is-a</em>.</li>
-                </ul>
-            </div>
-            <div>
-                <div class="code-container">
+	<h2 class="slide-title">Trụ Cột 2: Kế Thừa (Inheritance)</h2>
+	<div class="content-area">
+		<div class="two-column" style="align-items: flex-start;">
+			<div>
+				<ul>
+					<li>Class con tái sử dụng và mở rộng logic từ class cha.</li>
+					<li>Dùng <span class="code-inline">super()</span> nhất quán trong constructor/method ghi đè.</li>
+					<li>Chỉ dùng kế thừa khi quan hệ thật sự là <em>is-a</em>.</li>
+				</ul>
+			</div>
+			<div>
+				<div class="code-container" style="font-size: 13px;">
 <pre><code><span class="kw">class</span> <span class="cls">Animal</span>:
-    <span class="kw">def</span> <span class="func">speak</span>(self): 
-        <span class="kw">return</span> <span class="str">"Âm thanh chung"</span>
+	<span class="kw">def</span> <span class="func">speak</span>(self): <span class="kw">return</span> <span class="str">"Âm thanh chung"</span>
 
 <span class="kw">class</span> <span class="cls">Dog</span>(<span class="cls">Animal</span>):
-    <span class="kw">def</span> <span class="func">speak</span>(self): 
-        <span class="kw">return</span> <span class="str">"Gâu gâu"</span>
+	<span class="kw">def</span> <span class="func">speak</span>(self): <span class="kw">return</span> <span class="str">"Gâu gâu"</span>
 
 <span class="kw">class</span> <span class="cls">Cat</span>(<span class="cls">Animal</span>):
-    <span class="kw">def</span> <span class="func">speak</span>(self):
-        <span class="kw">return</span> <span class="str">"Meo meo"</span></code></pre>
-                </div>
-            </div>
-        </div>
-    </div>
+	<span class="kw">def</span> <span class="func">speak</span>(self): <span class="kw">return</span> <span class="str">"Meo meo"</span></code></pre>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 <!-- Slide 10: Polymorphism + Abstraction -->
 <div class="slide-container" id="slide10">
-    <h2 class="slide-title">Trụ Cột 3-4: Đa Hình Và Trừu Tượng</h2>
-    <div class="content-area">
-        <div class="two-column" style="align-items: flex-start;">
-            <div>
-                <ul>
-                    <li><strong>Đa hình:</strong> Cùng method name, hành vi khác nhau theo object.</li>
-                    <li><strong>Trừu tượng:</strong> Dùng <span class="code-inline">ABC</span> để ép class con triển khai method bắt buộc.</li>
-                    <li>Giúp code mở rộng tốt và giảm if/else theo type.</li>
-                </ul>
-            </div>
-            <div>
-                <div class="code-container">
+	<h2 class="slide-title">Trụ Cột 3-4: Đa Hình Và Trừu Tượng</h2>
+	<div class="content-area">
+		<div class="two-column" style="align-items: flex-start;">
+			<div>
+				<ul>
+					<li><strong>Đa hình:</strong> Cùng method name, hành vi khác nhau theo object.</li>
+					<li><strong>Trừu tượng:</strong> Dùng <span class="code-inline">ABC</span> để ép class con triển khai method bắt buộc.</li>
+					<li>Giúp code mở rộng tốt và giảm if/else theo type.</li>
+				</ul>
+			</div>
+			<div>
+				<div class="code-container" style="font-size: 13px;">
 <pre><code><span class="kw">from</span> abc <span class="kw">import</span> ABC, abstractmethod
 
 <span class="kw">class</span> <span class="cls">Gateway</span>(ABC):
-    <span class="decor">@abstractmethod</span>
-    <span class="kw">def</span> <span class="func">pay</span>(self, amount): 
-        <span class="kw">pass</span>
+	<span class="decor">@abstractmethod</span>
+	<span class="kw">def</span> <span class="func">pay</span>(self, amount): <span class="kw">pass</span>
 
 <span class="kw">class</span> <span class="cls">Momo</span>(<span class="cls">Gateway</span>):
-    <span class="kw">def</span> <span class="func">pay</span>(self, amount): 
-        <span class="kw">return</span> <span class="str">f"Momo {amount}"</span>
+	<span class="kw">def</span> <span class="func">pay</span>(self, amount): <span class="kw">return</span> <span class="str">f"Momo {amount}"</span>
 
 <span class="kw">class</span> <span class="cls">Bank</span>(<span class="cls">Gateway</span>):
-    <span class="kw">def</span> <span class="func">pay</span>(self, amount):
-        <span class="kw">return</span> <span class="str">f"Bank {amount}"</span></code></pre>
-                </div>
-            </div>
-        </div>
-    </div>
+	<span class="kw">def</span> <span class="func">pay</span>(self, amount): <span class="kw">return</span> <span class="str">f"Bank {amount}"</span></code></pre>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 <!-- Slide 11: MRO -->
 <div class="slide-container" id="slide11">
-    <h2 class="slide-title">Multiple Inheritance, super() Và MRO</h2>
-    <div class="content-area">
-        <div class="two-column" style="align-items: flex-start;">
-            <div>
-                <ul>
-                    <li>Python cho phép multiple inheritance.</li>
-                    <li>Thứ tự gọi method theo MRO (Method Resolution Order).</li>
-                    <li>Kiểm tra bằng <span class="code-inline">ClassName.mro()</span>.</li>
-                </ul>
-            </div>
-            <div>
-                <div class="code-container">
-<pre><code><span class="kw">class</span> <span class="cls">A</span>: 
-    <span class="kw">def</span> <span class="func">log</span>(self): 
-        <span class="kw">return</span> <span class="str">"A"</span>
-<span class="kw">class</span> <span class="cls">B</span>(<span class="cls">A</span>):
-    <span class="kw">def</span> <span class="func">log</span>(self): 
-        <span class="kw">return</span> <span class="str">"B->"</span> + super().log()
-
-<span class="kw">class</span> <span class="cls">C</span>(<span class="cls">A</span>): 
-    <span class="kw">def</span> <span class="func">log</span>(self): 
-        <span class="kw">return</span> <span class="str">"C->"</span> + super().log()
-
-<span class="kw">class</span> <span class="cls">D</span>(<span class="cls">B</span>, <span class="cls">C</span>):
-    <span class="kw">pass</span>
-
+	<h2 class="slide-title">Multiple Inheritance, super() Và MRO</h2>
+	<div class="content-area">
+		<div class="two-column" style="align-items: flex-start;">
+			<div>
+				<ul>
+					<li>Python cho phép multiple inheritance.</li>
+					<li>Thứ tự gọi method theo MRO (Method Resolution Order).</li>
+					<li>Kiểm tra bằng <span class="code-inline">ClassName.mro()</span>.</li>
+				</ul>
+			</div>
+			<div>
+				<div class="code-container" style="font-size: 13px;">
+<pre><code><span class="kw">class</span> <span class="cls">A</span>: <span class="kw">def</span> <span class="func">log</span>(self): <span class="kw">return</span> <span class="str">"A"</span>
+<span class="kw">class</span> <span class="cls">B</span>(<span class="cls">A</span>): <span class="kw">def</span> <span class="func">log</span>(self): <span class="kw">return</span> <span class="str">"B->"</span> + super().log()
+<span class="kw">class</span> <span class="cls">C</span>(<span class="cls">A</span>): <span class="kw">def</span> <span class="func">log</span>(self): <span class="kw">return</span> <span class="str">"C->"</span> + super().log()
+<span class="kw">class</span> <span class="cls">D</span>(<span class="cls">B</span>, <span class="cls">C</span>): <span class="kw">pass</span>
 <span class="builtin">print</span>(D().log())  <span class="cmt"># B->C->A</span></code></pre>
-                </div>
-            </div>
-        </div>
-    </div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 <!-- Slide 12: Bài tập kế thừa -->
 <div class="slide-container section-slide" id="slide12">
-    <div class="section-title-layout">
-        <hr>
-        <h2>Bài Tập Chuyên Đề Kế Thừa</h2>
-        <p><strong>Đề bài:</strong> Xây hệ thống quản lý nhân sự với class cha <span class="code-inline">Employee</span> gồm <span class="code-inline">name</span>, <span class="code-inline">base_salary</span> và method <span class="code-inline">calculate_salary()</span>. <br><br>
-        Tạo <span class="code-inline">FullTimeEmployee</span> và <span class="code-inline">PartTimeEmployee</span>, ghi đè method tính lương và in kết quả theo đa hình.</p>
-    </div>
+	<div class="section-title-layout">
+		<hr>
+		<h2>Bài Tập Chuyên Đề Kế Thừa</h2>
+		<p><strong>Đề bài:</strong> Xây hệ thống quản lý nhân sự với class cha <span class="code-inline">Employee</span> gồm <span class="code-inline">name</span>, <span class="code-inline">base_salary</span> và method <span class="code-inline">calculate_salary()</span>. <br><br>
+		Tạo <span class="code-inline">FullTimeEmployee</span> và <span class="code-inline">PartTimeEmployee</span>, ghi đè method tính lương và in kết quả theo đa hình.</p>
+	</div>
 </div>
 
 <!-- Slide 13: Gợi ý -->
 <div class="slide-container" id="slide13">
-    <h2 class="slide-title">Gợi Ý Triển Khai Bài Tập</h2>
-    <div class="content-area">
-        <div class="bullet-list">
-            <ul>
-                <li><i class="fa-solid fa-1"></i> Tạo class cha <span class="code-inline">Employee</span> có constructor chung và <span class="code-inline">calculate_salary()</span>.</li>
-                <li><i class="fa-solid fa-2"></i> Ở class con dùng <span class="code-inline">super().__init__()</span> để tái sử dụng logic khởi tạo.</li>
-                <li><i class="fa-solid fa-3"></i> Ghi đè method tính lương theo từng loại nhân sự.</li>
-                <li><i class="fa-solid fa-4"></i> Duyệt list nhân sự và gọi cùng một method để thể hiện đa hình.</li>
-            </ul>
-        </div>
-    </div>
+	<h2 class="slide-title">Gợi Ý Triển Khai Bài Tập</h2>
+	<div class="content-area">
+		<div class="bullet-list">
+			<ul>
+				<li><i class="fa-solid fa-1"></i> Tạo class cha <span class="code-inline">Employee</span> có constructor chung và <span class="code-inline">calculate_salary()</span>.</li>
+				<li><i class="fa-solid fa-2"></i> Ở class con dùng <span class="code-inline">super().__init__()</span> để tái sử dụng logic khởi tạo.</li>
+				<li><i class="fa-solid fa-3"></i> Ghi đè method tính lương theo từng loại nhân sự.</li>
+				<li><i class="fa-solid fa-4"></i> Duyệt list nhân sự và gọi cùng một method để thể hiện đa hình.</li>
+			</ul>
+		</div>
+	</div>
 </div>
 
 <!-- Slide 14: Đáp án mẫu -->
 <div class="slide-container" id="slide14">
-    <h2 class="slide-title">Đáp Án Mẫu: Bài Tập Kế Thừa</h2>
-    <div class="content-area">
-        <div class="code-container" style="font-size: 14px;">
+	<h2 class="slide-title">Đáp Án Mẫu: Bài Tập Kế Thừa</h2>
+	<div class="content-area">
+		<div class="code-container" style="font-size: 12px;">
 <pre><code><span class="kw">class</span> <span class="cls">Employee</span>:
-    <span class="kw">def</span> <span class="func">__init__</span>(self, name, base):
-        self.name, self.base = name, base
-    <span class="kw">def</span> <span class="func">calculate_salary</span>(self): <span class="kw">return</span> self.base
+	<span class="kw">def</span> <span class="func">__init__</span>(self, name, base): self.name, self.base = name, base
+	<span class="kw">def</span> <span class="func">calculate_salary</span>(self): <span class="kw">return</span> self.base
 
 <span class="kw">class</span> <span class="cls">FullTimeEmployee</span>(<span class="cls">Employee</span>):
-    <span class="kw">def</span> <span class="func">__init__</span>(self, name, base, bonus):
-        super().__init__(name, base)
-        self.bonus = bonus
-    <span class="kw">def</span> <span class="func">calculate_salary</span>(self):
-        <span class="kw">return</span> self.base + self.bonus
+	<span class="kw">def</span> <span class="func">__init__</span>(self, name, base, bonus): super().__init__(name, base); self.bonus = bonus
+	<span class="kw">def</span> <span class="func">calculate_salary</span>(self): <span class="kw">return</span> self.base + self.bonus
 
 <span class="kw">class</span> <span class="cls">PartTimeEmployee</span>(<span class="cls">Employee</span>):
-    <span class="kw">def</span> <span class="func">__init__</span>(self, name, rate, hours):
-        super().__init__(name, <span class="builtin">0</span>)
-        self.rate, self.hours = rate, hours
-    <span class="kw">def</span> <span class="func">calculate_salary</span>(self):
-        <span class="kw">return</span> self.rate * self.hours
+	<span class="kw">def</span> <span class="func">__init__</span>(self, name, rate, hours): super().__init__(name, <span class="builtin">0</span>); self.rate, self.hours = rate, hours
+	<span class="kw">def</span> <span class="func">calculate_salary</span>(self): <span class="kw">return</span> self.rate * self.hours
 
 staffs = [FullTimeEmployee(<span class="str">"An"</span>, <span class="builtin">12_000_000</span>, <span class="builtin">2_000_000</span>), PartTimeEmployee(<span class="str">"Bình"</span>, <span class="builtin">120_000</span>, <span class="builtin">80</span>)]
-<span class="kw">for</span> emp <span class="kw">in</span> staffs:
-    <span class="builtin">print</span>(emp.name, emp.calculate_salary())</code></pre>
-        </div>
-    </div>
+<span class="kw">for</span> emp <span class="kw">in</span> staffs: <span class="builtin">print</span>(emp.name, emp.calculate_salary())</code></pre>
+		</div>
+	</div>
 </div>
 
 <script src="../../common/slide-controller.js"></script>
