@@ -57,7 +57,8 @@
     // Nút lùi slide
     const backButton = document.createElement('button');
     backButton.type = 'button';
-    backButton.setAttribute('aria-label', 'Slide trước');
+    backButton.setAttribute('aria-label', 'Slide trước (nhấn phím mũi tên trái để chuyển nhanh)');
+    backButton.setAttribute('title', 'Slide trước (nhấn phím mũi tên trái để chuyển nhanh)');
     backButton.textContent = '‹';
 
     // Ô nhập số trang để nhảy nhanh
@@ -68,7 +69,8 @@
     // Nút tiến slide
     const nextButton = document.createElement('button');
     nextButton.type = 'button';
-    nextButton.setAttribute('aria-label', 'Slide tiếp theo');
+    nextButton.setAttribute('aria-label', 'Slide tiếp theo (nhấn phím mũi tên phải để chuyển nhanh)');
+    nextButton.setAttribute('title', 'Slide tiếp theo (nhấn phím mũi tên phải để chuyển nhanh)');
     nextButton.textContent = '›';
 
     nav.append(backButton, indexInput, nextButton);
@@ -199,6 +201,12 @@
     });
 
     indexInput.addEventListener('blur', parseInput);
+
+    // Khi focus vào ô input thì chọn phần nội dung trước dấu "/" để dễ chỉnh sửa
+    indexInput.addEventListener('focus', () => {
+        const [currentPart] = indexInput.value.split('/');
+        indexInput.setSelectionRange(0, currentPart.length);
+    });
 
     // Hỗ trợ phím mũi tên trái/phải để chuyển slide nhanh
     document.addEventListener('keydown', (event) => {

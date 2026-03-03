@@ -118,7 +118,7 @@ body {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    justify-content: center;
+    margin-top: 20px;
     width: 100%;
 }
 
@@ -216,7 +216,7 @@ body {
 }
 
 .bullet-list {
-    max-width: 1000px;
+    max-width: 1100px;
     width: 100%;
 }
 
@@ -397,6 +397,10 @@ body {
     font-family: monospace;
     font-size: 18px;
     color: #d92d20;
+}
+.slide-title .code-inline {
+    font-size: 36px;
+    padding-bottom: 5px;
 }
 
 /* SLIDE CONTROLLER */
