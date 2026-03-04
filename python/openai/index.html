@@ -113,6 +113,13 @@
                 </div>
             </div>
             <div style="align-self: flex-start;">
+                <p><strong>4. Lưu lại thông tin package đã cài đặt:</strong><br>
+                <div class="code-container" style="padding: 15px; margin-bottom: 20px;">
+<pre><code><span class="cmt"># Lưu thông tin package vào requirements.txt </span>
+pip freeze > requirements.txt
+<span class="cmt"># Sau này khi deploy hoặc chuyển máy, chỉ cần chạy:</span>
+pip install -r requirements.txt</code></pre>
+                </div>
                 <p><strong>Giải thích chi tiết:</strong></p>
                 <ul>
                     <li>Sử dụng <span class="code-inline">.venv</span> giúp thư mục môi trường được ẩn đi, tránh gây rối mắt trong cấu trúc project.</li>

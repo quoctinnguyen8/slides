@@ -115,6 +115,16 @@
     nav.append(backButton, indexInput, nextButton);
     document.body.appendChild(nav);
 
+    // Nút home, để quay về trang chủ
+    const homeButton = document.createElement('button');
+    homeButton.type = 'button';
+    homeButton.className = 'slide-home-btn';
+    homeButton.setAttribute('aria-label', 'Trang chủ');
+    homeButton.innerHTML = '<i class="fa-solid fa-house" aria-hidden="true"></i>';
+    homeButton.addEventListener('click', () => {
+        location.href = '/';
+    });
+
     // Nút in slide (mở hộp thoại in mặc định của trình duyệt)
     const printButton = document.createElement('button');
     printButton.type = 'button';
@@ -133,7 +143,7 @@
     // Gom các nút hành động góc phải vào một cụm để dễ ẩn/hiện sau này
     const topActions = document.createElement('div');
     topActions.className = 'slide-top-actions';
-    topActions.append(printButton, fullscreenButton);
+    topActions.append(homeButton, printButton, fullscreenButton);
     document.body.appendChild(topActions);
 
     // Kiểm tra trạng thái full screen hiện tại

@@ -183,27 +183,8 @@ body.slide-loading .slide-top-actions {
     backface-visibility: hidden;
 }
 
-.slide-print-btn {
-    width: 44px;
-    height: 44px;
-    border: 1px solid #d1d5db;
-    border-radius: 10px;
-    background: rgba(255, 255, 255, 0.95);
-    color: #4b5563;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    font-size: 18px;
-    transition: background-color 200ms ease, color 200ms ease;
-}
-
-.slide-print-btn:hover {
-    background: #ffffff;
-    color: #10a37f;
-}
-
+.slide-home-btn,
+.slide-print-btn,
 .slide-fullscreen-btn {
     width: 44px;
     height: 44px;
@@ -220,6 +201,8 @@ body.slide-loading .slide-top-actions {
     transition: background-color 200ms ease, color 200ms ease;
 }
 
+.slide-home-btn:hover,
+.slide-print-btn:hover,
 .slide-fullscreen-btn:hover {
     background: #ffffff;
     color: #10a37f;
