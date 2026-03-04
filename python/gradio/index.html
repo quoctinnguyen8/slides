@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phát triển nhanh ứng dụng với Gradio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../common/slide-style-1.css">
+    <link rel="stylesheet" href="../../common/slide-controller.css">
+    <link rel="shortcut icon" href="../../common/icon.png" type="image/x-icon">
+</head>
+<body>
+
+<!-- Slide 1: Mở đầu -->
+<div class="slide-container section-slide" id="slide1">
+    <div class="section-title-layout" style="max-width: 980px; text-align: center;">
+        <hr>
+        <h1 style="font-size: 64px; margin-bottom: 20px;">Phát Triển Nhanh Ứng Dụng Với <span style="color: #10a37f;">Gradio</span></h1>
+        <p class="subtitle" style="max-width: 900px; margin: 0 auto;">Từ giao diện cơ bản đến ứng dụng AI có nhiều tab, state và triển khai lên Hugging Face Spaces.</p>
+    </div>
+</div>
+
+<!-- Slide 2: Tài liệu tham khảo -->
+<div class="slide-container" id="slide2">
+    <h2 class="slide-title">Tài Liệu Tham Khảo</h2>
+    <div class="content-area">
+        <div class="bullet-list">
+            <ul>
+                <li><i class="fa-solid fa-book-open"></i> <strong>Gradio Docs:</strong> Tài liệu chính thức hướng dẫn component, Blocks, ChatInterface, state và triển khai.</li>
+                <li><i class="fa-brands fa-github"></i> <strong>Gradio GitHub:</strong> Mã nguồn và ví dụ thực tế để học cách tổ chức app.</li>
+                <li><i class="fa-solid fa-cloud"></i> <strong>Hugging Face Spaces:</strong> Nền tảng host app Gradio miễn phí cho demo.</li>
+                <li><i class="fa-solid fa-robot"></i> <strong>OpenAI API Docs:</strong> Tham khảo khi tích hợp chatbot dùng model ngôn ngữ.</li>
+                <li><i class="fa-brands fa-python"></i> <strong>Python Docs:</strong> Môi trường ảo, package management và xử lý dữ liệu cơ bản.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 3: Nội dung học -->
+<div class="slide-container" id="slide3">
+    <h2 class="slide-title">Nội Dung Học (Tổng Quan)</h2>
+    <div class="content-area">
+        <div class="tiled-content">
+            <div class="tile">
+                <div class="icon"><i class="fa-solid fa-compass"></i></div>
+                <h3>Phần 1: Nền tảng</h3>
+                <p>Tổng quan Gradio, ưu nhược điểm, giao diện cơ bản và ChatInterface.</p>
+            </div>
+            <div class="tile">
+                <div class="icon"><i class="fa-solid fa-sliders"></i></div>
+                <h3>Phần 2: Thành phần UI</h3>
+                <p>Các control phổ biến, xây layout với Blocks, Row, Column, Tab và quản lý State.</p>
+            </div>
+            <div class="tile">
+                <div class="icon"><i class="fa-solid fa-laptop-code"></i></div>
+                <h3>Phần 3: Thực hành</h3>
+                <p>Bài tập chatbox dùng OpenAI API và bài tập build chatbox thủ công đa tab.</p>
+            </div>
+            <div class="tile">
+                <div class="icon"><i class="fa-solid fa-rocket"></i></div>
+                <h3>Phần 4: Hoàn thiện</h3>
+                <p>Tùy biến giao diện, áp dụng theme có sẵn và triển khai lên Hugging Face.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 4: Gradio là gì -->
+<div class="slide-container" id="slide4">
+    <h2 class="slide-title">Gradio Là Gì? Vì Sao Nên Dùng?</h2>
+    <div class="content-area">
+        <div class="two-column" style="align-items: flex-start;">
+            <div>
+                <h3>Gradio là gì?</h3>
+                <p>Gradio là thư viện Python giúp tạo giao diện web cho mô hình AI hoặc hàm Python chỉ với vài dòng code.</p>
+                <h3 style="margin-top: 25px;">Vì sao cần dùng?</h3>
+                <ul>
+                    <li>Prototype cực nhanh để demo ý tưởng với đội ngũ hoặc khách hàng.</li>
+                    <li>Không cần viết frontend phức tạp (HTML/CSS/JS) ở giai đoạn đầu.</li>
+                    <li>Dễ tích hợp mô hình ML/LLM, API nội bộ và dữ liệu thực tế.</li>
+                </ul>
+            </div>
+            <div>
+                <h3>Ưu điểm</h3>
+                <ul>
+                    <li>Tạo app tương tác trong thời gian ngắn.</li>
+                    <li>Nhiều component dựng sẵn: text, ảnh, audio, chat, file.</li>
+                    <li>Hỗ trợ chia tab, state, event rõ ràng.</li>
+                    <li>Triển khai nhanh lên Hugging Face Spaces.</li>
+                </ul>
+                <h3 style="margin-top: 25px;">Hạn chế</h3>
+                <ul>
+                    <li>Khả năng tùy biến giao diện sâu không linh hoạt bằng framework frontend chuyên biệt.</li>
+                    <li>Chỉ phù hợp với các ứng dụng đơn giản, không nên dùng cho hệ thống phức tạp.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 5: Giao diện cơ bản + pip install -->
+<div class="slide-container" id="slide5">
+    <h2 class="slide-title">Giao Diện Cơ Bản Với Gradio</h2>
+    <div class="content-area">
+        <div class="two-column" style="align-items: flex-start;">
+            <div>
+                <p><strong>Cài đặt package: </strong><span class="code-inline">pip install gradio</span></p>
+                <p><strong>Giải thích tham số:</strong></p>
+                <ul>
+                    <li><span class="code-inline">fn</span>: Hàm xử lý chính. Nhận dữ liệu từ input và trả về dữ liệu cho output.</li>
+                    <li><span class="code-inline">inputs</span>: Component đầu vào (Textbox, Image, Audio...). Có thể là 1 component hoặc danh sách.</li>
+                    <li><span class="code-inline">outputs</span>: Component hiển thị kết quả. Kiểu trả về của hàm cần khớp với output.</li>
+                    <li><span class="code-inline">title</span>: Tiêu đề lớn của ứng dụng trên giao diện.</li>
+                    <li><span class="code-inline">description</span>: Mô tả ngắn hướng dẫn người dùng cách sử dụng app.</li>
+                    <li><span class="code-inline">examples</span>: Danh sách dữ liệu mẫu để bấm thử nhanh.</li>
+                </ul>
+            </div>
+            <div>
+                <div class="code-container" style="font-size: 16px;">
+<pre><code><span class="kw">import</span> gradio <span class="kw">as</span> gr
+
+<span class="kw">def</span> <span class="func">greet</span>(name):
+    <span class="kw">return</span> <span class="str">f"Xin chào {name}!"</span>
+
+app = gr.<span class="cls">Interface</span>(
+    fn=greet,
+    inputs=gr.<span class="cls">Textbox</span>(label=<span class="str">"Nhập tên"</span>),
+    outputs=gr.<span class="cls">Textbox</span>(label=<span class="str">"Kết quả"</span>),
+    title=<span class="str">"Ứng dụng Gradio đầu tiên"</span>,
+    description=<span class="str">"Nhập tên để nhận lời chào"</span>,
+    examples=[[<span class="str">"An"</span>], [<span class="str">"Bình"</span>]]
+)
+
+app.<span class="func">launch</span>()</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 6: ChatInterface -->
+<div class="slide-container" id="slide6">
+    <h2 class="slide-title">Giao Diện Chat Với ChatInterface</h2>
+    <div class="content-area">
+        <div class="two-column" style="align-items: flex-start;">
+            <div>
+                <p><strong>ChatInterface</strong> là cách nhanh nhất để tạo chatbot trong Gradio.</p>
+                <ul>
+                    <li><span class="code-inline">fn(message, history)</span>: Hàm xử lý khi nhận được dữ liệu từ inputs; <span class="code-inline">history</span> là lịch sử hội thoại.</li>
+                    <li><span class="code-inline">title</span> và <span class="code-inline">description</span>: Tiêu đề và mô tả.</li>
+                    <li><span class="code-inline">type</span>: Kiểu dữ liệu lịch sử chat, thường dùng <span class="code-inline">"messages"</span> để dễ tích hợp API.</li>
+                    <li><span class="code-inline">chatbot</span>: Truyền vào component Chatbot tùy chỉnh (chiều cao, label,...).</li>
+                    <li><span class="code-inline">textbox</span>: Tùy chỉnh ô nhập liệu (placeholder, số dòng).</li>
+                    <li><span class="code-inline">retry_btn</span>, <span class="code-inline">undo_btn</span>, <span class="code-inline">clear_btn</span>: Bật/tắt hoặc đổi tên các nút thao tác.</li>
+                </ul>
+            </div>
+            <div>
+                <div class="code-container" style="font-size: 15px;">
+<pre><code><span class="kw">import</span> gradio <span class="kw">as</span> gr
+
+<span class="kw">def</span> <span class="func">chat_fn</span>(message, history):
+    <span class="kw">return</span> <span class="str">f"Bạn vừa nói: {message}"</span>
+
+demo = gr.<span class="cls">ChatInterface</span>(
+    fn=chat_fn,
+    title=<span class="str">"Chatbot Gradio"</span>,
+    description=<span class="str">"Ví dụ ChatInterface cơ bản"</span>,
+    type=<span class="str">"messages"</span>,
+    chatbot=gr.<span class="cls">Chatbot</span>(height=<span class="builtin">320</span>, label=<span class="str">"Hội thoại"</span>),
+    textbox=gr.<span class="cls">Textbox</span>(placeholder=<span class="str">"Nhập câu hỏi..."</span>, lines=<span class="builtin">2</span>),
+    retry_btn=<span class="str">"Thử lại"</span>,
+    undo_btn=<span class="str">"Hoàn tác"</span>,
+    clear_btn=<span class="str">"Xóa"</span>
+)
+
+demo.<span class="func">launch</span>()</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 7: Các control cơ bản -->
+<div class="slide-container" id="slide7">
+    <h2 class="slide-title">Các Control Cơ Bản Trong Gradio</h2>
+    <div class="content-area">
+        <div class="tiled-content" style="display:grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 100%;">
+            <div class="tile" style="min-width: auto;">
+                <div class="icon"><i class="fa-solid fa-keyboard"></i></div>
+                <h3>Textbox / Number</h3>
+                <p>Nhập văn bản hoặc số. Dùng cho prompt, tên người dùng, tham số số học.</p>
+            </div>
+            <div class="tile" style="min-width: auto;">
+                <div class="icon"><i class="fa-solid fa-toggle-on"></i></div>
+                <h3>Checkbox / Radio</h3>
+                <p>Bật tắt tùy chọn hoặc chọn 1 trong nhiều phương án.</p>
+            </div>
+            <div class="tile" style="min-width: auto;">
+                <div class="icon"><i class="fa-solid fa-list"></i></div>
+                <h3>Dropdown / Slider</h3>
+                <p>Chọn model từ danh sách hoặc điều chỉnh nhiệt độ, max token.</p>
+            </div>
+            <div class="tile" style="min-width: auto;">
+                <div class="icon"><i class="fa-solid fa-file-arrow-up"></i></div>
+                <h3>File / Image / Audio</h3>
+                <p>Nhận dữ liệu đa phương tiện để làm app AI xử lý ảnh, âm thanh, tài liệu.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 8: Bài tập OpenAI -->
+<div class="slide-container section-slide" id="slide8">
+    <div class="section-title-layout">
+        <hr>
+        <h2>Bài Tập: Chatbox Với OpenAI API</h2>
+        <p><strong>Yêu cầu:</strong> Dùng <span class="code-inline">gr.ChatInterface</span> tạo chatbot trả lời bằng OpenAI API. Đọc API key từ file <span class="code-inline">.env</span>, thêm system prompt ngắn và hiển thị lịch sử hội thoại.</p>
+        <p style="margin-top: 16px;"><strong>Gợi ý:</strong> Cài <span class="code-inline">openai</span>, <span class="code-inline">python-dotenv</span>. Trong hàm chat, gọi API bằng model bất kỳ và trả về chuỗi nội dung.</p>
+    </div>
+</div>
+
+<!-- Slide 9: Blocks cơ bản -->
+<div class="slide-container" id="slide9">
+    <h2 class="slide-title">Xây Dựng Layout Cơ Bản Với Blocks()</h2>
+    <div class="content-area">
+        <div class="two-column" style="align-items: flex-start;">
+            <div>
+                <p><strong>Vì sao dùng Blocks?</strong></p>
+                <ul>
+                    <li>Kiểm soát bố cục tốt hơn Interface/ChatInterface.</li>
+                    <li>Định nghĩa rõ component nào tương tác với component nào.</li>
+                    <li>Phù hợp ứng dụng nhiều khu vực: nhập liệu, kết quả, cấu hình.</li>
+                </ul>
+                <p><strong>Cách hiểu nhanh:</strong><br><span class="code-inline">with gr.Blocks() as app:</span> là khung tổng. Bên trong tạo component, sau đó gắn event bằng <span class="code-inline">.click()</span>, <span class="code-inline">.change()</span>...</p>
+            </div>
+            <div>
+                <div class="code-container" style="font-size: 14px;">
+<pre><code><span class="kw">import</span> gradio <span class="kw">as</span> gr
+
+<span class="kw">def</span> <span class="func">to_upper</span>(text):
+    <span class="kw">return</span> text.upper()
+
+<span class="kw">with</span> gr.<span class="cls">Blocks</span>() <span class="kw">as</span> app:
+    gr.<span class="func">Markdown</span>(<span class="str">"## Demo Blocks"</span>)
+    inp = gr.<span class="cls">Textbox</span>(label=<span class="str">"Nhập nội dung"</span>)
+    out = gr.<span class="cls">Textbox</span>(label=<span class="str">"Kết quả"</span>)
+    btn = gr.<span class="cls">Button</span>(<span class="str">"Chuyển"</span>)
+    btn.click(to_upper, inputs=inp, outputs=out)
+
+app.<span class="func">launch</span>()</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 10: Tab -->
+<div class="slide-container" id="slide10">
+    <h2 class="slide-title">Chia Tab Trong Gradio</h2>
+    <div class="content-area">
+        <div class="two-column" style="align-items: flex-start;">
+            <div>
+                <ul>
+                    <li>Dùng <span class="code-inline">gr.Tab("Tên tab")</span> để chia app thành nhiều khu vực chức năng.</li>
+                    <li>Giúp giao diện gọn hơn khi có nhiều form hoặc phần cấu hình.</li>
+                    <li>Phù hợp kiến trúc: Tab Chat, Tab Cấu hình, Tab Nhật ký.</li>
+                </ul>
+                <p><strong>Lưu ý:</strong> Tab chỉ là bố cục giao diện. Dữ liệu chia sẻ giữa tab vẫn cần quản lý bằng State hoặc biến xử lý phù hợp.</p>
+            </div>
+            <div>
+                <div class="code-container" style="font-size: 14px;">
+<pre><code><span class="kw">with</span> gr.<span class="cls">Blocks</span>() <span class="kw">as</span> app:
+    <span class="kw">with</span> gr.<span class="cls">Tab</span>(<span class="str">"Chat"</span>):
+        chatbox = gr.<span class="cls">Chatbot</span>()
+        user_inp = gr.<span class="cls">Textbox</span>()
+
+    <span class="kw">with</span> gr.<span class="cls">Tab</span>(<span class="str">"Cấu hình"</span>):
+        model = gr.<span class="cls">Dropdown</span>(
+            choices=[<span class="str">"gpt-4o-mini"</span>, <span class="str">"gpt-4.1-mini"</span>],
+            value=<span class="str">"gpt-4o-mini"</span>
+        )
+        temperature = gr.<span class="cls">Slider</span>(<span class="builtin">0</span>, <span class="builtin">1</span>, value=<span class="builtin">0.7</span>)</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 11: State -->
+<div class="slide-container" id="slide11">
+    <h2 class="slide-title">State Trong Gradio</h2>
+    <div class="content-area">
+        <div class="two-column" style="align-items: flex-start;">
+            <div>
+                <p><strong>State dùng để làm gì?</strong></p>
+                <ul>
+                    <li>Lưu dữ liệu tạm trong phiên làm việc của người dùng.</li>
+                    <li>Giữ lịch sử chat, bộ lọc, hoặc kết quả trung gian giữa nhiều event.</li>
+                    <li>Giúp app có cảm giác liền mạch thay vì xử lý rời rạc.</li>
+                </ul>
+                <p><strong>Tư duy sử dụng:</strong><br>Input từ component + state cũ → hàm xử lý → output UI mới + state mới.</p>
+            </div>
+            <div>
+                <div class="code-container" style="font-size: 14px;">
+<pre><code><span class="kw">import</span> gradio <span class="kw">as</span> gr
+
+<span class="kw">def</span> <span class="func">add_message</span>(message, history):
+    history = history <span class="kw">or</span> []
+    history.append({<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: message})
+    history.append({<span class="str">"role"</span>: <span class="str">"assistant"</span>, <span class="str">"content"</span>: <span class="str">"Đã nhận."</span>})
+    <span class="kw">return</span> history, history
+
+<span class="kw">with</span> gr.<span class="cls">Blocks</span>() <span class="kw">as</span> app:
+    state = gr.<span class="cls">State</span>([])
+    chat = gr.<span class="cls">Chatbot</span>(type=<span class="str">"messages"</span>)
+    text = gr.<span class="cls">Textbox</span>()
+    text.submit(add_message, [text, state], [chat, state])</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 12: Bài tập build chatbox thủ công -->
+<div class="slide-container section-slide" id="slide12">
+    <div class="section-title-layout" style="max-width: 1040px;">
+        <hr>
+        <h2>Bài Tập: Build Chatbox Thủ Công</h2>
+        <p><strong>Mục tiêu:</strong> Dùng <span class="code-inline">Blocks + Chatbox + Textbox + Button</span> để tự dựng chatbot, không dùng ChatInterface.</p>
+        <p style="text-align: left; max-width: 980px; margin: 20px auto 0;">
+            <strong>Yêu cầu chi tiết:</strong><br>
+            1. Tab 1: Chat với vùng hiển thị hội thoại, ô nhập và nút gửi.<br>
+            2. Tab 2: Cấu hình gồm <span class="code-inline">model</span>, <span class="code-inline">temperature</span>, <span class="code-inline">max_tokens</span>.<br>
+            3. Dùng <span class="code-inline">State</span> để lưu history.<br>
+            4. Khi bấm gửi ở Tab 1, áp dụng cấu hình hiện tại từ Tab 2 để gọi model.
+        </p>
+    </div>
+</div>
+
+<!-- Slide 13: Row / Column -->
+<div class="slide-container" id="slide13">
+    <h2 class="slide-title">Tùy Biến Giao Diện Với Row Và Column</h2>
+    <div class="content-area">
+        <div class="two-column" style="align-items: flex-start;">
+            <div>
+                <ul>
+                    <li><span class="code-inline">gr.Row()</span>: xếp component theo chiều ngang.</li>
+                    <li><span class="code-inline">gr.Column()</span>: xếp component theo chiều dọc trong từng vùng.</li>
+                    <li>Dễ tạo layout kiểu dashboard: trái là chat, phải là panel cấu hình.</li>
+                    <li>Kết hợp tham số <span class="code-inline">scale</span> để chia tỷ lệ chiều rộng linh hoạt.</li>
+                </ul>
+                <p><strong>Gợi ý:</strong> Chat panel scale lớn hơn (ví dụ 3), cột cấu hình scale nhỏ hơn (ví dụ 1).</p>
+            </div>
+            <div>
+                <div class="code-container" style="font-size: 14px;">
+<pre><code><span class="kw">with</span> gr.<span class="cls">Blocks</span>() <span class="kw">as</span> app:
+    <span class="kw">with</span> gr.<span class="cls">Row</span>():
+        <span class="kw">with</span> gr.<span class="cls">Column</span>(scale=<span class="builtin">3</span>):
+            chat = gr.<span class="cls">Chatbot</span>(label=<span class="str">"Hội thoại"</span>)
+            prompt = gr.<span class="cls">Textbox</span>(label=<span class="str">"Nhập câu hỏi"</span>)
+
+        <span class="kw">with</span> gr.<span class="cls">Column</span>(scale=<span class="builtin">1</span>):
+            model = gr.<span class="cls">Dropdown</span>(
+                choices=[<span class="str">"gpt-4o-mini"</span>, <span class="str">"gpt-4.1-mini"</span>]
+            )
+            temp = gr.<span class="cls">Slider</span>(<span class="builtin">0</span>, <span class="builtin">1</span>, value=<span class="builtin">0.7</span>)</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 14: Themes -->
+<div class="slide-container" id="slide14">
+    <h2 class="slide-title">Gradio Themes: Dùng Theme Có Sẵn</h2>
+    <div class="content-area">
+        <div class="two-column" style="align-items: flex-start;">
+            <div>
+                <p>Gradio hỗ trợ nhiều theme có sẵn giúp thay đổi giao diện nhanh mà không cần viết CSS nhiều.</p>
+                <ul>
+                    <li><strong>gr.themes.Default():</strong> giao diện mặc định, trung tính.</li>
+                    <li><strong>gr.themes.Soft():</strong> cảm giác mềm mại, phù hợp app demo.</li>
+                    <li><strong>gr.themes.Monochrome():</strong> tối giản, tập trung nội dung.</li>
+                    <li><strong>gr.themes.Glass():</strong> phong cách hiện đại, nổi bật.</li>
+                </ul>
+                <p><strong>Lưu ý:</strong> Chọn theme phục vụ nội dung, tránh lạm dụng màu sắc gây rối trải nghiệm.</p>
+            </div>
+            <div>
+                <div class="code-container" style="font-size: 15px;">
+<pre><code><span class="kw">import</span> gradio <span class="kw">as</span> gr
+
+<span class="kw">with</span> gr.<span class="cls">Blocks</span>(
+    theme=gr.themes.<span class="cls">Soft</span>(),
+    title=<span class="str">"Demo Theme Gradio"</span>
+) <span class="kw">as</span> app:
+    gr.<span class="func">Markdown</span>(<span class="str">"## Ứng dụng dùng theme Soft"</span>)
+    txt = gr.<span class="cls">Textbox</span>(label=<span class="str">"Nội dung"</span>)
+    out = gr.<span class="cls">Textbox</span>(label=<span class="str">"Kết quả"</span>)
+    txt.change(<span class="kw">lambda</span> x: x, txt, out)
+
+app.<span class="func">launch</span>()</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 15: Triển khai Hugging Face -->
+<div class="slide-container qa-slide" id="slide15">
+    <div class="qa-layout" style="max-width: 980px;">
+        <h2>Triển Khai Lên Hugging Face Spaces</h2>
+        <p style="text-align: left; margin-top: 20px;">Quy trình gợi ý:</p>
+        <div class="bullet-list" style="text-align: left;">
+            <ul>
+                <li><i class="fa-solid fa-1"></i> Tạo Space mới, chọn <strong>SDK: Gradio</strong>.</li>
+                <li><i class="fa-solid fa-2"></i> Đẩy mã nguồn gồm <strong>app.py</strong> và <strong>requirements.txt</strong>.</li>
+                <li><i class="fa-solid fa-3"></i> Khai báo biến môi trường/secret (ví dụ <strong>OPENAI_API_KEY</strong>) trong phần Settings của Space.</li>
+                <li><i class="fa-solid fa-4"></i> Chờ build, kiểm tra log và thử nghiệm trực tiếp trên URL public.</li>
+            </ul>
+        </div>
+        <p style="margin-top: 16px;"><strong>Kết quả:</strong> Bạn có một ứng dụng Gradio chạy online để demo hoặc chia sẻ cho người học/đồng đội.</p>
+    </div>
+</div>
+
+<script src="../../common/slide-controller.js"></script>
+</body>
+</html>
