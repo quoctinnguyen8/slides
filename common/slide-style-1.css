@@ -413,3 +413,54 @@ body {
     font-size: 36px;
     padding-bottom: 5px;
 }
+
+.content-table-wrap {
+    width: 100%;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #ffffff;
+}
+
+.content-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.content-table thead tr {
+    background: #f9fafb;
+}
+
+.content-table th {
+    padding: 16px;
+    text-align: left;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.content-table th.col-primary {
+    width: 30%;
+}
+
+.content-table th.col-secondary {
+    width: 42%;
+}
+
+.content-table th.col-tertiary {
+    width: 28%;
+}
+
+.content-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid #f3f4f6;
+    vertical-align: top;
+}
+
+.content-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.content-table td i {
+    color: #10a37f;
+    margin-right: 8px;
+}

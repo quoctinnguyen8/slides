@@ -187,27 +187,48 @@ demo.<span class="func">launch</span>()</code></pre>
 <div class="slide-container" id="slide7">
     <h2 class="slide-title">Các Control Cơ Bản Trong Gradio</h2>
     <div class="content-area">
-        <div class="tiled-content" style="display:grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 100%;">
-            <div class="tile" style="min-width: auto;">
-                <div class="icon"><i class="fa-solid fa-keyboard"></i></div>
-                <h3>Textbox / Number</h3>
-                <p>Nhập văn bản hoặc số. Dùng cho prompt, tên người dùng, tham số số học.</p>
-            </div>
-            <div class="tile" style="min-width: auto;">
-                <div class="icon"><i class="fa-solid fa-toggle-on"></i></div>
-                <h3>Checkbox / Radio</h3>
-                <p>Bật tắt tùy chọn hoặc chọn 1 trong nhiều phương án.</p>
-            </div>
-            <div class="tile" style="min-width: auto;">
-                <div class="icon"><i class="fa-solid fa-list"></i></div>
-                <h3>Dropdown / Slider</h3>
-                <p>Chọn model từ danh sách hoặc điều chỉnh nhiệt độ, max token.</p>
-            </div>
-            <div class="tile" style="min-width: auto;">
-                <div class="icon"><i class="fa-solid fa-file-arrow-up"></i></div>
-                <h3>File / Image / Audio</h3>
-                <p>Nhận dữ liệu đa phương tiện để làm app AI xử lý ảnh, âm thanh, tài liệu.</p>
-            </div>
+        <div class="content-table-wrap">
+            <table class="content-table">
+                <thead>
+                    <tr>
+                        <th class="col-primary">Control</th>
+                        <th class="col-secondary">Mục đích</th>
+                        <th class="col-tertiary">Ví dụ sử dụng</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><i class="fa-solid fa-keyboard"></i>Textbox / Number</td>
+                        <td>Nhập văn bản hoặc số từ người dùng.</td>
+                        <td>Prompt, tên, tuổi, số lượng.</td>
+                    </tr>
+                    <tr>
+                        <td><i class="fa-solid fa-toggle-on"></i>Checkbox / Radio</td>
+                        <td>Bật tắt tuỳ chọn hoặc chọn một giá trị.</td>
+                        <td>Bật streaming, chọn chế độ trả lời.</td>
+                    </tr>
+                    <tr>
+                        <td><i class="fa-solid fa-list"></i>Dropdown / Slider</td>
+                        <td>Chọn giá trị trong danh sách hoặc dải số.</td>
+                        <td>Model, temperature, max_tokens.</td>
+                    </tr>
+                    <tr>
+                        <td><i class="fa-solid fa-file-arrow-up"></i>File / Image / Audio</td>
+                        <td>Nhận dữ liệu đa phương tiện để AI xử lý.</td>
+                        <td>Upload hóa đơn, ảnh sản phẩm, audio ghi âm.</td>
+                    </tr>
+                    <tr>
+                        <td><i class="fa-solid fa-table"></i>Dataframe / JSON</td>
+                        <td>Hiển thị dữ liệu có cấu trúc hoặc nhận dữ liệu dạng bảng.</td>
+                        <td>Preview dữ liệu CSV, kết quả trích xuất JSON.</td>
+                    </tr>
+                    <tr>
+                        <td><i class="fa-solid fa-square-poll-vertical"></i>Plot / Label</td>
+                        <td>Trực quan hoá kết quả hoặc hiển thị nhãn phân loại.</td>
+                        <td>Biểu đồ dự báo, top nhãn và độ tin cậy.</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
@@ -222,8 +243,81 @@ demo.<span class="func">launch</span>()</code></pre>
     </div>
 </div>
 
-<!-- Slide 9: Blocks cơ bản -->
+<!-- Slide 9: Gợi ý giải bài tập OpenAI -->
 <div class="slide-container" id="slide9">
+    <h2 class="slide-title">Gợi Ý Giải Bài Tập: Chatbox OpenAI</h2>
+    <div class="content-area">
+        <div class="bullet-list">
+            <ul>
+                <li><i class="fa-solid fa-file-lines"></i> <strong>Tách logic và giao diện:</strong> Viết hàm xử lý gọi OpenAI trong một module riêng (ví dụ <span class="code-inline">chat_service.py</span>), file <span class="code-inline">main.py</span> chỉ phụ trách UI Gradio.</li>
+                <li><i class="fa-solid fa-key"></i> <strong>Bảo mật key:</strong> Dùng <span class="code-inline">.env</span> + <span class="code-inline">load_dotenv()</span>, không hard-code key trong code.</li>
+                <li><i class="fa-solid fa-clock-rotate-left"></i> <strong>Xử lý history:</strong> Duyệt lịch sử chat từ Gradio và chuyển về định dạng <span class="code-inline">messages</span> (user/assistant) trước khi gọi API.</li>
+                <li><i class="fa-solid fa-paper-plane"></i> <strong>Thiết kế hàm trả về:</strong> Hàm xử lý trả về chuỗi văn bản để ChatInterface hiển thị ngay phản hồi.</li>
+                <li><i class="fa-solid fa-terminal"></i> <strong>Package cần thiết:</strong> <span class="code-inline">pip install gradio openai python-dotenv</span>.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 10: Code giải bài tập OpenAI -->
+<div class="slide-container" id="slide10">
+    <h2 class="slide-title">Code Giải Bài Tập (Tách Module)</h2>
+    <div class="content-area">
+        <div class="two-column" style="align-items: flex-start; gap: 24px;">
+            <div>
+                <div class="code-container" style="font-size: 13px;">         
+<pre><code></code><span class="cmt"># chat_service.py</span> 
+<span class="kw">from</span> openai <span class="kw">import</span> OpenAI
+
+client = <span class="cls">OpenAI</span>()
+
+<span class="kw">def</span> <span class="func">chat_with_openai</span>(message, history):
+    messages = [
+        {<span class="str">"role"</span>: <span class="str">"system"</span>, <span class="str">"content"</span>: <span class="str">"Bạn là trợ lý AI trả lời ngắn gọn, dễ hiểu."</span>}
+    ]
+
+    <span class="kw">for</span> user_text, bot_text <span class="kw">in</span> history:
+        messages.append({<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: user_text})
+        messages.append({<span class="str">"role"</span>: <span class="str">"assistant"</span>, <span class="str">"content"</span>: bot_text})
+
+    messages.append({<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: message})
+
+    response = client.chat.completions.<span class="func">create</span>(
+        model=<span class="str">"gpt-4o-mini"</span>,
+        messages=messages,
+        temperature=<span class="builtin">1.3</span>
+    )
+    <span class="kw">return</span> response.choices[<span class="builtin">0</span>].message.content</code></pre>
+                </div>
+            </div>
+            <div>
+                <div class="code-container" style="font-size: 13px;">
+<pre><code><span class="cmt"># main.py</span>
+<span class="kw">import</span> gradio <span class="kw">as</span> gr
+<span class="kw">from</span> dotenv <span class="kw">import</span> load_dotenv
+<span class="kw">from</span> chat_service <span class="kw">import</span> chat_with_openai
+
+load_dotenv()
+demo = gr.<span class="cls">ChatInterface</span>(
+    fn=chat_with_openai,
+    title=<span class="str">"Chatbox OpenAI + Gradio"</span>,
+    description=<span class="str">"Bài tập thực hành dùng OpenAI API"</span>,
+    examples=[<span class="str">"Gradio là gì?"</span>, <span class="str">"Cho tôi 3 mẹo học Python"</span>],
+    retry_btn=<span class="str">"Thử lại"</span>,
+    undo_btn=<span class="str">"Hoàn tác"</span>,
+    clear_btn=<span class="str">"Xóa"</span>
+)
+
+demo.<span class="func">launch</span>()</code></pre>
+                </div>
+                <p style="margin-top: 10px;"><strong>Chạy app:</strong> <span class="code-inline">python main.py</span></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 11: Blocks cơ bản -->
+<div class="slide-container" id="slide11">
     <h2 class="slide-title">Xây Dựng Layout Cơ Bản Với Blocks()</h2>
     <div class="content-area">
         <div class="two-column" style="align-items: flex-start;">
@@ -257,8 +351,8 @@ app.<span class="func">launch</span>()</code></pre>
     </div>
 </div>
 
-<!-- Slide 10: Tab -->
-<div class="slide-container" id="slide10">
+<!-- Slide 12: Tab -->
+<div class="slide-container" id="slide12">
     <h2 class="slide-title">Chia Tab Trong Gradio</h2>
     <div class="content-area">
         <div class="two-column" style="align-items: flex-start;">
@@ -289,8 +383,8 @@ app.<span class="func">launch</span>()</code></pre>
     </div>
 </div>
 
-<!-- Slide 11: State -->
-<div class="slide-container" id="slide11">
+<!-- Slide 13: State -->
+<div class="slide-container" id="slide13">
     <h2 class="slide-title">State Trong Gradio</h2>
     <div class="content-area">
         <div class="two-column" style="align-items: flex-start;">
@@ -324,8 +418,8 @@ app.<span class="func">launch</span>()</code></pre>
     </div>
 </div>
 
-<!-- Slide 12: Bài tập build chatbox thủ công -->
-<div class="slide-container section-slide" id="slide12">
+<!-- Slide 14: Bài tập build chatbox thủ công -->
+<div class="slide-container section-slide" id="slide14">
     <div class="section-title-layout" style="max-width: 1040px;">
         <hr>
         <h2>Bài Tập: Build Chatbox Thủ Công</h2>
@@ -340,8 +434,8 @@ app.<span class="func">launch</span>()</code></pre>
     </div>
 </div>
 
-<!-- Slide 13: Row / Column -->
-<div class="slide-container" id="slide13">
+<!-- Slide 15: Row / Column -->
+<div class="slide-container" id="slide15">
     <h2 class="slide-title">Tùy Biến Giao Diện Với Row Và Column</h2>
     <div class="content-area">
         <div class="two-column" style="align-items: flex-start;">
@@ -373,8 +467,8 @@ app.<span class="func">launch</span>()</code></pre>
     </div>
 </div>
 
-<!-- Slide 14: Themes -->
-<div class="slide-container" id="slide14">
+<!-- Slide 16: Themes -->
+<div class="slide-container" id="slide16">
     <h2 class="slide-title">Gradio Themes: Dùng Theme Có Sẵn</h2>
     <div class="content-area">
         <div class="two-column" style="align-items: flex-start;">
@@ -408,8 +502,8 @@ app.<span class="func">launch</span>()</code></pre>
     </div>
 </div>
 
-<!-- Slide 15: Triển khai Hugging Face -->
-<div class="slide-container qa-slide" id="slide15">
+<!-- Slide 17: Triển khai Hugging Face -->
+<div class="slide-container qa-slide" id="slide17">
     <div class="qa-layout" style="max-width: 980px;">
         <h2>Triển Khai Lên Hugging Face Spaces</h2>
         <p style="text-align: left; margin-top: 20px;">Quy trình gợi ý:</p>
