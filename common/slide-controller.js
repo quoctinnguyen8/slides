@@ -336,7 +336,7 @@
         if (transitionUnlockTimer) {
             window.clearTimeout(transitionUnlockTimer);
         }
-        transitionUnlockTimer = window.setTimeout(unlockNavigation, 320);
+        transitionUnlockTimer = window.setTimeout(unlockNavigation, 150);
     };
 
     // Parse input người dùng: chấp nhận dạng "5" hoặc "5/21"
