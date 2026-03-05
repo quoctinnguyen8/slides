@@ -481,19 +481,53 @@ app.<span class="func">launch</span>(theme=gr.<span class="cls">themes</span>.<s
     </div>
 </div>
 
-<!-- Slide 17: Triển khai Hugging Face -->
-<div class="slide-container qa-slide" id="slide17">
+<!-- Slide 17: Khả năng nâng cao khác của Gradio -->
+<div class="slide-container" id="slide17">
+    <h2 class="slide-title">Các Khả Năng Nâng Cao Khác Của Gradio</h2>
+    <div class="content-area">
+        <div class="two-column" style="align-items: flex-start;">
+            <div>
+                <ul>
+                    <li><i class="fa-solid fa-user-lock"></i> <strong>Xác thực người dùng:</strong> Dùng <span class="code-inline">launch(auth=...)</span> để bảo vệ ứng dụng nội bộ.</li>
+                    <li><i class="fa-solid fa-table-cells-large"></i> <strong>Nhiều trang / nhiều khu vực:</strong> Dùng <span class="code-inline">Tab</span>, <span class="code-inline">TabbedInterface</span> hoặc tách app theo route khi tích hợp backend.</li>
+                    <li><i class="fa-solid fa-bell"></i> <strong>Thông báo nổi:</strong> Dùng <span class="code-inline">gr.Info()</span>, <span class="code-inline">gr.Warning()</span>, <span class="code-inline">gr.Error()</span> để phản hồi tức thì.</li>
+                    <li><i class="fa-solid fa-list-check"></i> <strong>Hàng đợi và tác vụ nặng:</strong> Dùng <span class="code-inline">queue()</span> để xử lý ổn định khi nhiều người dùng đồng thời.</li>
+                    <li><i class="fa-solid fa-shield-halved"></i> <strong>Kiểm soát truy cập API:</strong> Cấu hình <span class="code-inline">api_name</span> cho event, bật/tắt endpoint theo nhu cầu triển khai.</li>
+                </ul>
+                <p style="font-style: italic; font-size: 16px;">Tìm hiểu thêm tại trang tài liệu chính thức của Gradio.</p>
+            </div>
+            <div>
+                <div class="code-container" style="font-size: 14px;">
+<pre><code><span class="kw">import</span> gradio <span class="kw">as</span> gr
+
+<span class="kw">def</span> <span class="func">handle</span>(text):
+    <span class="kw">if</span> <span class="kw">not</span> text:
+        gr.<span class="func">Warning</span>(<span class="str">"Bạn chưa nhập nội dung."</span>)
+        <span class="kw">return</span> <span class="str">""</span>
+    gr.<span class="func">Info</span>(<span class="str">"Đang xử lý yêu cầu..."</span>)
+    <span class="kw">return</span> text.upper()
+
+<span class="kw">with</span> gr.<span class="cls">Blocks</span>() <span class="kw">as</span> app:
+    inp = gr.<span class="cls">Textbox</span>(label=<span class="str">"Nhập nội dung"</span>)
+    out = gr.<span class="cls">Textbox</span>(label=<span class="str">"Kết quả"</span>)
+    btn = gr.<span class="cls">Button</span>(<span class="str">"Xử lý"</span>)
+    btn.click(handle,
+        inputs=inp, outputs=out,
+        api_name=<span class="str">"handle_text"</span>)
+
+app.<span class="func">queue</span>().<span class="func">launch</span>(auth=[(<span class="str">"admin"</span>, <span class="str">"123456"</span>)])</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 18: Triển khai Hugging Face -->
+<div class="slide-container qa-slide" id="slide18">
     <div class="qa-layout" style="max-width: 980px;">
         <h2>Triển Khai Lên Hugging Face Spaces</h2>
-        <p style="text-align: left; margin-top: 20px;">Quy trình gợi ý:</p>
-        <div class="bullet-list" style="text-align: left;">
-            <ul>
-                <li><i class="fa-solid fa-1"></i> Tạo Space mới, chọn <strong>SDK: Gradio</strong>.</li>
-                <li><i class="fa-solid fa-2"></i> Đẩy mã nguồn gồm <strong>app.py</strong> và <strong>requirements.txt</strong>.</li>
-                <li><i class="fa-solid fa-3"></i> Khai báo biến môi trường/secret (ví dụ <strong>OPENAI_API_KEY</strong>) trong phần Settings của Space.</li>
-                <li><i class="fa-solid fa-4"></i> Chờ build, kiểm tra log và thử nghiệm trực tiếp trên URL public.</li>
-            </ul>
-        </div>
+        <p style="text-align: left; margin-top: 20px;">
+            Hướng dẫn chi tiết tại đây: <a href="https://github.com/quoctinnguyen8/deploy-hugging-face" target="_blank">https://github.com/quoctinnguyen8/deploy-hugging-face</a></p>
         <p style="margin-top: 16px;"><strong>Kết quả:</strong> Bạn có một ứng dụng Gradio chạy online để demo hoặc chia sẻ cho người học/đồng đội.</p>
     </div>
 </div>
