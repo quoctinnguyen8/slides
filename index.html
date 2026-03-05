@@ -126,9 +126,10 @@
             background: #f9fffd;
         }
 
-        .slide-path {
+        .slide-desc {
             color: var(--muted);
             font-size: 13px;
+            margin-top: 5px;
         }
 
         .empty {
@@ -213,7 +214,7 @@
     <script>
         const folderGroups = [
             { name: 'C', slides: [
-                { title: 'C cơ bản', href: 'c/index.html', path: 'c/index.html' }
+                { title: 'C cơ bản', href: 'c/index.html', desc: 'C cho người mới bắt đầu' }
             ] },
             { name: 'C++', slides: [] },
             { name: 'C#', slides: [] },
@@ -222,8 +223,9 @@
             {
                 name: 'Python',
                 slides: [
-                    { title: 'Python OOP', href: 'python/basic/oop.html', path: 'python/basic/oop.html' },
-                    { title: 'OpenAI API', href: 'python/openai/index.html', path: 'python/openai/index.html' }
+                    { title: 'Python OOP', href: 'python/basic/oop.html', desc: 'Hướng đối tượng cho người đã có kinh nghiệm' },
+                    { title: 'OpenAI API', href: 'python/openai/index.html', desc: 'Hướng dẫn sử dụng OpenAI API với Python' },
+                    { title: 'Gradio + OpenAI', href: 'python/openai/gradio.html', desc: 'Tích hợp Gradio với OpenAI API để tạo nhanh giao diện người dùng.' }
                 ]
             }
         ];
@@ -237,7 +239,7 @@
             link.href = slide.href;
 
             const left = document.createElement('div');
-            left.innerHTML = `<strong>${slide.title}</strong><div class="slide-path">${slide.path}</div>`;
+            left.innerHTML = `<strong>${slide.title}</strong><div class="slide-desc">${slide.desc}</div>`;
 
             const icon = document.createElement('i');
             icon.className = 'fa-solid fa-arrow-up-right-from-square';
@@ -268,7 +270,7 @@
                 if (!group.slides.length) {
                     const empty = document.createElement('div');
                     empty.className = 'empty';
-                    empty.textContent = 'Chưa có file slide trong thư mục này.';
+                    empty.textContent = 'Chưa có slide nào.';
                     body.appendChild(empty);
                 } else {
                     const list = document.createElement('ul');

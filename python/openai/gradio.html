@@ -29,11 +29,10 @@
     <div class="content-area">
         <div class="bullet-list">
             <ul>
-                <li><i class="fa-solid fa-book-open"></i> <strong>Gradio Docs:</strong> Tài liệu chính thức hướng dẫn component, Blocks, ChatInterface, state và triển khai.</li>
-                <li><i class="fa-brands fa-github"></i> <strong>Gradio GitHub:</strong> Mã nguồn và ví dụ thực tế để học cách tổ chức app.</li>
-                <li><i class="fa-solid fa-cloud"></i> <strong>Hugging Face Spaces:</strong> Nền tảng host app Gradio miễn phí cho demo.</li>
-                <li><i class="fa-solid fa-robot"></i> <strong>OpenAI API Docs:</strong> Tham khảo khi tích hợp chatbot dùng model ngôn ngữ.</li>
-                <li><i class="fa-brands fa-python"></i> <strong>Python Docs:</strong> Môi trường ảo, package management và xử lý dữ liệu cơ bản.</li>
+                <li><i class="fa-solid fa-book-open"></i> <strong>Gradio Docs (<a href="https://gradio.app/docs" target="_blank" rel="noopener noreferrer">https://gradio.app/docs</a>):</strong> Tài liệu chính thức hướng dẫn component, Blocks, ChatInterface, state và triển khai.</li>
+                <li><i class="fa-solid fa-cloud"></i> <strong>Hugging Face Spaces (<a href="https://huggingface.co/spaces" target="_blank" rel="noopener noreferrer">https://huggingface.co/spaces</a>):</strong> Nền tảng host app Gradio miễn phí cho demo.</li>
+                <li><i class="fa-solid fa-robot"></i> <strong>OpenAI API Docs (<a href="https://platform.openai.com/docs" target="_blank" rel="noopener noreferrer">https://platform.openai.com/docs</a>):</strong> Tham khảo khi tích hợp chatbot dùng model ngôn ngữ.</li>
+                <li><i class="fa-brands fa-python"></i> <strong>Python Docs (<a href="https://docs.python.org/3/" target="_blank" rel="noopener noreferrer">https://docs.python.org/3/</a>):</strong> Môi trường ảo, package management và xử lý dữ liệu cơ bản.</li>
             </ul>
         </div>
     </div>
@@ -119,7 +118,7 @@
                 </ul>
             </div>
             <div>
-                <div class="code-container" style="font-size: 16px;">
+                <div class="code-container" style="font-size: 16px;" data-image="../images/gradio-basic.png">
 <pre><code><span class="kw">import</span> gradio <span class="kw">as</span> gr
 
 <span class="kw">def</span> <span class="func">greet</span>(name):
@@ -131,7 +130,7 @@ app = gr.<span class="cls">Interface</span>(
     outputs=gr.<span class="cls">Textbox</span>(label=<span class="str">"Kết quả"</span>),
     title=<span class="str">"Ứng dụng Gradio đầu tiên"</span>,
     description=<span class="str">"Nhập tên để nhận lời chào"</span>,
-    examples=[[<span class="str">"An"</span>], [<span class="str">"Bình"</span>]]
+    examples=[<span class="str">"An"</span>, <span class="str">"Bình"</span>]
 )
 
 app.<span class="func">launch</span>()</code></pre>
@@ -149,16 +148,13 @@ app.<span class="func">launch</span>()</code></pre>
             <div>
                 <p><strong>ChatInterface</strong> là cách nhanh nhất để tạo chatbot trong Gradio.</p>
                 <ul>
-                    <li><span class="code-inline">fn(message, history)</span>: Hàm xử lý khi nhận được dữ liệu từ inputs; <span class="code-inline">history</span> là lịch sử hội thoại.</li>
+                    <li><span class="code-inline">fn(message, history)</span>: Hàm xử lý khi nhận được dữ liệu từ ô nhập liệu; <span class="code-inline">history</span> là lịch sử hội thoại.</li>
                     <li><span class="code-inline">title</span> và <span class="code-inline">description</span>: Tiêu đề và mô tả.</li>
-                    <li><span class="code-inline">type</span>: Kiểu dữ liệu lịch sử chat, thường dùng <span class="code-inline">"messages"</span> để dễ tích hợp API.</li>
-                    <li><span class="code-inline">chatbot</span>: Truyền vào component Chatbot tùy chỉnh (chiều cao, label,...).</li>
-                    <li><span class="code-inline">textbox</span>: Tùy chỉnh ô nhập liệu (placeholder, số dòng).</li>
-                    <li><span class="code-inline">retry_btn</span>, <span class="code-inline">undo_btn</span>, <span class="code-inline">clear_btn</span>: Bật/tắt hoặc đổi tên các nút thao tác.</li>
+                    <li><span class="code-inline">submit_btn</span>: Đổi tên nút gửi tin nhắn.</li>
                 </ul>
             </div>
             <div>
-                <div class="code-container" style="font-size: 15px;">
+                <div class="code-container" style="font-size: 15px;" data-image="../images/gradio-chatinterface.png">
 <pre><code><span class="kw">import</span> gradio <span class="kw">as</span> gr
 
 <span class="kw">def</span> <span class="func">chat_fn</span>(message, history):
@@ -168,12 +164,7 @@ demo = gr.<span class="cls">ChatInterface</span>(
     fn=chat_fn,
     title=<span class="str">"Chatbot Gradio"</span>,
     description=<span class="str">"Ví dụ ChatInterface cơ bản"</span>,
-    type=<span class="str">"messages"</span>,
-    chatbot=gr.<span class="cls">Chatbot</span>(height=<span class="builtin">320</span>, label=<span class="str">"Hội thoại"</span>),
-    textbox=gr.<span class="cls">Textbox</span>(placeholder=<span class="str">"Nhập câu hỏi..."</span>, lines=<span class="builtin">2</span>),
-    retry_btn=<span class="str">"Thử lại"</span>,
-    undo_btn=<span class="str">"Hoàn tác"</span>,
-    clear_btn=<span class="str">"Xóa"</span>
+    submit_btn=<span class="str">"Gửi"</span>
 )
 
 demo.<span class="func">launch</span>()</code></pre>
@@ -216,16 +207,6 @@ demo.<span class="func">launch</span>()</code></pre>
                         <td><i class="fa-solid fa-file-arrow-up"></i>File / Image / Audio</td>
                         <td>Nhận dữ liệu đa phương tiện để AI xử lý.</td>
                         <td>Upload hóa đơn, ảnh sản phẩm, audio ghi âm.</td>
-                    </tr>
-                    <tr>
-                        <td><i class="fa-solid fa-table"></i>Dataframe / JSON</td>
-                        <td>Hiển thị dữ liệu có cấu trúc hoặc nhận dữ liệu dạng bảng.</td>
-                        <td>Preview dữ liệu CSV, kết quả trích xuất JSON.</td>
-                    </tr>
-                    <tr>
-                        <td><i class="fa-solid fa-square-poll-vertical"></i>Plot / Label</td>
-                        <td>Trực quan hoá kết quả hoặc hiển thị nhãn phân loại.</td>
-                        <td>Biểu đồ dự báo, top nhãn và độ tin cậy.</td>
                     </tr>
                 </tbody>
             </table>
@@ -302,15 +283,12 @@ demo = gr.<span class="cls">ChatInterface</span>(
     fn=chat_with_openai,
     title=<span class="str">"Chatbox OpenAI + Gradio"</span>,
     description=<span class="str">"Bài tập thực hành dùng OpenAI API"</span>,
-    examples=[<span class="str">"Gradio là gì?"</span>, <span class="str">"Cho tôi 3 mẹo học Python"</span>],
-    retry_btn=<span class="str">"Thử lại"</span>,
-    undo_btn=<span class="str">"Hoàn tác"</span>,
-    clear_btn=<span class="str">"Xóa"</span>
+    examples=[<span class="str">"Gradio là gì?"</span>, <span class="str">"Cho tôi 3 mẹo học Python"</span>]
 )
 
 demo.<span class="func">launch</span>()</code></pre>
                 </div>
-                <p style="margin-top: 10px;"><strong>Chạy app:</strong> <span class="code-inline">python main.py</span></p>
+                <p style="margin-top: 10px;"><strong>Chạy app:</strong> <span class="code-inline">python main.py</span> hoặc <span class="code-inline">gradio main.py</span></p>
             </div>
         </div>
     </div>

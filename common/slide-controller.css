@@ -208,7 +208,8 @@ body.slide-loading .slide-top-actions {
     color: #10a37f;
 }
 
-.code-copy-btn{
+.code-copy-btn,
+.code-view-btn {
     position: absolute;
     top: 10px;
     right: 10px;
@@ -226,12 +227,22 @@ body.slide-loading .slide-top-actions {
     opacity: 0.7;
     transition: all 200ms ease;
 }
-.code-copy-btn:hover {
+.code-view-btn{
+    top: unset;
+    bottom: 10px;
+    right: 10px;
+    opacity: 0;
+}
+.code-copy-btn:hover,
+.code-view-btn:hover {
     opacity: 1;
 }
 .code-copy-btn.copied {
     opacity: 0.5;
     pointer-events: none;
+}
+.code-container:hover .code-view-btn {
+    opacity: 0.7;
 }
 
 body.slide-fullscreen-active .slide-top-actions {

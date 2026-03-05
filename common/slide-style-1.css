@@ -465,3 +465,8 @@ body {
     color: #10a37f;
     margin-right: 8px;
 }
+
+a {
+    color: #10a37f;
+    text-decoration: none;
+}

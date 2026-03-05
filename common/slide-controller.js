@@ -114,6 +114,33 @@
                 console.error('Không thể sao chép mã nguồn:', error);
             });
         });
+
+        // Nút xem ảnh nếu có thuộc tính data-image trên container
+        const imageUrl = container.getAttribute('data-image');
+        if (imageUrl) {
+            const viewButton = document.createElement('button');
+            viewButton.type = 'button';
+            viewButton.className = 'code-view-btn';
+            viewButton.setAttribute('aria-label', 'Xem ảnh minh họa');
+            viewButton.setAttribute('title', 'Xem ảnh minh họa');
+            viewButton.innerHTML = '<i class="fa-solid fa-image" aria-hidden="true"></i>';
+            viewButton.addEventListener('click', () => {
+                // Tạo thẻ hình ảnh mới và hiển thị dạng lightbox đơn giản
+                const img = document.createElement('img');
+                img.src = imageUrl;
+                img.alt = 'Ảnh minh họa';
+                img.style = 'max-width: 90vw; max-height: 90vh; border-radius: 8px;';
+                const overlay = document.createElement('div');
+                overlay.style = 'position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 9999;';
+                overlay.addEventListener('click', () => {
+                    overlay.remove();
+                });
+                overlay.appendChild(img);
+                document.body.appendChild(overlay);
+            });
+            container.appendChild(viewButton);
+        }
+
         container.appendChild(copyButton);
     });
 
