@@ -30,7 +30,8 @@
     }
 
     .slide-nav,
-    .slide-print-btn {
+    .slide-top-actions,
+    .code-copy-btn {
         display: none !important;
     }
 

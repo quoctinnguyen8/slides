@@ -90,6 +90,33 @@
         slide.appendChild(pageNumber);
     });
 
+    // Thêm nút sao chép mã nguồn cho các khối code trong slide
+    const codeContainers = document.querySelectorAll('.code-container');
+    codeContainers.forEach((container) => {
+        const copyButton = document.createElement('button');
+        copyButton.type = 'button';
+        copyButton.className = 'code-copy-btn';
+        copyButton.setAttribute('aria-label', 'Sao chép mã nguồn');
+        copyButton.setAttribute('title', 'Sao chép mã nguồn');
+        copyButton.innerHTML = '<i class="fa-solid fa-copy" aria-hidden="true"></i>';
+        copyButton.addEventListener('click', () => {
+            const codeElement = container.querySelector('code');
+            if (!codeElement) return;
+            const codeText = codeElement.innerText;
+            navigator.clipboard.writeText(codeText).then(() => {
+                copyButton.innerHTML = '<i class="fa-solid fa-check" aria-hidden="true"></i>';
+                copyButton.classList.add('copied');
+                setTimeout(() => {
+                    copyButton.classList.remove('copied');
+                    copyButton.innerHTML = '<i class="fa-solid fa-copy" aria-hidden="true"></i>';
+                }, 2000);
+            }).catch((error) => {
+                console.error('Không thể sao chép mã nguồn:', error);
+            });
+        });
+        container.appendChild(copyButton);
+    });
+
     const nav = document.createElement('div');
     nav.className = 'slide-nav';
 
