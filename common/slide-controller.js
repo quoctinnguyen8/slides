@@ -131,7 +131,7 @@
                 img.alt = 'Ảnh minh họa';
                 img.style = 'max-width: 90vw; max-height: 90vh; border-radius: 8px;';
                 const overlay = document.createElement('div');
-                overlay.style = 'position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 9999;';
+                overlay.style = 'position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; z-index: 9999;';
                 overlay.addEventListener('click', () => {
                     overlay.remove();
                 });

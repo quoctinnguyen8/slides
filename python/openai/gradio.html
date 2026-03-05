@@ -351,10 +351,16 @@ app.<span class="func">launch</span>()</code></pre>
 
     <span class="kw">with</span> gr.<span class="cls">Tab</span>(<span class="str">"Cấu hình"</span>):
         model = gr.<span class="cls">Dropdown</span>(
-            choices=[<span class="str">"gpt-5.2"</span>],
+            label=<span class="str">"Chọn model"</span>,
+            choices=[<span class="str">"gpt-5.2"</span>, <span class="str">"gpt-5-mini"</span>],
             value=<span class="str">"gpt-5.2"</span>
         )
-        temperature = gr.<span class="cls">Slider</span>(<span class="builtin">0</span>, <span class="builtin">1</span>, value=<span class="builtin">0.7</span>)</code></pre>
+        temperature = gr.<span class="cls">Slider</span>(
+            label=<span class="str">"Temperature (độ sáng tạo)"</span>,
+            minimum=<span class="builtin">0</span>,
+            maximum=<span class="builtin">2</span>,
+            value=<span class="builtin">1</span>
+        )</code></pre>
                 </div>
             </div>
         </div>
@@ -372,6 +378,7 @@ app.<span class="func">launch</span>()</code></pre>
                     <li>Lưu dữ liệu tạm trong phiên làm việc của người dùng.</li>
                     <li>Giữ lịch sử chat, bộ lọc, hoặc kết quả trung gian giữa nhiều event.</li>
                     <li>Giúp app có cảm giác liền mạch thay vì xử lý rời rạc.</li>
+                    <li><strong>Lưu ý:</strong> Dữ liệu lưu ở State sẽ mất khi đóng hoặc refresh trang.</li>
                 </ul>
                 <p><strong>Tư duy sử dụng:</strong><br>Input từ component + state cũ → hàm xử lý → output UI mới + state mới.</p>
             </div>
@@ -427,7 +434,7 @@ app.<span class="func">launch</span>()</code></pre>
                 <p><strong>Gợi ý:</strong> Chat panel scale lớn hơn (ví dụ 3), cột cấu hình scale nhỏ hơn (ví dụ 1).</p>
             </div>
             <div>
-                <div class="code-container" style="font-size: 14px;">
+                <div class="code-container" style="font-size: 14px;" data-image="../images/gradio-row-column.png">
 <pre><code><span class="kw">with</span> gr.<span class="cls">Blocks</span>() <span class="kw">as</span> app:
     <span class="kw">with</span> gr.<span class="cls">Row</span>():
         <span class="kw">with</span> gr.<span class="cls">Column</span>(scale=<span class="builtin">3</span>):
@@ -461,19 +468,13 @@ app.<span class="func">launch</span>()</code></pre>
                 <p><strong>Lưu ý:</strong> Chọn theme phục vụ nội dung, tránh lạm dụng màu sắc gây rối trải nghiệm.</p>
             </div>
             <div>
-                <div class="code-container" style="font-size: 15px;">
+                <div class="code-container" style="font-size: 15px;" data-image="../images/gradio-theme.png">
 <pre><code><span class="kw">import</span> gradio <span class="kw">as</span> gr
 
-<span class="kw">with</span> gr.<span class="cls">Blocks</span>(
-    theme=gr.themes.<span class="cls">Soft</span>(),
-    title=<span class="str">"Demo Theme Gradio"</span>
-) <span class="kw">as</span> app:
-    gr.<span class="func">Markdown</span>(<span class="str">"## Ứng dụng dùng theme Soft"</span>)
-    txt = gr.<span class="cls">Textbox</span>(label=<span class="str">"Nội dung"</span>)
-    out = gr.<span class="cls">Textbox</span>(label=<span class="str">"Kết quả"</span>)
-    txt.change(<span class="kw">lambda</span> x: x, txt, out)
+<span class="kw">with</span> gr.<span class="cls">Blocks</span>() <span class="kw">as</span> app:
+    ...
 
-app.<span class="func">launch</span>()</code></pre>
+app.<span class="func">launch</span>(theme=gr.<span class="cls">themes</span>.<span class="func">Soft</span>())</code></pre>
                 </div>
             </div>
         </div>
