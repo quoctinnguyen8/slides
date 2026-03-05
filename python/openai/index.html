@@ -168,7 +168,7 @@ pip install -r requirements.txt</code></pre>
                     <li><span class="code-inline">load_dotenv()</span> tự động tìm file .env và đưa <span class="code-inline">OPENAI_API_KEY</span> vào hệ thống.</li>
                     <li><span class="code-inline">OpenAI()</span> khởi tạo client. Mặc định nó sẽ tự tìm biến API Key.</li>
                     <li>Hàm <span class="code-inline">create(...)</span> là hàm chính để gọi model.</li>
-                    <li>Response trả về là một Object phức tạp. Văn bản thực sự nằm ở <span class="code-inline">response.choices[0].message.content</span>.</li>
+                    <li>Response trả về là một Object phức tạp. Văn bản tiện dùng nhất nằm ở <span class="code-inline">response.output_text</span>.</li>
                 </ul>
             </div>
             <div>
@@ -184,23 +184,23 @@ pip install -r requirements.txt</code></pre>
 client = <span class="cls">OpenAI</span>() 
 
 <span class="cmt"># Gửi Request</span>
-response = client.chat.completions.<span class="func">create</span>(
-    model=<span class="str">"gpt-4o-mini"</span>,
-    messages=[
+response = client.responses.<span class="func">create</span>(
+    model=<span class="str">"gpt-5.2"</span>,
+    input=[
         {<span class="str">"role"</span>: <span class="str">"system"</span>, <span class="str">"content"</span>: <span class="str">"Bạn là trợ lý."</span>},
         {<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: <span class="str">"Xin chào!"</span>}
     ]
 )
 
 <span class="cmt"># In ra phản hồi (Text)</span>
-<span class="builtin">print</span>(response.choices[<span class="builtin">0</span>].message.content)</code></pre>
+<span class="builtin">print</span>(response.output_text)</code></pre>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Slide 8: Two_Column (Options: Temperature, Top_p, Max_tokens) -->
+<!-- Slide 8: Two_Column (Options: Temperature, Top_p, Max_output_tokens) -->
 <div class="slide-container" id="slide8">
     <h2 class="slide-title">Một Số Options (Tham Số) Cần Thiết</h2>
     <div class="content-area">
@@ -210,15 +210,15 @@ response = client.chat.completions.<span class="func">create</span>(
                 <ul>
                     <li><strong class="highlight">Temperature (0.0 - 2.0):</strong> Kiểm soát tính sáng tạo. Số thấp (0.1) ra kết quả logic, ổn định. Số cao (0.8+) cho kết quả sáng tạo, tự nhiên hơn.</li>
                     <li><strong class="highlight">Top_p (0.0 - 1.0):</strong> "Nucleus sampling". Lọc các token tiềm năng dựa trên tổng xác suất. Thay vì ngẫu nhiên toàn cục, AI chỉ chọn trong tập từ vựng hữu hạn.<br><em style="font-size: 17px; color: #6b7280;">*Khuyến nghị từ OpenAI: Chỉ nên thay đổi 1 trong 2 tham số (Temperature hoặc Top_p), không đổi cả hai cùng lúc.</em></li>
-                    <li><strong class="highlight">Max Tokens:</strong> Giới hạn độ dài output, giúp kiểm soát chi phí API và tránh AI sinh ra văn bản quá dài không cần thiết.</li>
+                    <li><strong class="highlight">Max Output Tokens:</strong> Giới hạn độ dài output, giúp kiểm soát chi phí API và tránh AI sinh ra văn bản quá dài không cần thiết.</li>
                 </ul>
             </div>
             <div>
                 <div class="code-container">
 <pre><code><span class="cmt"># Gửi request với các tham số tùy chỉnh</span>
-response = client.chat.completions.<span class="func">create</span>(
-    model=<span class="str">"gpt-4o-mini"</span>,
-    messages=[
+response = client.responses.<span class="func">create</span>(
+    model=<span class="str">"gpt-5.2"</span>,
+    input=[
         {
             <span class="str">"role"</span>: <span class="str">"user"</span>, 
             <span class="str">"content"</span>: <span class="str">"Kể một câu chuyện ngắn."</span>
@@ -229,10 +229,10 @@ response = client.chat.completions.<span class="func">create</span>(
     <span class="cmt"># Giữ mặc định vì đã chỉnh temperature</span>
     top_p=<span class="builtin">1.0</span>,        
     <span class="cmt"># Giới hạn sinh ra khoảng ~350 chữ</span>
-    max_tokens=<span class="builtin">500</span>    
+    max_output_tokens=<span class="builtin">500</span>    
 )
 
-<span class="builtin">print</span>(response.choices[<span class="builtin">0</span>].message.content)</code></pre>
+<span class="builtin">print</span>(response.output_text)</code></pre>
                 </div>
             </div>
         </div>
@@ -279,11 +279,11 @@ messages = [{<span class="str">"role"</span>: <span class="str">"system"</span>,
     <span class="cmt"># Thêm câu hỏi vào lịch sử</span>
     messages.append({<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: user_input})
     
-    response = client.chat.completions.<span class="func">create</span>(
-        model=<span class="str">"gpt-4o-mini"</span>, messages=messages
+    response = client.responses.<span class="func">create</span>(
+        model=<span class="str">"gpt-5.2"</span>, input=messages
     )
     
-    reply = response.choices[<span class="builtin">0</span>].message.content
+    reply = response.output_text
     <span class="builtin">print</span>(<span class="str">"AI: "</span> + reply)
     
     <span class="cmt"># Quan trọng: Thêm câu trả lời vào lịch sử</span>
@@ -304,18 +304,18 @@ messages = [{<span class="str">"role"</span>: <span class="str">"system"</span>,
                 <p>Trong thực tế, ta thường cần AI trả về dữ liệu có cấu trúc (JSON) thay vì text thuần để dễ dàng xử lý bằng code (ví dụ: lưu vào database).</p>
                 <p><strong>Cách tiếp cận cơ bản:</strong></p>
                 <ul>
-                    <li>Thêm tham số <span class="code-inline">response_format={ "type": "json_object" }</span>.</li>
+                    <li>Dùng <span class="code-inline">text={"format": {"type": "json_object"}}</span> để yêu cầu mô hình trả về JSON hợp lệ.</li>
                     <li><strong>Bắt buộc:</strong> Phải ra lệnh rõ trong Prompt yêu cầu AI "trả về định dạng JSON". Nếu không API sẽ báo lỗi.</li>
                     <li>Tuy nhiên, cách này chỉ đảm bảo trả về JSON hợp lệ, <strong>không đảm bảo đúng 100% cấu trúc/keys</strong> mà bạn cần.</li>
                 </ul>
             </div>
             <div>
                 <div class="code-container" style="font-size: 14px;">
-<pre><code>response = client.chat.completions.<span class="func">create</span>(
-    model=<span class="str">"gpt-4o-mini"</span>,
+<pre><code>response = client.responses.<span class="func">create</span>(
+    model=<span class="str">"gpt-5.2"</span>,
     <span class="cmt"># Ép kiểu dữ liệu trả về thành JSON Object</span>
-    response_format={ <span class="str">"type"</span>: <span class="str">"json_object"</span> },
-    messages=[
+    text={ <span class="str">"format"</span>: { <span class="str">"type"</span>: <span class="str">"json_object"</span> } },
+    input=[
         {
             <span class="str">"role"</span>: <span class="str">"system"</span>, 
             <span class="str">"content"</span>: <span class="str">"Bạn là một API. Hãy trả về JSON."</span>
@@ -328,7 +328,7 @@ messages = [{<span class="str">"role"</span>: <span class="str">"system"</span>,
 )
 
 <span class="kw">import</span> json
-json_str = response.choices[<span class="builtin">0</span>].message.content
+json_str = response.output_text
 data = json.<span class="func">loads</span>(json_str)
 
 <span class="builtin">print</span>(data) 
@@ -348,7 +348,7 @@ data = json.<span class="func">loads</span>(json_str)
                 <p>Tính năng <strong>Structured Outputs</strong> đảm bảo 100% AI trả về JSON khớp đúng với cấu trúc (Schema) bạn đã định nghĩa trước.</p>
                 <ul>
                     <li>Dùng thư viện <span class="code-inline">Pydantic</span> để định nghĩa Model cấu trúc dữ liệu.</li>
-                    <li>Sử dụng method <span class="code-inline">client.beta.chat.completions.parse</span> thay vì hàm <span class="code-inline">create</span>.</li>
+                    <li>Sử dụng method <span class="code-inline">client.responses.parse</span> để parse kết quả theo schema.</li>
                     <li>Truyền Model vào tham số <span class="code-inline">response_format</span>.</li>
                     <li>Kết quả trả về không cần <span class="code-inline">json.loads</span>, <span class="code-inline">.parsed</span> sẽ tự động build object Python cho bạn.</li>
                 </ul>
@@ -365,16 +365,16 @@ client = <span class="cls">OpenAI</span>()
     age: <span class="builtin">int</span>
 
 <span class="cmt"># Sử dụng .parse thay vì .create</span>
-completion = client.beta.chat.completions.<span class="func">parse</span>(
-    model=<span class="str">"gpt-4o-2024-08-06"</span>, <span class="cmt"># Bắt buộc model hỗ trợ</span>
-    messages=[
+completion = client.responses.<span class="func">parse</span>(
+    model=<span class="str">"gpt-5.2"</span>, <span class="cmt"># Bắt buộc model hỗ trợ</span>
+    input=[
         {<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: <span class="str">"Tôi tên Nam, 25 tuổi."</span>}
     ],
     response_format=UserInfo, <span class="cmt"># Gắn schema vào</span>
 )
 
 <span class="cmt"># Nhận object trực tiếp</span>
-user = completion.choices[<span class="builtin">0</span>].message.parsed
+user = completion.output_parsed
 <span class="builtin">print</span>(user.name) <span class="cmt"># Output: Nam</span>
 <span class="builtin">print</span>(user.age)  <span class="cmt"># Output: 25</span></code></pre>
                 </div>
@@ -420,12 +420,12 @@ user = completion.choices[<span class="builtin">0</span>].message.parsed
             <div class="tile" style="min-width: auto; padding: 20px;">
                 <div class="icon" style="font-size: 32px; margin-bottom: 15px;"><i class="fa-solid fa-2"></i></div>
                 <h3 style="font-size: 24px;">Gửi Request</h3>
-                <p style="font-size: 18px;">Truyền câu hỏi của User cùng với mảng <span class="code-inline" style="font-size: 16px;">tools</span> vừa định nghĩa lên API thông qua tham số của hàm <span class="code-inline" style="font-size: 16px;">create()</span>.</p>
+                <p style="font-size: 18px;">Truyền câu hỏi của User cùng với mảng <span class="code-inline" style="font-size: 16px;">tools</span> vừa định nghĩa lên API thông qua <span class="code-inline" style="font-size: 16px;">client.responses.create()</span>.</p>
             </div>
             <div class="tile" style="min-width: auto; padding: 20px;">
                 <div class="icon" style="font-size: 32px; margin-bottom: 15px;"><i class="fa-solid fa-3"></i></div>
                 <h3 style="font-size: 24px;">AI Phân Tích & Phản Hồi</h3>
-                <p style="font-size: 18px;">Kiểm tra kết quả trả về. Nếu AI quyết định cần phải gọi hàm, thông tin sẽ nằm trong biến <span class="code-inline" style="font-size: 16px;">tool_calls</span>. Tiến hành trích xuất tên hàm và tham số.</p>
+                <p style="font-size: 18px;">Kiểm tra kết quả trả về. Nếu AI quyết định cần phải gọi hàm, thông tin sẽ nằm trong <span class="code-inline" style="font-size: 16px;">response.output</span> với item có <span class="code-inline" style="font-size: 16px;">type="function_call"</span>. Tiến hành trích xuất tên hàm và tham số.</p>
             </div>
             <div class="tile" style="min-width: auto; padding: 20px;">
                 <div class="icon" style="font-size: 32px; margin-bottom: 15px;"><i class="fa-solid fa-4"></i></div>
@@ -463,9 +463,9 @@ tools = [{
             </div>
             <div class="code-container" style="font-size: 15px; margin: 0; display: flex; flex-direction: column; justify-content: center; border-radius: 12px;">
 <pre><code><span class="cmt"># 2. Gửi request kèm theo tools</span>
-response = client.chat.completions.<span class="func">create</span>(
-    model=<span class="str">"gpt-4o-mini"</span>,
-    messages=[{
+response = client.responses.<span class="func">create</span>(
+    model=<span class="str">"gpt-5.2"</span>,
+    input=[{
         <span class="str">"role"</span>: <span class="str">"user"</span>, 
         <span class="str">"content"</span>: <span class="str">"Hà Nội hôm nay nóng không?"</span>
     }],
@@ -473,12 +473,12 @@ response = client.chat.completions.<span class="func">create</span>(
 )
 
 <span class="cmt"># 3. Trích xuất yêu cầu gọi hàm từ AI</span>
-tool_call = response.choices[<span class="builtin">0</span>].message.tool_calls[<span class="builtin">0</span>]
+tool_call = <span class="builtin">next</span>(item <span class="kw">for</span> item <span class="kw">in</span> response.output <span class="kw">if</span> item.type == <span class="str">"function_call"</span>)
 
-<span class="builtin">print</span>(<span class="str">"Tên hàm:"</span>, tool_call.function.name) 
+<span class="builtin">print</span>(<span class="str">"Tên hàm:"</span>, tool_call.name) 
 <span class="cmt"># In ra: get_weather</span>
 
-<span class="builtin">print</span>(<span class="str">"Tham số:"</span>, tool_call.function.arguments) 
+<span class="builtin">print</span>(<span class="str">"Tham số:"</span>, tool_call.arguments) 
 <span class="cmt"># In ra JSON: {"location": "Hà Nội"}</span></code></pre>
             </div>
         </div>
@@ -506,8 +506,8 @@ tool_call = response.choices[<span class="builtin">0</span>].message.tool_calls[
             <ul>
                 <li><i class="fa-solid fa-code"></i> <strong>Bước 1: Import Pydantic</strong><br>Import <code>BaseModel</code> từ thư viện Pydantic. Cần import thêm thư viện <code>typing</code> (dùng List/Optional) nếu thuộc tính hobbies lưu nhiều sở thích.</li>
                 <li><i class="fa-solid fa-cube"></i> <strong>Bước 2: Định nghĩa Schema</strong><br>Tạo class <code>CustomerInfo(BaseModel)</code>. Khai báo kiểu dữ liệu rõ ràng: <code>name: str</code>, <code>age: int</code>, <code>email: str</code>, <code>phone: str</code>, <code>hobbies: list[str]</code>.</li>
-                <li><i class="fa-solid fa-paper-plane"></i> <strong>Bước 3: Gửi Request Bằng parse()</strong><br>Sử dụng <code>client.beta.chat.completions.parse</code>. Đưa đoạn text CSKH vào phần content của User role. Đừng quên truyền <code>response_format=CustomerInfo</code>.</li>
-                <li><i class="fa-solid fa-check-circle"></i> <strong>Bước 4: In Kết Quả</strong><br>Truy xuất dữ liệu dễ dàng như object Python bình thường: <code>customer = response.choices[0].message.parsed</code>. Sau đó in ra <code>customer.email</code>.</li>
+                <li><i class="fa-solid fa-paper-plane"></i> <strong>Bước 3: Gửi Request Bằng parse()</strong><br>Sử dụng <code>client.responses.parse</code>. Đưa đoạn text CSKH vào phần content của User role. Đừng quên truyền <code>response_format=CustomerInfo</code>.</li>
+                <li><i class="fa-solid fa-check-circle"></i> <strong>Bước 4: In Kết Quả</strong><br>Truy xuất dữ liệu dễ dàng như object Python bình thường: <code>customer = response.output_parsed</code>. Sau đó in ra <code>customer.email</code>.</li>
             </ul>
         </div>
     </div>
@@ -528,10 +528,10 @@ tool_call = response.choices[<span class="builtin">0</span>].message.tool_calls[
     <div class="content-area">
         <div class="bullet-list">
             <ul>
-                <li><i class="fa-solid fa-list"></i> <strong>Bước 1: Khai báo Tools & Gọi API lần 1</strong><br>Tạo mảng <code>tools</code> định nghĩa cấu trúc hàm <code>get_weather</code>. Gọi hàm <code>create()</code> truyền vào tin nhắn của user và tham số <code>tools</code>.</li>
-                <li><i class="fa-solid fa-code-branch"></i> <strong>Bước 2: Xử lý Tool Call & Gọi hàm Local</strong><br>Kiểm tra <code>response.choices[0].message.tool_calls</code>. Trích xuất thuộc tính <code>arguments</code> (dùng <code>json.loads</code> để parse thành Dictionary) để lấy giá trị biến <code>location</code>. Chạy hàm Python <code>get_weather(location)</code> của bạn để lấy dữ liệu dạng chuỗi.</li>
-                <li><i class="fa-solid fa-reply-all"></i> <strong>Bước 3: Cập nhật Lịch sử Hội thoại</strong><br>Dùng <code>append()</code> để đẩy vào mảng <code>messages</code> 2 đối tượng mới: (1) Toàn bộ tin nhắn trả về của Assistant (có chứa tool_calls), và (2) Một tin nhắn mới khai báo <code>role: "tool"</code> chứa <code>tool_call_id</code> tương ứng và <code>content</code> là kết quả nhận được từ hàm.</li>
-                <li><i class="fa-solid fa-paper-plane"></i> <strong>Bước 4: Gọi API Lần 2</strong><br>Tiếp tục gọi hàm <code>create()</code> lần thứ hai với mảng <code>messages</code> đã cập nhật (không cần truyền tools). Lúc này AI sẽ đọc kết quả từ tool và trả lời bình thường.</li>
+                <li><i class="fa-solid fa-list"></i> <strong>Bước 1: Khai báo Tools & Gọi API lần 1</strong><br>Tạo mảng <code>tools</code> định nghĩa cấu trúc hàm <code>get_weather</code>. Gọi <code>client.responses.create()</code> truyền vào input của user và tham số <code>tools</code>.</li>
+                <li><i class="fa-solid fa-code-branch"></i> <strong>Bước 2: Xử lý Tool Call & Gọi hàm Local</strong><br>Kiểm tra <code>response.output</code> để lấy function call đầu tiên. Trích xuất thuộc tính <code>arguments</code> (dùng <code>json.loads</code> để parse thành Dictionary) để lấy giá trị biến <code>location</code>. Chạy hàm Python <code>get_weather(location)</code> của bạn để lấy dữ liệu dạng chuỗi.</li>
+                <li><i class="fa-solid fa-reply-all"></i> <strong>Bước 3: Gửi Kết Quả Tool</strong><br>Sau khi chạy hàm local, tạo input dạng <code>{"type": "function_call_output", "call_id": ..., "output": ...}</code> để trả kết quả cho mô hình.</li>
+                <li><i class="fa-solid fa-paper-plane"></i> <strong>Bước 4: Gọi API Lần 2</strong><br>Tiếp tục gọi <code>client.responses.create()</code> lần thứ hai với <code>previous_response_id=response.id</code> và mảng input chứa <code>function_call_output</code>. Lúc này AI sẽ tổng hợp và trả lời tự nhiên.</li>
             </ul>
         </div>
     </div>

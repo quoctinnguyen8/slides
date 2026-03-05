@@ -210,7 +210,7 @@ demo.<span class="func">launch</span>()</code></pre>
                     <tr>
                         <td><i class="fa-solid fa-list"></i>Dropdown / Slider</td>
                         <td>Chọn giá trị trong danh sách hoặc dải số.</td>
-                        <td>Model, temperature, max_tokens.</td>
+                        <td>Model, temperature, max_output_tokens.</td>
                     </tr>
                     <tr>
                         <td><i class="fa-solid fa-file-arrow-up"></i>File / Image / Audio</td>
@@ -282,12 +282,12 @@ client = <span class="cls">OpenAI</span>()
 
     messages.append({<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: message})
 
-    response = client.chat.completions.<span class="func">create</span>(
-        model=<span class="str">"gpt-4o-mini"</span>,
-        messages=messages,
+    response = client.responses.<span class="func">create</span>(
+        model=<span class="str">"gpt-5.2"</span>,
+        input=messages,
         temperature=<span class="builtin">1.3</span>
     )
-    <span class="kw">return</span> response.choices[<span class="builtin">0</span>].message.content</code></pre>
+    <span class="kw">return</span> response.output_text</code></pre>
                 </div>
             </div>
             <div>
@@ -373,8 +373,8 @@ app.<span class="func">launch</span>()</code></pre>
 
     <span class="kw">with</span> gr.<span class="cls">Tab</span>(<span class="str">"Cấu hình"</span>):
         model = gr.<span class="cls">Dropdown</span>(
-            choices=[<span class="str">"gpt-4o-mini"</span>, <span class="str">"gpt-4.1-mini"</span>],
-            value=<span class="str">"gpt-4o-mini"</span>
+            choices=[<span class="str">"gpt-5.2"</span>],
+            value=<span class="str">"gpt-5.2"</span>
         )
         temperature = gr.<span class="cls">Slider</span>(<span class="builtin">0</span>, <span class="builtin">1</span>, value=<span class="builtin">0.7</span>)</code></pre>
                 </div>
@@ -427,7 +427,7 @@ app.<span class="func">launch</span>()</code></pre>
         <p style="text-align: left; max-width: 980px; margin: 20px auto 0;">
             <strong>Yêu cầu chi tiết:</strong><br>
             1. Tab 1: Chat với vùng hiển thị hội thoại, ô nhập và nút gửi.<br>
-            2. Tab 2: Cấu hình gồm <span class="code-inline">model</span>, <span class="code-inline">temperature</span>, <span class="code-inline">max_tokens</span>.<br>
+            2. Tab 2: Cấu hình gồm <span class="code-inline">model</span>, <span class="code-inline">temperature</span>, <span class="code-inline">max_output_tokens</span>.<br>
             3. Dùng <span class="code-inline">State</span> để lưu history.<br>
             4. Khi bấm gửi ở Tab 1, áp dụng cấu hình hiện tại từ Tab 2 để gọi model.
         </p>
@@ -458,7 +458,7 @@ app.<span class="func">launch</span>()</code></pre>
 
         <span class="kw">with</span> gr.<span class="cls">Column</span>(scale=<span class="builtin">1</span>):
             model = gr.<span class="cls">Dropdown</span>(
-                choices=[<span class="str">"gpt-4o-mini"</span>, <span class="str">"gpt-4.1-mini"</span>]
+                choices=[<span class="str">"gpt-5.2"</span>]
             )
             temp = gr.<span class="cls">Slider</span>(<span class="builtin">0</span>, <span class="builtin">1</span>, value=<span class="builtin">0.7</span>)</code></pre>
                 </div>
