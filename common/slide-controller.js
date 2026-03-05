@@ -414,6 +414,42 @@
         isTouchTracking = false;
     }, { passive: true });
 
+    // Hỗ trợ lăn chuột để chuyển slide:
+    // - lăn xuống: slide tiếp theo
+    // - lăn lên: slide trước
+    let wheelAccumulatedDelta = 0;
+    let wheelCooldown = false;
+    const WHEEL_THRESHOLD = 90;
+    const WHEEL_COOLDOWN_MS = 100;
+
+    const onWheelNavigate = (event) => {
+        if (wheelCooldown) return;
+        if (isInteractiveTarget(event.target)) return;
+        if (event.ctrlKey) return; // tránh xung đột zoom (Ctrl + wheel)
+
+        // Chỉ xử lý cuộn dọc
+        if (Math.abs(event.deltaY) < Math.abs(event.deltaX)) return;
+
+        wheelAccumulatedDelta += event.deltaY;
+
+        if (Math.abs(wheelAccumulatedDelta) < WHEEL_THRESHOLD) return;
+
+        event.preventDefault();
+
+        if (wheelAccumulatedDelta > 0) {
+            goToSlide(currentIndex + 1);
+        } else {
+            goToSlide(currentIndex - 1);
+        }
+
+        wheelAccumulatedDelta = 0;
+        wheelCooldown = true;
+        window.setTimeout(() => {
+            wheelCooldown = false;
+        }, WHEEL_COOLDOWN_MS);
+    };
+    viewport.addEventListener('wheel', onWheelNavigate, { passive: false });
+
     // Enter để xác nhận nhảy trang
     indexInput.addEventListener('keydown', (event) => {
         if (event.key === 'Enter') {

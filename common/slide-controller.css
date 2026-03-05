@@ -190,7 +190,7 @@ body.slide-loading .slide-top-actions {
     height: 44px;
     border: 1px solid #d1d5db;
     border-radius: 10px;
-    background: rgba(255, 255, 255, 0.95);
+    background: #fff;
     color: #4b5563;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
     display: inline-flex;
@@ -198,14 +198,14 @@ body.slide-loading .slide-top-actions {
     justify-content: center;
     cursor: pointer;
     font-size: 18px;
-    transition: background-color 200ms ease, color 200ms ease;
+    opacity: 0.6;
+    transition: opacity 200ms ease;
 }
 
 .slide-home-btn:hover,
 .slide-print-btn:hover,
 .slide-fullscreen-btn:hover {
-    background: #ffffff;
-    color: #10a37f;
+    opacity: 1;
 }
 
 .code-copy-btn,
