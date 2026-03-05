@@ -185,9 +185,9 @@ client = <span class="cls">OpenAI</span>()
 
 <span class="cmt"># Gửi Request</span>
 response = client.responses.<span class="func">create</span>(
-    model=<span class="str">"gpt-5.2"</span>,
+    model=<span class="str">"gpt-5-mini"</span>,
+    instructions=<span class="str">"Bạn là trợ lý."</span>,
     input=[
-        {<span class="str">"role"</span>: <span class="str">"system"</span>, <span class="str">"content"</span>: <span class="str">"Bạn là trợ lý."</span>},
         {<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: <span class="str">"Xin chào!"</span>}
     ]
 )
@@ -218,12 +218,7 @@ response = client.responses.<span class="func">create</span>(
 <pre><code><span class="cmt"># Gửi request với các tham số tùy chỉnh</span>
 response = client.responses.<span class="func">create</span>(
     model=<span class="str">"gpt-5.2"</span>,
-    input=[
-        {
-            <span class="str">"role"</span>: <span class="str">"user"</span>, 
-            <span class="str">"content"</span>: <span class="str">"Kể một câu chuyện ngắn."</span>
-        }
-    ],
+    input=<span class="str">"Kể một câu chuyện ngắn."</span>,
     <span class="cmt"># Tăng tính sáng tạo của câu chuyện</span>
     temperature=<span class="builtin">0.8</span>,  
     <span class="cmt"># Giữ mặc định vì đã chỉnh temperature</span>
@@ -264,12 +259,13 @@ response = client.responses.<span class="func">create</span>(
                 </ul>
             </div>
             <div>
-                <div class="code-container" style="font-size: 14px;">
+                <div class="code-container" style="font-size: 13px;">
 <pre><code><span class="kw">from</span> openai <span class="kw">import</span> OpenAI
 client = <span class="cls">OpenAI</span>()
 
 <span class="cmt"># Khởi tạo bộ nhớ (lịch sử hội thoại)</span>
-messages = [{<span class="str">"role"</span>: <span class="str">"system"</span>, <span class="str">"content"</span>: <span class="str">"Bạn là trợ lý."</span>}]
+system_prompt = <span class="str">"Bạn là trợ lý AI trả lời ngắn gọn, dễ hiểu."</span>
+messages = []
 
 <span class="kw">while True</span>:
     user_input = <span class="builtin">input</span>(<span class="str">"Bạn: "</span>)
@@ -280,15 +276,13 @@ messages = [{<span class="str">"role"</span>: <span class="str">"system"</span>,
     messages.append({<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: user_input})
     
     response = client.responses.<span class="func">create</span>(
-        model=<span class="str">"gpt-5.2"</span>, input=messages
+        model=<span class="str">"gpt-5-mini"</span>, input=messages, instructions=system_prompt
     )
-    
     reply = response.output_text
     <span class="builtin">print</span>(<span class="str">"AI: "</span> + reply)
     
     <span class="cmt"># Quan trọng: Thêm câu trả lời vào lịch sử</span>
-    messages.append({<span class="str">"role"</span>: <span class="str">"assistant"</span>, <span class="str">"content"</span>: reply})
-</code></pre>
+    messages.append({<span class="str">"role"</span>: <span class="str">"assistant"</span>, <span class="str">"content"</span>: reply})</code></pre>
                 </div>
             </div>
         </div>
@@ -312,7 +306,7 @@ messages = [{<span class="str">"role"</span>: <span class="str">"system"</span>,
             <div>
                 <div class="code-container" style="font-size: 14px;">
 <pre><code>response = client.responses.<span class="func">create</span>(
-    model=<span class="str">"gpt-5.2"</span>,
+    model=<span class="str">"gpt-5-mini"</span>,
     <span class="cmt"># Ép kiểu dữ liệu trả về thành JSON Object</span>
     text={ <span class="str">"format"</span>: { <span class="str">"type"</span>: <span class="str">"json_object"</span> } },
     input=[
@@ -366,7 +360,7 @@ client = <span class="cls">OpenAI</span>()
 
 <span class="cmt"># Sử dụng .parse thay vì .create</span>
 completion = client.responses.<span class="func">parse</span>(
-    model=<span class="str">"gpt-5.2"</span>, <span class="cmt"># Bắt buộc model hỗ trợ</span>
+    model=<span class="str">"gpt-5-mini"</span>,
     input=[
         {<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: <span class="str">"Tôi tên Nam, 25 tuổi."</span>}
     ],
@@ -464,7 +458,7 @@ tools = [{
             <div class="code-container" style="font-size: 15px; margin: 0; display: flex; flex-direction: column; justify-content: center; border-radius: 12px;">
 <pre><code><span class="cmt"># 2. Gửi request kèm theo tools</span>
 response = client.responses.<span class="func">create</span>(
-    model=<span class="str">"gpt-5.2"</span>,
+    model=<span class="str">"gpt-5-mini"</span>,
     input=[{
         <span class="str">"role"</span>: <span class="str">"user"</span>, 
         <span class="str">"content"</span>: <span class="str">"Hà Nội hôm nay nóng không?"</span>

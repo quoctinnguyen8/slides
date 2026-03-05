@@ -247,26 +247,28 @@ demo.<span class="func">launch</span>()</code></pre>
         <div class="two-column" style="align-items: flex-start; gap: 24px;">
             <div>
                 <div class="code-container" style="font-size: 13px;">         
-<pre><code></code><span class="cmt"># chat_service.py</span> 
+<pre><code><span class="cmt"># chat_service.py</span> 
 <span class="kw">from</span> openai <span class="kw">import</span> OpenAI
+<span class="kw">from</span> dotenv <span class="kw">import</span> load_dotenv
 
+load_dotenv()
 client = <span class="cls">OpenAI</span>()
 
 <span class="kw">def</span> <span class="func">chat_with_openai</span>(message, history):
-    messages = [
-        {<span class="str">"role"</span>: <span class="str">"system"</span>, <span class="str">"content"</span>: <span class="str">"Bạn là trợ lý AI trả lời ngắn gọn, dễ hiểu."</span>}
-    ]
+    system_prompt = <span class="str">"Bạn là trợ lý AI trả lời ngắn gọn, dễ hiểu."</span>
 
-    <span class="kw">for</span> user_text, bot_text <span class="kw">in</span> history:
-        messages.append({<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: user_text})
-        messages.append({<span class="str">"role"</span>: <span class="str">"assistant"</span>, <span class="str">"content"</span>: bot_text})
+    <span class="cmt"># Thêm lịch sử chat vào messages</span>
+    messages = []
+    <span class="kw">for</span> msg <span class="kw">in</span> history:
+        messages.append({<span class="str">"role"</span>: msg[<span class="str">"role"</span>], <span class="str">"content"</span>: msg[<span class="str">"content"</span>]})
 
     messages.append({<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: message})
 
     response = client.responses.<span class="func">create</span>(
-        model=<span class="str">"gpt-5.2"</span>,
+        model=<span class="str">"gpt-5-mini"</span>,
+        instructions=system_prompt,
         input=messages,
-        temperature=<span class="builtin">1.3</span>
+        max_output_tokens=<span class="builtin">1000</span>
     )
     <span class="kw">return</span> response.output_text</code></pre>
                 </div>
@@ -275,10 +277,8 @@ client = <span class="cls">OpenAI</span>()
                 <div class="code-container" style="font-size: 13px;">
 <pre><code><span class="cmt"># main.py</span>
 <span class="kw">import</span> gradio <span class="kw">as</span> gr
-<span class="kw">from</span> dotenv <span class="kw">import</span> load_dotenv
 <span class="kw">from</span> chat_service <span class="kw">import</span> chat_with_openai
 
-load_dotenv()
 demo = gr.<span class="cls">ChatInterface</span>(
     fn=chat_with_openai,
     title=<span class="str">"Chatbox OpenAI + Gradio"</span>,
