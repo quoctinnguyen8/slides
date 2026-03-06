@@ -393,30 +393,45 @@ user = response.output_parsed
     </div>
 </div>
 
-<!-- Slide 14: Tiled_Grid (Function Calling - Quy trình 4 bước) -->
+<!-- Slide 14: Tiled_Grid (Function Calling - Quy trình 5 bước) -->
 <div class="slide-container" id="slide14">
     <h2 class="slide-title">Function Calling (Quy Trình Thực Hiện)</h2>
     <div class="content-area">
-        <div class="tiled-content" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 100%;">
+        <div class="tiled-content" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; width: 100%;">
             <div class="tile" style="min-width: auto; padding: 10px 20px;">
-                <div class="icon" style="font-size: 32px; margin-bottom: 10px;"><i class="fa-solid fa-1"></i></div>
-                <h3 style="font-size: 24px;">Định Nghĩa Tools</h3>
-                <p style="font-size: 18px;">Khai báo danh sách các hàm (tools) theo chuẩn JSON Schema, mô tả chi tiết tên hàm, mục đích sử dụng và các tham số (parameters) cần thiết để AI hiểu được.</p>
+                <div class="icon" style="margin: 10px 0; display: flex; align-items: baseline; gap: 12px;">
+                    <i class="fa-solid fa-1" style="font-size: 32px;"></i>
+                    <h3 style="font-size: 24px;">Định Nghĩa Tools</h3>
+                </div>
+                <p style="font-size: 18px;">Khai báo tools theo JSON Schema với <span class="code-inline" style="font-size: 16px;">type/name/description/parameters</span>. Nên bật <span class="code-inline" style="font-size: 16px;">strict: true</span> để mô hình bám schema tốt hơn.</p>
             </div>
             <div class="tile" style="min-width: auto; padding: 10px 20px;">
-                <div class="icon" style="font-size: 32px; margin-bottom: 10px;"><i class="fa-solid fa-2"></i></div>
-                <h3 style="font-size: 24px;">Gửi Request</h3>
-                <p style="font-size: 18px;">Truyền câu hỏi của User cùng với mảng <span class="code-inline" style="font-size: 16px;">tools</span> vừa định nghĩa lên API thông qua <span class="code-inline" style="font-size: 16px;">client.responses.create()</span>.</p>
+                <div class="icon" style="margin: 10px 0; display: flex; align-items: baseline; gap: 12px;">
+                    <i class="fa-solid fa-2" style="font-size: 32px;"></i>
+                    <h3 style="font-size: 24px;">Gửi Request</h3>
+                </div>
+                <p style="font-size: 18px;">Gửi <span class="code-inline" style="font-size: 16px;">input</span> của user cùng mảng <span class="code-inline" style="font-size: 16px;">tools</span> bằng <span class="code-inline" style="font-size: 16px;">client.responses.create()</span> để mô hình quyết định có gọi hàm hay không.</p>
             </div>
             <div class="tile" style="min-width: auto; padding: 10px 20px;">
-                <div class="icon" style="font-size: 32px; margin-bottom: 10px;"><i class="fa-solid fa-3"></i></div>
-                <h3 style="font-size: 24px;">AI Phân Tích & Phản Hồi</h3>
-                <p style="font-size: 18px;">Kiểm tra kết quả trả về. Nếu AI quyết định cần phải gọi hàm, thông tin sẽ nằm trong <span class="code-inline" style="font-size: 16px;">response.output</span> với item có <span class="code-inline" style="font-size: 16px;">type="function_call"</span>. Tiến hành trích xuất tên hàm và tham số.</p>
+                <div class="icon" style="margin: 10px 0; display: flex; align-items: baseline; gap: 12px;">
+                    <i class="fa-solid fa-3" style="font-size: 32px;"></i>
+                    <h3 style="font-size: 24px;">AI Phân Tích & Phản Hồi</h3>
+                </div>
+                <p style="font-size: 18px;">Duyệt <span class="code-inline" style="font-size: 16px;">response.output</span> và lấy các item có <span class="code-inline" style="font-size: 16px;">type=&quot;function_call&quot;</span>. Trích xuất <span class="code-inline" style="font-size: 16px;">name</span>, <span class="code-inline" style="font-size: 16px;">call_id</span>, <span class="code-inline" style="font-size: 16px;">arguments</span>.</p>
             </div>
             <div class="tile" style="min-width: auto; padding: 10px 20px;">
-                <div class="icon" style="font-size: 32px; margin-bottom: 10px;"><i class="fa-solid fa-4"></i></div>
-                <h3 style="font-size: 24px;">Thực Thi (Local)</h3>
-                <p style="font-size: 18px;">Sử dụng Code Python của bạn để chạy hàm thực tế với tham số nhận được. Sau đó, gửi kết quả ngược lại API để AI tổng hợp câu trả lời.</p>
+                <div class="icon" style="margin: 10px 0; display: flex; align-items: baseline; gap: 12px;">
+                    <i class="fa-solid fa-4" style="font-size: 32px;"></i>
+                    <h3 style="font-size: 24px;">Thực Thi (Local)</h3>
+                </div>
+                <p style="font-size: 18px;">Code Python của bạn chạy hàm thực tế bằng tham số đã parse từ <span class="code-inline" style="font-size: 16px;">arguments</span>. Lưu ý có thể có nhiều function call trong một lượt.</p>
+            </div>
+            <div class="tile" style="min-width: auto; padding: 10px 20px;">
+                <div class="icon" style="margin: 10px 0; display: flex; align-items: baseline; gap: 12px;">
+                    <i class="fa-solid fa-5" style="font-size: 32px;"></i>
+                    <h3 style="font-size: 24px;">Trả Kết Quả Về Model</h3>
+                </div>
+                <p style="font-size: 18px;">Đính kèm kết quả theo dạng <span class="code-inline" style="font-size: 15px;">type=&quot;function_call_output&quot;</span> + <span class="code-inline" style="font-size: 15px;">call_id</span>, rồi gọi model lần nữa để nhận câu trả lời cuối cùng (hoặc thêm tool calls).</p>
             </div>
         </div>
     </div>
@@ -427,45 +442,52 @@ user = response.output_parsed
     <h2 class="slide-title">Function Calling (Code Mẫu Chi Tiết)</h2>
     <div class="content-area">
         <div class="two-column" style="align-items: stretch;">
-            <div class="code-container" style="font-size: 15px; margin: 0; display: flex; flex-direction: column; justify-content: center; border-radius: 12px;">
-<pre><code><span class="cmt"># 1. Định nghĩa công cụ (JSON Schema)</span>
+            <div class="code-container" style="font-size: 14px;">
+<pre><code><span class="cmt"># 1) Định nghĩa tool theo schema mới (Responses API)</span>
 tools = [{
     <span class="str">"type"</span>: <span class="str">"function"</span>,
-    <span class="str">"function"</span>: {
-        <span class="str">"name"</span>: <span class="str">"get_weather"</span>,
-        <span class="str">"description"</span>: <span class="str">"Lấy thời tiết tại một TP"</span>,
-        <span class="str">"parameters"</span>: {
-            <span class="str">"type"</span>: <span class="str">"object"</span>,
-            <span class="str">"properties"</span>: {
-                <span class="str">"location"</span>: {
-                    <span class="str">"type"</span>: <span class="str">"string"</span>, 
-                    <span class="str">"description"</span>: <span class="str">"Tên TP, vd: Hà Nội"</span>
-                }
-            },
-            <span class="str">"required"</span>: [<span class="str">"location"</span>]
-        }
+    <span class="str">"name"</span>: <span class="str">"get_weather"</span>,
+    <span class="str">"description"</span>: <span class="str">"Lấy thời tiết hiện tại theo địa điểm."</span>,
+    <span class="str">"strict"</span>: <span class="kw">True</span>,
+    <span class="str">"parameters"</span>: {
+        <span class="str">"type"</span>: <span class="str">"object"</span>,
+        <span class="str">"properties"</span>: {
+            <span class="str">"location"</span>: {<span class="str">"type"</span>: <span class="str">"string"</span>}
+        },
+        <span class="str">"required"</span>: [<span class="str">"location"</span>],
+        <span class="str">"additionalProperties"</span>: <span class="kw">False</span>
     }
-}]</code></pre>
-            </div>
-            <div class="code-container" style="font-size: 15px; margin: 0; display: flex; flex-direction: column; justify-content: center; border-radius: 12px;">
-<pre><code><span class="cmt"># 2. Gửi request kèm theo tools</span>
+}]
+
+<span class="cmt"># 2) Request đầu tiên (mô hình chọn có gọi tool hay không)</span>
+input_messages = [{<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: <span class="str">"Thời tiết Hà Nội hôm nay thế nào?"</span>}]
 response = openai.responses.<span class="func">create</span>(
-    model=<span class="str">"gpt-5-mini"</span>,
-    input=<span class="str">"Hà Nội hôm nay nóng không?"</span>,
-    tools=tools
+    model=<span class="str">"gpt-5-mini"</span>, tools=tools, input=input_messages
+)</code></pre>
+            </div>
+            <div class="code-container" style="font-size: 14px;">
+<pre><code><span class="cmt"># 3) Xử lý tool calls (có thể 0, 1 hoặc nhiều)</span>
+input_messages += response.output
+
+<span class="kw">for</span> item <span class="kw">in</span> response.output:
+    <span class="kw">if</span> item.type != <span class="str">"function_call"</span>:
+        <span class="kw">continue</span>
+
+    args = json.<span class="func">loads</span>(item.arguments)
+    weather = <span class="str">f"{args['location']}: 30 do C, troi nang"</span>
+
+    input_messages.append({
+        <span class="str">"type"</span>: <span class="str">"function_call_output"</span>,
+        <span class="str">"call_id"</span>: item.call_id,
+        <span class="str">"output"</span>: weather
+    })
+
+<span class="cmt"># 4) Gửi kết quả tool để model trả lời tự nhiên</span>
+final_response = openai.responses.<span class="func">create</span>(
+    model=<span class="str">"gpt-5-mini"</span>, tools=tools, input=input_messages
 )
 
-<span class="cmt"># 3. Trích xuất yêu cầu gọi hàm từ AI</span>
-tool_call = <span class="builtin">next</span>(
-    item <span class="kw">for</span> item <span class="kw">in</span> response.output
-    <span class="kw">if</span> item.type == <span class="str">"function_call"</span>
-)
-
-<span class="builtin">print</span>(<span class="str">"Tên hàm:"</span>, tool_call.name) 
-<span class="cmt"># In ra: get_weather</span>
-
-<span class="builtin">print</span>(<span class="str">"Tham số:"</span>, tool_call.arguments) 
-<span class="cmt"># In ra JSON: {"location": "Hà Nội"}</span></code></pre>
+<span class="builtin">print</span>(final_response.output_text)</code></pre>
             </div>
         </div>
     </div>
