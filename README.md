@@ -4,4 +4,4 @@
 
 Dự án sử dụng HTML, CSS và JS. Các slide được lưu trữ dưới dạng file HTML, có thể dễ dàng mở và chỉnh sửa khi cần thiết.
 
-Cấu trúc các slide tương tự nhau, chỉ cần 1 file JS để điều khiển toàn bộ.
+Cấu trúc các slide tương tự nhau, chỉ cần 1 file JS để điều khiển toàn bộ
