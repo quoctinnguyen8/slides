@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Học và sử dụng ChromaDB với Python</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../common/slide-style-1.css">
+    <link rel="stylesheet" href="../../common/slide-controller.css">
+    <link rel="shortcut icon" href="../../common/icon.png" type="image/x-icon">
+</head>
+<body>
+
+<!-- Slide 1: Tiêu đề -->
+<div class="slide-container section-slide" id="slide1">
+    <div class="section-title-layout" style="max-width: 980px; text-align: center;">
+        <hr>
+        <h1 style="font-size: 62px; margin-bottom: 18px;">Học Và Sử Dụng <span style="color: #10a37f;">ChromaDB</span> Với Python</h1>
+        <p class="subtitle" style="max-width: 900px; margin: 0 auto 28px;">Từ Vector Database, Semantic Search đến ứng dụng xây RAG thực tế với ChromaDB, OpenAI Embeddings và Responses API.</p>
+        <div class="tiled-content" style="gap: 16px; justify-content: center;">
+            <div class="tile" style="max-width: 250px; min-width: 220px; padding: 22px 24px;">
+                <div class="icon" style="font-size: 28px; margin-bottom: 12px;"><i class="fa-solid fa-database"></i></div>
+                <h3 style="font-size: 24px; margin-bottom: 8px;">Vector Database</h3>
+                <p style="font-size: 18px;">Lưu và quản lý embedding hiệu quả.</p>
+            </div>
+            <div class="tile" style="max-width: 250px; min-width: 220px; padding: 22px 24px;">
+                <div class="icon" style="font-size: 28px; margin-bottom: 12px;"><i class="fa-solid fa-magnifying-glass"></i></div>
+                <h3 style="font-size: 24px; margin-bottom: 8px;">Semantic Search</h3>
+                <p style="font-size: 18px;">Tìm theo ý nghĩa thay vì chỉ từ khóa.</p>
+            </div>
+            <div class="tile" style="max-width: 250px; min-width: 220px; padding: 22px 24px;">
+                <div class="icon" style="font-size: 28px; margin-bottom: 12px;"><i class="fa-solid fa-brain"></i></div>
+                <h3 style="font-size: 24px; margin-bottom: 8px;">AI / RAG</h3>
+                <p style="font-size: 18px;">Nền tảng cho chatbot tài liệu và hỏi đáp.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 2: Mục tiêu -->
+<div class="slide-container" id="slide2">
+    <h2 class="slide-title">Mục Tiêu Bài Học</h2>
+    <div class="content-area">
+        <div class="tiled-content">
+            <div class="tile">
+                <div class="icon"><i class="fa-solid fa-circle-info"></i></div>
+                <h3>Hiểu khái niệm gốc</h3>
+                <p>Biết vector database là gì và vì sao nó quan trọng trong ứng dụng AI hiện đại.</p>
+            </div>
+            <div class="tile">
+                <div class="icon"><i class="fa-solid fa-layer-group"></i></div>
+                <h3>Nắm ChromaDB</h3>
+                <p>Hiểu client, collection, record, metadata và cách ChromaDB tổ chức dữ liệu.</p>
+            </div>
+            <div class="tile">
+                <div class="icon"><i class="fa-solid fa-arrow-up-right-dots"></i></div>
+                <h3>Lưu và truy xuất</h3>
+                <p>Biết cách tạo embedding, lưu vector và query top-k kết quả gần nhất.</p>
+            </div>
+            <div class="tile">
+                <div class="icon"><i class="fa-solid fa-laptop-file"></i></div>
+                <h3>Xây demo</h3>
+                <p>Hoàn thành một demo tìm kiếm tài liệu có thể mở rộng thành RAG app.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 3: Tài liệu -->
+<div class="slide-container" id="slide3">
+    <h2 class="slide-title">Tài Liệu Tham Khảo</h2>
+    <div class="content-area">
+        <div class="bullet-list">
+            <ul>
+                <li><i class="fa-solid fa-book-open"></i> <strong>ChromaDB Docs (<a href="https://docs.trychroma.com/" target="_blank" rel="noopener noreferrer">docs.trychroma.com</a>):</strong> Tài liệu chính thức về client, collection, metadata filtering, query và persistence.</li>
+                <li><i class="fa-solid fa-vector-square"></i> <strong>OpenAI Embeddings Guide (<a href="https://developers.openai.com/api/docs/guides/embeddings" target="_blank" rel="noopener noreferrer">developers.openai.com/api/docs/guides/embeddings</a>):</strong> Hướng dẫn tạo vector embedding với các model như <span class="code-inline">text-embedding-3-small</span>.</li>
+                <li><i class="fa-solid fa-diagram-project"></i> <strong>OpenAI Retrieval / RAG Guide (<a href="https://developers.openai.com/api/docs/guides/retrieval" target="_blank" rel="noopener noreferrer">developers.openai.com/api/docs/guides/retrieval</a>):</strong> Tư duy semantic search, retrieval và cách tổng hợp câu trả lời.</li>
+                <li><i class="fa-solid fa-flask"></i> <strong>OpenAI Cookbook (<a href="https://developers.openai.com/cookbook/examples/responses_api/responses_api_tool_orchestration" target="_blank" rel="noopener noreferrer">Responses API + RAG</a>):</strong> Ví dụ hiện đại dùng <span class="code-inline">responses.create</span> thay cho Chat Completions.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 4: Vấn đề truyền thống -->
+<div class="slide-container" id="slide4">
+    <h2 class="slide-title">Vấn Đề Của Tìm Kiếm Truyền Thống</h2>
+    <div class="content-area">
+        <div class="two-column" style="align-items: flex-start; gap: 28px;">
+            <div>
+                <h3>Ví dụ</h3>
+                <div class="code-container" style="font-size: 18px; padding: 18px; margin-bottom: 16px;">
+<pre><code>Từ khóa tìm kiếm: <span class="kw">machine learning</span>
+
+Dữ liệu trong database:
+<span class="str">"Tôi đang học AI"</span>
+<span class="str">"Tôi đang học Trí tuệ nhân tạo"</span>
+<span class="str">"Tôi đang học Deep learning"</span>
+
+Kết quả tìm kiếm: <span class="builtin">0</span> kết quả</code></pre>
+                </div>
+                <p>Khi chỉ tìm kiếm theo từ khóa, hệ thống dễ bỏ sót tài liệu có cùng ý nhưng dùng từ khác.</p>
+            </div>
+            <div>
+                <h3>Vấn đề cốt lõi</h3>
+                <ul>
+                    <li>Chỉ dựa vào <strong>keyword search</strong>.</li>
+                    <li>Không hiểu ngữ nghĩa hoặc ngữ cảnh câu hỏi.</li>
+                    <li>Không nhận ra <span class="code-inline">AI</span> hay <span class="code-inline">Trí tuệ nhân tạo</span> và <span class="code-inline">machine learning</span> có liên quan gần nhau.</li>
+                    <li>Khi dữ liệu lớn hơn, tỉ lệ bỏ sót tài liệu phù hợp càng cao.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 5: Semantic search -->
+<div class="slide-container" id="slide5">
+    <h2 class="slide-title">Giải Pháp: Tìm Kiếm Theo Nghĩa (Semantic Search)</h2>
+    <div class="content-area">
+        <div class="two-column" style="align-items: flex-start; gap: 32px;">
+            <div>
+                <h3>Cách hiểu nhanh</h3>
+                <div class="code-container" style="font-size: 20px; padding: 22px; margin-bottom: 10px;">
+<pre><code>Từ khóa tìm kiếm
+       ↓
+Hệ thống hiểu ý nghĩa
+       ↓
+Tìm nội dung tương tự</code></pre>
+                </div>
+                <p style="margin-top: 16px;">Thay vì hỏi <strong>"có trùng từ không?"</strong>, semantic search hỏi <strong>"hai nội dung có nói cùng một ý không?"</strong>.</p>
+            </div>
+            <div>
+                <h3>Ứng dụng phổ biến</h3>
+                <ul>
+                    <li>Chatbot hỏi đáp tài liệu nội bộ.</li>
+                    <li>Hệ thống tra cứu kiến thức thông minh.</li>
+                    <li>Tìm kiếm sản phẩm, bài viết, FAQ theo ý định.</li>
+                    <li>Nền tảng quan trọng trong nhiều hệ thống RAG.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 6: Vector database -->
+<div class="slide-container" id="slide6">
+    <h2 class="slide-title">Vector Database Là Gì?</h2>
+    <div class="content-area">
+        <div class="two-column" style="align-items: flex-start;">
+            <div>
+                <p>Vector database là database được tối ưu để lưu và truy vấn dữ liệu dạng:</p>
+                <div class="code-container" style="margin-bottom: 10px">
+<pre><code>[0.1, 0.5, 0.9, 0.2, 0.8,...]</code></pre></div>
+                <p>Mỗi đoạn text, ảnh hoặc audio có thể được mã hóa thành một dãy số để đo mức độ giống nhau.</p>
+                <p>Khác với database truyền thống lưu dữ liệu dạng số hay chữ,... Vector database lưu vector và tài liệu gốc của vector đó.</p>
+            </div>
+            <div>
+                <div class="image-wrapper">
+                    <!-- Ảnh ví dụ -->
+                    <img src="../images/rag-vector-db.png" alt="Vector Database Illustration">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 7: Các DB phổ biến -->
+<div class="slide-container" id="slide7">
+    <h2 class="slide-title">Các Vector Database Phổ Biến</h2>
+    <div class="content-area">
+        <div class="content-table-wrap">
+            <table class="content-table">
+                <thead>
+                    <tr>
+                        <th class="col-primary">Công cụ</th>
+                        <th class="col-secondary">Điểm mạnh</th>
+                        <th class="col-tertiary">Phù hợp khi</th>
+                    </tr>
+                </thead>
+                <tbody style="font-size: 18px;">
+                    <tr>
+                        <td><i class="fa-solid fa-leaf"></i>ChromaDB</td>
+                        <td>Nhẹ, dễ chạy local, thân thiện cho Python và code demo.</td>
+                        <td>Học tập, demo, RAG nhỏ và vừa.</td>
+                    </tr>
+                    <tr>
+                        <td><i class="fa-solid fa-cloud"></i>Pinecone</td>
+                        <td>Dịch vụ managed vector database, vận hành đơn giản.</td>
+                        <td>Ưu tiên cloud và mở rộng nhanh.</td>
+                    </tr>
+                    <tr>
+                        <td><i class="fa-solid fa-cubes"></i>Milvus</td>
+                        <td>Mạnh về khả năng mở rộng và hệ sinh thái enterprise.</td>
+                        <td>Dữ liệu lớn, hệ thống production.</td>
+                    </tr>
+                    <tr>
+                        <td><i class="fa-solid fa-network-wired"></i>Weaviate / Qdrant</td>
+                        <td>Nhiều tính năng truy vấn, filter và triển khai linh hoạt.</td>
+                        <td>Cần nhiều lựa chọn kiến trúc.</td>
+                    </tr>
+                    <tr>
+                        <td><i class="fa-solid fa-database"></i>PostgreSQL + pgvector</td>
+                        <td>Dùng extension pgvector để thêm khả năng vector vào PostgreSQL.</td>
+                        <td>Đã dùng PostgreSQL, muốn thêm vector mà không học hệ mới.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 8: Vì sao Chroma -->
+<div class="slide-container" id="slide8">
+    <h2 class="slide-title">Vì Sao Dùng ChromaDB?</h2>
+    <div class="content-area">
+        <div class="tiled-content">
+            <div class="tile">
+                <div class="icon"><i class="fa-solid fa-code-branch"></i></div>
+                <h3>Open source</h3>
+                <p>Dễ học, dễ thử nghiệm, dễ nhìn thấy cách dữ liệu được tổ chức.</p>
+            </div>
+            <div class="tile">
+                <div class="icon"><i class="fa-solid fa-desktop"></i></div>
+                <h3>Chạy local</h3>
+                <p>Không bắt buộc phải lên cloud ngay từ đầu, phù hợp môi trường học tập.</p>
+            </div>
+            <div class="tile">
+                <div class="icon"><i class="fa-brands fa-python"></i></div>
+                <h3>Dễ dùng với Python</h3>
+                <p>API rõ ràng: client, collection, add, query, filter.</p>
+            </div>
+            <div class="tile">
+                <div class="icon"><i class="fa-solid fa-rocket"></i></div>
+                <h3>Rất hợp để làm RAG</h3>
+                <p>Prototype nhanh, dễ quan sát kết quả tìm kiếm để tối ưu.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 9: Embedding là gì -->
+<div class="slide-container" id="slide9">
+    <h2 class="slide-title">Vector Embedding Là Gì?</h2>
+    <div class="content-area">
+        <div class="two-column" style="align-items: flex-start; gap: 30px;">
+            <div>
+                <p><strong>Vector Embedding</strong> là kỹ thuật chuyển đổi các dạng dữ liệu phi cấu trúc (đoạn văn, hình ảnh, âm thanh) thành các mảng <strong>số thực</strong> (vector).</p>
+                <p>Có thể hiểu đây là cách "số hóa" ngữ nghĩa của dữ liệu để máy tính có thể hiểu, phân tích và tính toán được.</p>
+                <p>Ví dụ văn bản gốc:</p>
+                <div class="code-container" style="margin-bottom: 20px;"><pre><code>Tôi thích học AI</code></pre></div>
+                <p>Sau khi thực hiện embedding:</p>
+                <div class="code-container" style="margin-bottom: 20px;"><pre><code>[0.21, -0.43, 0.77, ...]</code></pre></div>
+                <p>Mỗi con số trong vector đại diện cho một <strong>đặc trưng ngữ nghĩa</strong> của văn bản.</p>
+            </div>
+            <div>
+                <h3>Ví dụ cụ thể với bộ dữ liệu sau</h3>
+                <div class="image-wrapper">
+                    <!-- Ảnh ví dụ -->
+                    <img src="../images/rag-vector-embedding-data-sample.png" alt="Embedding Illustration">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 10: Placeholder -->
+<div class="slide-container" id="slide10">
+    <h2 class="slide-title">Embedding: Giải Thích Trực Quan</h2>
+    <div class="content-area">
+        <div class="two-column" style="align-items: stretch;">
+            <div>
+                <p><strong>Biểu diễn dữ liệu với 1 tiêu chí</strong></p>
+                <img src="../images/rag-vector-embedding-1d.png" alt="Biễu diễn dữ liệu 1D" style="width: 100%;">
+                <p><strong>Biểu diễn dữ liệu với 2 tiêu chí</strong></p>
+                <img src="../images/rag-vector-embedding-2d.png" alt="Biễu diễn dữ liệu 2D" style="width: 100%; max-height: 350px; object-fit: contain;">
+            </div>
+            <div>
+                <p><strong>Biểu diễn dữ liệu với đủ 3 tiêu chí</strong></p>
+                <img src="../images/rag-vector-embedding-3d.png" alt="Biễu diễn dữ liệu 3D" style="width: 100%; max-height: 350px; object-fit: contain;">
+
+                <p>Mỗi tiêu chí được gọi là một <strong>chiều</strong> (dimension) trong vector.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 11: Embedding model -->
+<div class="slide-container" id="slide11">
+    <h2 class="slide-title">Embedding Được Tạo Bởi Model</h2>
+    <div class="content-area">
+        <div class="two-column" style="align-items: flex-start; gap: 34px;">
+            <div>
+                <p>Vector embedding được tạo ra bằng cách sử dụng các mô hình đã được huấn luyện. Các mô hình này có khả năng đánh giá văn bản dựa trên hàng ngàn tiêu chí (dimensions) khác nhau.</p>
+                <ul>
+                    <li>Model khác nhau sẽ cho vector khác nhau.</li>
+                    <li>Số chiều (dimensions) càng lớn khả năng tìm kiếm càng chính xác, tuy nhiên tốc độ tìm kiếm và chi phí lưu trữ sẽ tăng lên. Chức năng RAG thông thường cần vector có 768-1536 chiều.</li>
+                    <li><strong>Lưu ý quan trọng:</strong> mỗi dimensions trong vector không có nghĩa rõ ràng với con người. Ngữ nghĩa của câu/đoạn văn nằm ở toàn bộ vector.</li>
+                </ul>
+            </div>
+            <div>
+                <h3>Ví dụ tạo vector với OpenAI</h3>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 12: Similarity search -->
+<div class="slide-container" id="slide12">
+    <h2 class="slide-title">Similarity Search Hoạt Động Thế Nào?</h2>
+    <div class="content-area">
+        <div class="two-column" style="align-items: flex-start; gap: 32px;">
+            <div>
+                <div class="code-container" style="font-size: 20px; padding: 24px;">
+<pre><code>Query
+↓
+Embedding
+↓
+So sánh vector
+↓
+Top-K kết quả</code></pre>
+                </div>
+            </div>
+            <div>
+                <h3>Khoảng cách thường dùng</h3>
+                <div class="code-container" style="font-size: 22px; padding: 24px; margin-bottom: 16px;">
+<pre><code>cosine similarity</code></pre>
+                </div>
+                <p>Trong thực tế, hệ thống sẽ lấy vector của query rồi so với toàn bộ vector đã lưu để chọn ra các đoạn gần nhất về ngữ nghĩa.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 13: RAG là gì -->
+<div class="slide-container section-slide" id="slide13">
+    <div class="section-title-layout" style="max-width: 960px;">
+        <hr>
+        <h2>RAG Là Gì?</h2>
+        <p><strong>RAG = Retrieval Augmented Generation</strong></p>
+        <div class="code-container" style="font-size: 21px; padding: 24px; max-width: 420px; margin-top: 22px;">
+<pre><code>Document
+↓
+Embedding
+↓
+Vector DB
+↓
+LLM</code></pre>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 14: Vai trò của Chroma -->
+<div class="slide-container" id="slide14">
+    <h2 class="slide-title">Vai Trò Của ChromaDB Trong RAG</h2>
+    <div class="content-area">
+        <div class="two-column" style="align-items: flex-start; gap: 34px;">
+            <div>
+                <p>Trong pipeline RAG, ChromaDB thường không phải là nơi “trả lời”. Nó là nơi giúp hệ thống <strong>lấy đúng ngữ cảnh</strong> trước khi gọi LLM.</p>
+                <div class="code-container" style="font-size: 20px; padding: 22px; margin-top: 18px;">
+<pre><code>lưu embedding
+tìm đoạn text liên quan</code></pre>
+                </div>
+            </div>
+            <div>
+                <h3>Phân vai rõ ràng</h3>
+                <ul>
+                    <li><strong>ChromaDB:</strong> lưu vector, document, metadata và truy vấn gần đúng.</li>
+                    <li><strong>Embedding model:</strong> biến text thành vector.</li>
+                    <li><strong>LLM:</strong> nhận câu hỏi + ngữ cảnh đã truy xuất để sinh câu trả lời.</li>
+                    <li><strong>OpenAI hiện nay:</strong> phần sinh câu trả lời nên dùng <span class="code-inline">Responses API</span>.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 15: Client -->
+<div class="slide-container" id="slide15">
+    <h2 class="slide-title">Client Trong ChromaDB</h2>
+    <div class="content-area">
+        <div class="two-column" style="align-items: flex-start; gap: 30px;">
+            <div>
+                <p>Client là điểm bắt đầu khi làm việc với ChromaDB.</p>
+                <div class="code-container" style="font-size: 16px;">
+<pre><code><span class="kw">import</span> chromadb
+
+client = chromadb.<span class="cls">PersistentClient</span>(
+    path=<span class="str">"./chroma_data"</span>
+)</code></pre>
+                </div>
+            </div>
+            <div>
+                <h3>Client dùng để</h3>
+                <div class="code-container" style="font-size: 20px; padding: 22px; margin-bottom: 16px;">
+<pre><code>kết nối database
+tạo collection
+query</code></pre>
+                </div>
+                <p>Nói ngắn gọn, client là “cửa vào” để bạn thao tác với dữ liệu vector.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 16: Collection -->
+<div class="slide-container" id="slide16">
+    <h2 class="slide-title">Collection Trong ChromaDB</h2>
+    <div class="content-area">
+        <div class="two-column" style="align-items: flex-start; gap: 32px;">
+            <div>
+                <p>Collection có thể hiểu gần giống:</p>
+                <div class="code-container" style="font-size: 24px; padding: 24px; margin: 16px 0 18px;">
+<pre><code>table</code></pre>
+                </div>
+                <p>Mỗi collection thường đại diện cho một tập dữ liệu hoặc một use case riêng.</p>
+            </div>
+            <div>
+                <h3>Collection lưu gì?</h3>
+                <ul>
+                    <li><strong>vector</strong> để phục vụ similarity search.</li>
+                    <li><strong>document</strong> để trả về nội dung gốc.</li>
+                    <li><strong>metadata</strong> để filter hoặc phân loại tài liệu.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 17: Record -->
+<div class="slide-container" id="slide17">
+    <h2 class="slide-title">Record Trong Collection</h2>
+    <div class="content-area">
+        <div class="two-column" style="align-items: flex-start; gap: 30px;">
+            <div>
+                <p>Mỗi record trong collection thường có 4 thành phần:</p>
+                <div class="code-container" style="font-size: 20px; padding: 22px;">
+<pre><code>id
+embedding
+document
+metadata</code></pre>
+                </div>
+            </div>
+            <div>
+                <p><strong>Ví dụ:</strong></p>
+                <div class="code-container" style="font-size: 17px;">
+<pre><code>{
+  <span class="str">"id"</span>: <span class="str">"doc1"</span>,
+  <span class="str">"document"</span>: <span class="str">"Giới thiệu về ChromaDB"</span>,
+  <span class="str">"metadata"</span>: {<span class="str">"topic"</span>: <span class="str">"AI"</span>}
+}</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 18: Metadata -->
+<div class="slide-container" id="slide18">
+    <h2 class="slide-title">Metadata Dùng Để Làm Gì?</h2>
+    <div class="content-area">
+        <div class="two-column" style="align-items: flex-start; gap: 32px;">
+            <div>
+                <p>Metadata là dữ liệu mô tả đi kèm mỗi record, dùng chủ yếu để:</p>
+                <div class="code-container" style="font-size: 22px; padding: 24px; margin: 18px 0;">
+<pre><code>lọc dữ liệu</code></pre>
+                </div>
+                <p>Nó giúp bạn không phải tìm trên toàn bộ collection trong mọi trường hợp.</p>
+            </div>
+            <div>
+                <h3>Ví dụ metadata</h3>
+                <div class="code-container" style="font-size: 19px; padding: 22px;">
+<pre><code>topic
+author
+year</code></pre>
+                </div>
+                <p style="margin-top: 16px;">Bạn cũng có thể lưu thêm nguồn file, chương, loại tài liệu hoặc ngôn ngữ.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 19: Pipeline lưu dữ liệu -->
+<div class="slide-container section-slide" id="slide19">
+    <div class="section-title-layout" style="max-width: 980px;">
+        <hr>
+        <h2>Pipeline Lưu Dữ Liệu Vào ChromaDB</h2>
+        <div class="code-container" style="font-size: 21px; padding: 24px; max-width: 440px; margin-top: 20px;">
+<pre><code>Document
+↓
+Chunking
+↓
+Embedding
+↓
+ChromaDB</code></pre>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 20: Chunking -->
+<div class="slide-container" id="slide20">
+    <h2 class="slide-title">Chunking Tài Liệu</h2>
+    <div class="content-area">
+        <div class="two-column" style="align-items: flex-start; gap: 34px;">
+            <div>
+                <p><strong>Chunking</strong> là chia tài liệu dài thành các đoạn nhỏ trước khi tạo embedding.</p>
+                <div class="code-container" style="font-size: 22px; padding: 22px; margin: 18px 0;">
+<pre><code>500 token / chunk</code></pre>
+                </div>
+            </div>
+            <div>
+                <h3>Vì sao cần chunking?</h3>
+                <ul>
+                    <li>Embedding hiệu quả hơn vì mỗi đoạn mang ý nghĩa rõ hơn.</li>
+                    <li>Search chính xác hơn vì kết quả trả về là đoạn liên quan, không phải cả tài liệu dài.</li>
+                    <li>Dễ kiểm soát chi phí và chất lượng retrieval.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 21: Overlap -->
+<div class="slide-container" id="slide21">
+    <h2 class="slide-title">Chunk Overlap</h2>
+    <div class="content-area">
+        <div class="two-column" style="align-items: flex-start; gap: 34px;">
+            <div>
+                <p><strong>Ví dụ:</strong></p>
+                <div class="code-container" style="font-size: 20px; padding: 22px;">
+<pre><code>chunk 1: 0-500
+chunk 2: 450-950</code></pre>
+                </div>
+            </div>
+            <div>
+                <h3>Overlap giúp gì?</h3>
+                <div class="code-container" style="font-size: 22px; padding: 22px; margin-bottom: 16px;">
+<pre><code>giữ context</code></pre>
+                </div>
+                <ul>
+                    <li>Giảm nguy cơ một ý quan trọng bị cắt mất giữa hai chunk.</li>
+                    <li>Hữu ích khi thông tin liên quan kéo dài qua nhiều câu.</li>
+                    <li>Không nên overlap quá lớn vì gây lặp dữ liệu và tăng chi phí.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 22: Code chunking -->
+<div class="slide-container" id="slide22">
+    <h2 class="slide-title">Triển Khai Chunking Bằng Python Thuần</h2>
+    <div class="content-area">
+        <div class="two-column" style="align-items: flex-start; gap: 24px;">
+            <div>
+                <div class="code-container" style="font-size: 13px;">
+<pre><code><span class="kw">def</span> <span class="func">chunk_text</span>(text, chunk_size=<span class="builtin">500</span>, overlap=<span class="builtin">50</span>):
+    chunks = []
+    start = <span class="builtin">0</span>
+
+    <span class="kw">while</span> start &lt; <span class="builtin">len</span>(text):
+        end = start + chunk_size
+        chunk = text[start:end]
+        chunks.append(chunk)
+
+        <span class="kw">if</span> end &gt;= <span class="builtin">len</span>(text):
+            <span class="kw">break</span>
+
+        start = end - overlap
+
+    <span class="kw">return</span> chunks</code></pre>
+                </div>
+            </div>
+            <div>
+                <p><strong>Ý tưởng:</strong> đi từng bước trên chuỗi, mỗi lần lấy một đoạn có kích thước cố định rồi lùi lại một phần để tạo overlap.</p>
+                <ul>
+                    <li>Dễ hiểu để học nguyên lý.</li>
+                    <li>Phù hợp demo text nhỏ.</li>
+                    <li>Thực tế thường chunk theo token thay vì đếm ký tự để ổn định hơn.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 23: Tạo embedding -->
+<div class="slide-container" id="slide23">
+    <h2 class="slide-title">Tạo Embedding Với OpenAI</h2>
+    <div class="content-area">
+        <div class="two-column" style="align-items: flex-start; gap: 24px;">
+            <div>
+                <p>Embedding được tạo qua endpoint embeddings, không phải Responses API.</p>
+                <div class="code-container" style="font-size: 13px;">
+<pre><code><span class="kw">from</span> openai <span class="kw">import</span> OpenAI
+
+client = <span class="cls">OpenAI</span>()
+
+response = client.embeddings.<span class="func">create</span>(
+    model=<span class="str">"text-embedding-3-small"</span>,
+    input=<span class="str">"ChromaDB là vector database nhẹ cho AI"</span>
+)
+
+vector = response.data[<span class="builtin">0</span>].embedding
+<span class="builtin">print</span>(<span class="builtin">len</span>(vector))  <span class="cmt"># thường là 1536 chiều</span></code></pre>
+                </div>
+            </div>
+            <div>
+                <h3>Điểm cần nhớ</h3>
+                <ul>
+                    <li>Ví dụ hiện tại nên dùng <span class="code-inline">text-embedding-3-small</span> hoặc <span class="code-inline">text-embedding-3-large</span>.</li>
+                    <li><span class="code-inline">text-embedding-3-small</span> mặc định có 1536 chiều.</li>
+                    <li>Sau khi có vector, bạn mới lưu vào ChromaDB để query nhanh.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 24: Lưu vào chroma -->
+<div class="slide-container" id="slide24">
+    <h2 class="slide-title">Lưu Vào ChromaDB</h2>
+    <div class="content-area">
+        <div class="two-column" style="align-items: flex-start; gap: 24px;">
+            <div>
+                <div class="code-container" style="font-size: 12px;">
+<pre><code><span class="kw">import</span> chromadb
+
+client = chromadb.<span class="cls">PersistentClient</span>(path=<span class="str">"./chroma_data"</span>)
+collection = client.get_or_create_collection(
+    name=<span class="str">"rag_docs"</span>,
+    embedding_function=<span class="kw">None</span>
+)
+
+collection.<span class="func">add</span>(
+    ids=[<span class="str">"doc_1"</span>],
+    embeddings=[vector],
+    documents=[<span class="str">"ChromaDB là vector database nhẹ cho AI"</span>],
+    metadatas=[{<span class="str">"topic"</span>: <span class="str">"AI"</span>, <span class="str">"source"</span>: <span class="str">"slide"</span>}]
+)</code></pre>
+                </div>
+            </div>
+            <div>
+                <p>Thông tin thường được lưu theo bộ:</p>
+                <div class="code-container" style="font-size: 20px; padding: 22px; margin: 18px 0;">
+<pre><code>id
+embedding
+document
+metadata</code></pre>
+                </div>
+                <p>Khi bạn tự tạo embedding bằng OpenAI trước, nên để <span class="code-inline">embedding_function=None</span> cho collection để tránh re-embed.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 25: Persistence -->
+<div class="slide-container" id="slide25">
+    <h2 class="slide-title">Persistence Trong ChromaDB</h2>
+    <div class="content-area">
+        <div class="two-column tiled" style="align-items: stretch;">
+            <div>
+                <h3>In-memory</h3>
+                <div class="code-container" style="font-size: 20px; padding: 20px; margin-bottom: 18px;">
+<pre><code>RAM only</code></pre>
+                </div>
+                <p>Nhanh để thử nghiệm nhưng chỉ tồn tại trong phiên chạy hiện tại.</p>
+            </div>
+            <div>
+                <h3>Persistent</h3>
+                <div class="code-container" style="font-size: 20px; padding: 20px; margin-bottom: 18px;">
+<pre><code>ghi xuống ổ đĩa</code></pre>
+                </div>
+                <p>Nếu không persist thì:</p>
+                <div class="code-container" style="font-size: 20px; padding: 18px; margin-top: 16px;">
+<pre><code>restart → mất dữ liệu</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 26: Query vector -->
+<div class="slide-container" id="slide26">
+    <h2 class="slide-title">Query Vector</h2>
+    <div class="content-area">
+        <div class="two-column" style="align-items: flex-start; gap: 24px;">
+            <div>
+                <div class="code-container" style="font-size: 20px; padding: 24px;">
+<pre><code>Query text
+↓
+Embedding
+↓
+Vector search</code></pre>
+                </div>
+            </div>
+            <div>
+                <div class="code-container" style="font-size: 13px;">
+<pre><code>query_result = collection.<span class="func">query</span>(
+    query_embeddings=[query_vector],
+    n_results=<span class="builtin">3</span>,
+    include=[<span class="str">"documents"</span>, <span class="str">"metadatas"</span>, <span class="str">"distances"</span>]
+)</code></pre>
+                </div>
+                <p style="margin-top: 14px;">Nếu collection có gắn embedding function, bạn cũng có thể query trực tiếp bằng <span class="code-inline">query_texts</span>.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 27: Top-K -->
+<div class="slide-container" id="slide27">
+    <h2 class="slide-title">Top-K Search</h2>
+    <div class="content-area">
+        <div class="two-column" style="align-items: flex-start; gap: 32px;">
+            <div>
+                <p><strong>Ví dụ:</strong></p>
+                <div class="code-container" style="font-size: 22px; padding: 22px;">
+<pre><code>n_results = 3</code></pre>
+                </div>
+            </div>
+            <div>
+                <p>ChromaDB sẽ trả về:</p>
+                <div class="code-container" style="font-size: 22px; padding: 22px; margin-bottom: 16px;">
+<pre><code>3 vector giống nhất</code></pre>
+                </div>
+                <ul>
+                    <li>Top-k nhỏ giúp kết quả tập trung hơn.</li>
+                    <li>Top-k lớn cho nhiều ngữ cảnh hơn nhưng có thể tăng nhiễu.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 28: Metadata filtering -->
+<div class="slide-container" id="slide28">
+    <h2 class="slide-title">Metadata Filtering</h2>
+    <div class="content-area">
+        <div class="two-column" style="align-items: flex-start; gap: 24px;">
+            <div>
+                <p><strong>Ví dụ:</strong></p>
+                <div class="code-container" style="font-size: 18px; padding: 22px;">
+<pre><code>where = {"topic": "AI"}</code></pre>
+                </div>
+            </div>
+            <div>
+                <p>Hệ thống chỉ search trong phần dữ liệu:</p>
+                <div class="code-container" style="font-size: 21px; padding: 22px; margin-bottom: 18px;">
+<pre><code>topic = AI</code></pre>
+                </div>
+                <div class="code-container" style="font-size: 13px;">
+<pre><code>results = collection.<span class="func">query</span>(
+    query_embeddings=[query_vector],
+    where={<span class="str">"topic"</span>: <span class="str">"AI"</span>},
+    n_results=<span class="builtin">3</span>
+)</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 29: Demo ứng dụng -->
+<div class="slide-container section-slide" id="slide29">
+    <div class="section-title-layout" style="max-width: 980px;">
+        <hr>
+        <h2>Demo Ứng Dụng ChromaDB + RAG</h2>
+        <div class="code-container" style="font-size: 20px; padding: 24px; max-width: 520px; margin-top: 20px;">
+<pre><code>Upload file
+↓
+Chunk
+↓
+Embedding
+↓
+ChromaDB
+↓
+Search</code></pre>
+        </div>
+        <p style="margin-top: 20px; max-width: 900px;">Sau bước search, các đoạn phù hợp nhất sẽ được ghép vào prompt và gửi sang <span class="code-inline">client.responses.create(...)</span> để LLM tạo câu trả lời có căn cứ.</p>
+    </div>
+</div>
+
+<!-- Slide 30: Giao diện demo -->
+<div class="slide-container" id="slide30">
+    <h2 class="slide-title">Giao Diện Demo</h2>
+    <div class="content-area">
+        <div class="two-column" style="align-items: flex-start; gap: 28px;">
+            <div>
+                <p>UI có thể xây nhanh bằng:</p>
+                <ul>
+                    <li><strong>Gradio</strong> để tạo form upload và ô search.</li>
+                    <li>Dễ demo trực tiếp trong lớp học hoặc workshop.</li>
+                </ul>
+                <p style="margin-top: 18px;">Tính năng cần có:</p>
+                <div class="code-container" style="font-size: 20px; padding: 22px;">
+<pre><code>upload text
+upload pdf
+search</code></pre>
+                </div>
+            </div>
+            <div>
+                <h3>Luồng xử lý phía sau UI</h3>
+                <div class="code-container" style="font-size: 12px;">
+<pre><code><span class="kw">def</span> <span class="func">answer_query</span>(question):
+    query_vector = client.embeddings.<span class="func">create</span>(
+        model=<span class="str">"text-embedding-3-small"</span>,
+        input=question
+    ).data[<span class="builtin">0</span>].embedding
+
+    hits = collection.<span class="func">query</span>(
+        query_embeddings=[query_vector],
+        n_results=<span class="builtin">3</span>
+    )
+
+    context = <span class="str">"\n\n"</span>.join(hits[<span class="str">"documents"</span>][<span class="builtin">0</span>])
+    response = llm.responses.<span class="func">create</span>(
+        model=<span class="str">"gpt-5-mini"</span>,
+        instructions=<span class="str">"Trả lời dựa trên ngữ cảnh được cung cấp."</span>,
+        input=<span class="str">f"Câu hỏi: {question}\n\nNgữ cảnh:\n{context}"</span>
+    )
+    <span class="kw">return</span> response.output_text</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 31: Tối ưu -->
+<div class="slide-container" id="slide31">
+    <h2 class="slide-title">Tối Ưu Kết Quả Tìm Kiếm Trong RAG</h2>
+    <div class="content-area">
+        <div class="tiled-content">
+            <div class="tile" style="min-width: 220px; padding: 28px;">
+                <div class="icon"><i class="fa-solid fa-scissors"></i></div>
+                <h3 style="font-size: 24px;">Chunk size</h3>
+                <p style="font-size: 18px;">Quá lớn thì loãng ý, quá nhỏ thì mất ngữ cảnh.</p>
+            </div>
+            <div class="tile" style="min-width: 220px; padding: 28px;">
+                <div class="icon"><i class="fa-solid fa-link"></i></div>
+                <h3 style="font-size: 24px;">Chunk overlap</h3>
+                <p style="font-size: 18px;">Giúp giữ mạch thông tin khi ý chính nằm ở ranh giới hai đoạn.</p>
+            </div>
+            <div class="tile" style="min-width: 220px; padding: 28px;">
+                <div class="icon"><i class="fa-solid fa-cube"></i></div>
+                <h3 style="font-size: 24px;">Embedding model</h3>
+                <p style="font-size: 18px;">Model tốt hơn thường cho retrieval sát nghĩa hơn.</p>
+            </div>
+            <div class="tile" style="min-width: 220px; padding: 28px;">
+                <div class="icon"><i class="fa-solid fa-filter"></i></div>
+                <h3 style="font-size: 24px;">Metadata filter</h3>
+                <p style="font-size: 18px;">Thu hẹp không gian tìm kiếm để giảm nhiễu.</p>
+            </div>
+            <div class="tile" style="min-width: 220px; padding: 28px;">
+                <div class="icon"><i class="fa-solid fa-ranking-star"></i></div>
+                <h3 style="font-size: 24px;">Top-k</h3>
+                <p style="font-size: 18px;">Chọn số lượng chunk phù hợp để cân bằng độ đủ và độ sạch của context.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="../../common/slide-controller.js"></script>
+</body>
+</html>
