@@ -260,12 +260,13 @@ response = client.responses.<span class="func">create</span>(
             </div>
             <div>
                 <div class="code-container" style="font-size: 13px;">
-<pre><code><span class="kw">from</span> openai <span class="kw">import</span> OpenAI
-client = <span class="cls">OpenAI</span>()
+<pre><code><span class="kw">import</span> openai
+<span class="kw">from</span> dotenv <span class="kw">import</span> load_dotenv
 
+<span class="builtin">load_dotenv()</span>
 <span class="cmt"># Khởi tạo bộ nhớ (lịch sử hội thoại)</span>
-system_prompt = <span class="str">"Bạn là trợ lý AI trả lời ngắn gọn, dễ hiểu."</span>
 messages = []
+system_prompt = <span class="str">"Bạn là trợ lý AI trả lời ngắn gọn, dễ hiểu."</span>
 
 <span class="kw">while True</span>:
     user_input = <span class="builtin">input</span>(<span class="str">"Bạn: "</span>)
@@ -275,7 +276,7 @@ messages = []
     <span class="cmt"># Thêm câu hỏi vào lịch sử</span>
     messages.append({<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: user_input})
     
-    response = client.responses.<span class="func">create</span>(
+    response = openai.responses.<span class="func">create</span>(
         model=<span class="str">"gpt-5-mini"</span>, input=messages, instructions=system_prompt
     )
     reply = response.output_text
@@ -307,18 +308,10 @@ messages = []
                 <div class="code-container" style="font-size: 14px;">
 <pre><code>response = client.responses.<span class="func">create</span>(
     model=<span class="str">"gpt-5-mini"</span>,
+    instructions=<span class="str">"Bạn là một API. Hãy trả về JSON."</span>,
     <span class="cmt"># Ép kiểu dữ liệu trả về thành JSON Object</span>
     text={ <span class="str">"format"</span>: { <span class="str">"type"</span>: <span class="str">"json_object"</span> } },
-    input=[
-        {
-            <span class="str">"role"</span>: <span class="str">"system"</span>, 
-            <span class="str">"content"</span>: <span class="str">"Bạn là một API. Hãy trả về JSON."</span>
-        },
-        {
-            <span class="str">"role"</span>: <span class="str">"user"</span>, 
-            <span class="str">"content"</span>: <span class="str">"Cho tôi tên 2 loại trái cây đỏ."</span>
-        }
-    ]
+    input=<span class="str">"Cho tôi JSON tên 2 loại trái cây đỏ ."</span>
 )
 
 <span class="kw">import</span> json
@@ -343,32 +336,31 @@ data = json.<span class="func">loads</span>(json_str)
                 <ul>
                     <li>Dùng thư viện <span class="code-inline">Pydantic</span> để định nghĩa Model cấu trúc dữ liệu.</li>
                     <li>Sử dụng method <span class="code-inline">client.responses.parse</span> để parse kết quả theo schema.</li>
-                    <li>Truyền Model vào tham số <span class="code-inline">response_format</span>.</li>
-                    <li>Kết quả trả về không cần <span class="code-inline">json.loads</span>, <span class="code-inline">.parsed</span> sẽ tự động build object Python cho bạn.</li>
+                    <li>Truyền Model vào tham số <span class="code-inline">text_format</span>.</li>
+                    <li>Kết quả trả về không cần <span class="code-inline">json.loads</span>, <span class="code-inline">.output_parsed</span> sẽ tự động build object Python cho bạn.</li>
                 </ul>
             </div>
             <div>
                 <div class="code-container" style="font-size: 14px;">
-<pre><code><span class="kw">from</span> pydantic <span class="kw">import</span> BaseModel
-<span class="kw">from</span> openai <span class="kw">import</span> OpenAI
-client = <span class="cls">OpenAI</span>()
+<pre><code><span class="kw">import</span> openai
+<span class="kw">from</span> pydantic <span class="kw">import</span> BaseModel
+<span class="kw">from</span> dotenv <span class="kw">import</span> load_dotenv
 
+<span class="builtin">load_dotenv()</span>
 <span class="cmt"># Định nghĩa Schema (Cấu trúc mong muốn)</span>
 <span class="kw">class</span> <span class="cls">UserInfo</span>(BaseModel):
     name: <span class="builtin">str</span>
     age: <span class="builtin">int</span>
 
 <span class="cmt"># Sử dụng .parse thay vì .create</span>
-completion = client.responses.<span class="func">parse</span>(
+response = openai.responses.<span class="func">parse</span>(
     model=<span class="str">"gpt-5-mini"</span>,
-    input=[
-        {<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: <span class="str">"Tôi tên Nam, 25 tuổi."</span>}
-    ],
-    response_format=UserInfo, <span class="cmt"># Gắn schema vào</span>
+    input=<span class="str">"Tôi tên Nam, 25 tuổi."</span>,
+    text_format=UserInfo, <span class="cmt"># Gắn schema vào</span>
 )
 
 <span class="cmt"># Nhận object trực tiếp</span>
-user = completion.output_parsed
+user = response.output_parsed
 <span class="builtin">print</span>(user.name) <span class="cmt"># Output: Nam</span>
 <span class="builtin">print</span>(user.age)  <span class="cmt"># Output: 25</span></code></pre>
                 </div>
@@ -457,12 +449,9 @@ tools = [{
             </div>
             <div class="code-container" style="font-size: 15px; margin: 0; display: flex; flex-direction: column; justify-content: center; border-radius: 12px;">
 <pre><code><span class="cmt"># 2. Gửi request kèm theo tools</span>
-response = client.responses.<span class="func">create</span>(
+response = openai.responses.<span class="func">create</span>(
     model=<span class="str">"gpt-5-mini"</span>,
-    input=[{
-        <span class="str">"role"</span>: <span class="str">"user"</span>, 
-        <span class="str">"content"</span>: <span class="str">"Hà Nội hôm nay nóng không?"</span>
-    }],
+    input=<span class="str">"Hà Nội hôm nay nóng không?"</span>,
     tools=tools
 )
 
