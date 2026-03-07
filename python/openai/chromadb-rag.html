@@ -302,7 +302,18 @@ Tìm nội dung tương tự</code></pre>
             </div>
             <div>
                 <h3>Ví dụ tạo vector với OpenAI</h3>
-                
+                <div class="code-container">
+                    <pre><code><span class="kw">import</span> openai
+
+response = openai.embeddings.<span class="func">create</span>(
+    input=<span class="str">"Your text string goes here"</span>,
+    model=<span class="str">"text-embedding-3-small"</span>
+)
+
+<span class="builtin">print</span>(response.data[0].embedding)
+<span class="builtin">print</span>("Length of embedding:", len(response.data[0].embedding))
+<span class="cmt"># Length of embedding: 1536</span></code></pre>
+                </div>
             </div>
         </div>
     </div>
@@ -314,22 +325,24 @@ Tìm nội dung tương tự</code></pre>
     <div class="content-area">
         <div class="two-column" style="align-items: flex-start; gap: 32px;">
             <div>
-                <div class="code-container" style="font-size: 20px; padding: 24px;">
-<pre><code>Query
-↓
-Embedding
-↓
-So sánh vector
-↓
-Top-K kết quả</code></pre>
-                </div>
+                <ul>
+                    <li><strong>Similarity search</strong> là quá trình tìm kiếm các vector trong database có <strong>độ tương đồng cao nhất</strong> với vector của câu hỏi.</li>
+                    <li>Độ tương đồng được tính bằng cách sử dụng khoảng cách giữa các vector, khoảng cách càng nhỏ thì độ tương đồng càng cao.</li>
+                    <li>Với vector 2 chiều, độ tương đồng có thể được biểu diễn bằng khoảng cách Euclidean như sau:
+<pre><code>d = sqrt((x2 - x1)² + (y2 - y1)²)</code></pre>
+                    </li>
+                    <li>Với vector 3 chiều:
+<pre><code>d = sqrt((x2 - x1)² + (y2 - y1)² + (z2 - z1)²)</code></pre>
+                    </li>
+                    <li>Tương tự cho các chiều cao hơn.</li>
+                </ul>
             </div>
             <div>
-                <h3>Khoảng cách thường dùng</h3>
-                <div class="code-container" style="font-size: 22px; padding: 24px; margin-bottom: 16px;">
-<pre><code>cosine similarity</code></pre>
-                </div>
-                <p>Trong thực tế, hệ thống sẽ lấy vector của query rồi so với toàn bộ vector đã lưu để chọn ra các đoạn gần nhất về ngữ nghĩa.</p>
+                <ul>
+                    <li>Trong thực tế khi số chiều vượt quá 200, giá trị khoảng cách giữa các vector được tính bằng phương pháp Euclidean có thể trở nên gần như bằng nhau <i>(hiện tượng Lời nguyền chiều không gian - Curse of Dimensionality)</i>, làm giảm hiệu quả tìm kiếm.</li>
+                    <li>Để giải quyết vấn đề này, các phương pháp khác như <strong>Cosine similarity</strong> thường được sử dụng để đánh giá độ tương đồng giữa các vector trong không gian nhiều chiều.</li>
+                    <li>Thay vì đo khoảng cách, cosine similarity đo góc giữa hai vector. Góc càng nhỏ thì độ tương đồng càng cao. Góc 180 độ tương ứng với ngữ nghĩa hoàn toàn khác nhau - điều mà khoảng cách Euclidean không thể phản ánh.</li>
+                </ul>
             </div>
         </div>
     </div>
