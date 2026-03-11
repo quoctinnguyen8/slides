@@ -311,7 +311,7 @@ response = openai.embeddings.<span class="func">create</span>(
 )
 
 <span class="builtin">print</span>(response.data[0].embedding)
-<span class="builtin">print</span>("Length of embedding:", len(response.data[0].embedding))
+<span class="builtin">print</span>(<span class="str">"Length of embedding:"</span>, len(response.data[0].embedding))
 <span class="cmt"># Length of embedding: 1536</span></code></pre>
                 </div>
             </div>
@@ -348,168 +348,205 @@ response = openai.embeddings.<span class="func">create</span>(
     </div>
 </div>
 
-<!-- Slide 13: RAG là gì -->
+<!-- Slide 13: Cấu trúc dữ liệu -->
 <div class="slide-container section-slide" id="slide13">
     <div class="section-title-layout" style="max-width: 960px;">
-        <hr>
-        <h2>RAG Là Gì?</h2>
-        <p><strong>RAG = Retrieval Augmented Generation</strong></p>
-        <div class="code-container" style="font-size: 21px; padding: 24px; max-width: 420px; margin-top: 22px;">
-<pre><code>Document
-↓
-Embedding
-↓
-Vector DB
-↓
-LLM</code></pre>
-        </div>
+        <h2>Thao Tác Với ChromaDB</h2>
+        <p>Tạo, quản lý database, collection và record</p>
     </div>
 </div>
 
-<!-- Slide 14: Vai trò của Chroma -->
+<!-- Slide 14: Tạo database -->
 <div class="slide-container" id="slide14">
-    <h2 class="slide-title">Vai Trò Của ChromaDB Trong RAG</h2>
+    <h2 class="slide-title">ChromaDB: Database</h2>
     <div class="content-area">
         <div class="two-column" style="align-items: flex-start; gap: 34px;">
             <div>
-                <p>Trong pipeline RAG, ChromaDB thường không phải là nơi “trả lời”. Nó là nơi giúp hệ thống <strong>lấy đúng ngữ cảnh</strong> trước khi gọi LLM.</p>
-                <div class="code-container" style="font-size: 20px; padding: 22px; margin-top: 18px;">
-<pre><code>lưu embedding
-tìm đoạn text liên quan</code></pre>
+                <p>Có 2 cách tạo database: <span class="code-inline">PersistentClient</span> và <span class="code-inline">Client</span></p>
+                <ul>
+                    <li><span class="code-inline">PersistentClient</span>: lưu dữ liệu vào ổ cứng, có thể mở lại và thấy dữ liệu cũ.</li>
+                    <li><span class="code-inline">Client</span>: chỉ lưu trong RAM, khi tắt chương trình sẽ mất hết dữ liệu.</li>
+                </ul>
+                <div class="code-container" style="font-size: 15px; padding: 20px; margin-top: 18px;">
+<pre><code><span class="kw">import</span> chromadb
+
+<span class="cmt"># Tạo PersistentClient để lưu dữ liệu vào ổ cứng</span>
+client = chromadb.<span class="cls">PersistentClient</span>(
+    path=<span class="str">"./chroma_data"</span>
+)
+
+<span class="cmt"># Tạo Client để lưu dữ liệu chỉ trong RAM</span>
+client = chromadb.<span class="cls">Client</span>()
+</code></pre>
                 </div>
             </div>
             <div>
-                <h3>Phân vai rõ ràng</h3>
+                <h3>Giải thích</h3>
                 <ul>
-                    <li><strong>ChromaDB:</strong> lưu vector, document, metadata và truy vấn gần đúng.</li>
-                    <li><strong>Embedding model:</strong> biến text thành vector.</li>
-                    <li><strong>LLM:</strong> nhận câu hỏi + ngữ cảnh đã truy xuất để sinh câu trả lời.</li>
-                    <li><strong>OpenAI hiện nay:</strong> phần sinh câu trả lời nên dùng <span class="code-inline">Responses API</span>.</li>
+                    <li><span class="code-inline">PersistentClient(...)</span>: mở hoặc tạo database local.</li>
+                    <li><span class="code-inline">path</span>: thư mục ChromaDB dùng để lưu file dữ liệu.</li>
+                    <li>Nếu chạy lại chương trình với cùng <span class="code-inline">path</span>, bạn sẽ thấy lại dữ liệu cũ.</li>
                 </ul>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Slide 15: Client -->
+<!-- Slide 15: Tạo collection -->
 <div class="slide-container" id="slide15">
-    <h2 class="slide-title">Client Trong ChromaDB</h2>
+    <h2 class="slide-title">ChromaDB: Collection</h2>
     <div class="content-area">
         <div class="two-column" style="align-items: flex-start; gap: 30px;">
             <div>
-                <p>Client là điểm bắt đầu khi làm việc với ChromaDB.</p>
-                <div class="code-container" style="font-size: 16px;">
-<pre><code><span class="kw">import</span> chromadb
-
-client = chromadb.<span class="cls">PersistentClient</span>(
-    path=<span class="str">"./chroma_data"</span>
+                <ul>
+                    <li><strong>Collection</strong> tương đương một <strong>bảng (table)</strong> trong các hệ quản trị cơ sở dữ liệu quan hệ đã biết (MySQL, MSSQL, PostgreSQL, v.v.)</li>
+                    <li>Mỗi collection lưu một nhóm tài liệu riêng (FAQ, bài giảng, bài báo,...)</li>
+                </ul>
+                <div class="code-container">
+<pre><code>collection = client.<span class="func">get_or_create_collection</span>(
+    name=<span class="str">"khoa_hoc_ai"</span>
 )</code></pre>
                 </div>
             </div>
             <div>
-                <h3>Client dùng để</h3>
-                <div class="code-container" style="font-size: 20px; padding: 22px; margin-bottom: 16px;">
-<pre><code>kết nối database
-tạo collection
-query</code></pre>
-                </div>
-                <p>Nói ngắn gọn, client là “cửa vào” để bạn thao tác với dữ liệu vector.</p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Slide 16: Collection -->
-<div class="slide-container" id="slide16">
-    <h2 class="slide-title">Collection Trong ChromaDB</h2>
-    <div class="content-area">
-        <div class="two-column" style="align-items: flex-start; gap: 32px;">
-            <div>
-                <p>Collection có thể hiểu gần giống:</p>
-                <div class="code-container" style="font-size: 24px; padding: 24px; margin: 16px 0 18px;">
-<pre><code>table</code></pre>
-                </div>
-                <p>Mỗi collection thường đại diện cho một tập dữ liệu hoặc một use case riêng.</p>
-            </div>
-            <div>
-                <h3>Collection lưu gì?</h3>
+                <h3>Giải thích</h3>
                 <ul>
-                    <li><strong>vector</strong> để phục vụ similarity search.</li>
-                    <li><strong>document</strong> để trả về nội dung gốc.</li>
-                    <li><strong>metadata</strong> để filter hoặc phân loại tài liệu.</li>
+                    <li><span class="code-inline">client</span>: database đã kết nối ở bước trước.</li>
+                    <li><span class="code-inline">get_or_create_collection</span>: nếu collection đã tồn tại thì lấy ra, nếu chưa có thì tạo mới.</li>
+                    <li><span class="code-inline">name</span>: tên collection (tương đương tên bảng).</li>
                 </ul>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Slide 17: Record -->
-<div class="slide-container" id="slide17">
-    <h2 class="slide-title">Record Trong Collection</h2>
-    <div class="content-area">
-        <div class="two-column" style="align-items: flex-start; gap: 30px;">
-            <div>
-                <p>Mỗi record trong collection thường có 4 thành phần:</p>
-                <div class="code-container" style="font-size: 20px; padding: 22px;">
-<pre><code>id
-embedding
-document
-metadata</code></pre>
-                </div>
-            </div>
-            <div>
-                <p><strong>Ví dụ:</strong></p>
-                <div class="code-container" style="font-size: 17px;">
-<pre><code>{
-  <span class="str">"id"</span>: <span class="str">"doc1"</span>,
-  <span class="str">"document"</span>: <span class="str">"Giới thiệu về ChromaDB"</span>,
-  <span class="str">"metadata"</span>: {<span class="str">"topic"</span>: <span class="str">"AI"</span>}
-}</code></pre>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Slide 18: Metadata -->
-<div class="slide-container" id="slide18">
-    <h2 class="slide-title">Metadata Dùng Để Làm Gì?</h2>
+<!-- Slide 16: Record -->
+<div class="slide-container" id="slide16">
+    <h2 class="slide-title">ChromaDB: Record</h2>
     <div class="content-area">
         <div class="two-column" style="align-items: flex-start; gap: 32px;">
             <div>
-                <p>Metadata là dữ liệu mô tả đi kèm mỗi record, dùng chủ yếu để:</p>
-                <div class="code-container" style="font-size: 22px; padding: 24px; margin: 18px 0;">
-<pre><code>lọc dữ liệu</code></pre>
-                </div>
-                <p>Nó giúp bạn không phải tìm trên toàn bộ collection trong mọi trường hợp.</p>
+                <ul>
+                    <li><strong>Record</strong> là đơn vị dữ liệu cơ bản trong ChromaDB, tương đương một hàng (row) trong bảng của các hệ quản trị cơ sở dữ liệu quan hệ.</li>
+                    <li>Mỗi record là một cấu trúc dữ liệu cố định bao gồm 4 thuộc tính (cột): <strong>id</strong>, <strong>embedding</strong>, <strong>document</strong> và <strong>metadata</strong>.</li>
+                    <li>Trong đó:
+                        <ul style="list-style-type: circle">
+                            <li style="margin-bottom: 5px"><strong>id</strong>: khóa chính.</li>
+                            <li style="margin-bottom: 5px"><strong>embedding</strong>: vector đại diện cho ý nghĩa của văn bản.</li>
+                            <li style="margin-bottom: 5px"><strong>document</strong>: nội dung gốc của vector.</li>
+                            <li style="margin-bottom: 5px"><strong>metadata</strong>: dữ liệu phụ như topic, source, chapter, level,... để lọc, gắn nhãn và mô tả thêm.</li>
+                        </ul>
+                    </li>
+                    <li><i>Cấu trúc của record là <strong>cố định</strong>, không thể thay đổi.</i></li>
+                </ul>
             </div>
             <div>
-                <h3>Ví dụ metadata</h3>
-                <div class="code-container" style="font-size: 19px; padding: 22px;">
-<pre><code>topic
-author
-year</code></pre>
+                <div class="code-container">
+<pre><code><span class="cmt"># Thêm record</span>
+collection.add(
+    ids=[<span class="str">"doc_1"</span>],
+    embeddings=[vector],
+    documents=[<span class="str">"ChromaDB là database cho vector"</span>],
+    metadata=[{<span class="str">"source"</span>: <span class="str">"website"</span>}]
+)
+
+<span class="cmt"># Sửa record, ids là bắt buộc</span>
+collection.update(
+    ids=[<span class="str">"doc_1"</span>],
+    embeddings=[new_vector],
+    documents=[<span class="str">"ChromaDB có collection và record"</span>],
+)
+
+<span class="cmt"># Xóa record</span>
+collection.delete(ids=[<span class="str">"doc_1"</span>])</code></pre>
+</code></pre>
                 </div>
-                <p style="margin-top: 16px;">Bạn cũng có thể lưu thêm nguồn file, chương, loại tài liệu hoặc ngôn ngữ.</p>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Slide 19: Pipeline lưu dữ liệu -->
+<!-- Slide 17: Record (tiếp theo) -->
+<div class="slide-container" id="slide17">
+    <h2 class="slide-title">ChromaDB: Record</h2>
+    <div class="content-area">
+        <div class="two-column" style="align-items: flex-start; gap: 30px;">
+            <div>
+                <h3>Một số lưu ý</h3>
+                <ul>
+                    <li>Các params khi thêm/sửa/xóa record như <span class="code-inline">ids</span>, <span class="code-inline">embeddings</span>, <span class="code-inline">documents</span>, <span class="code-inline">metadatas</span> đều là danh sách (list).</li>
+                    <li>Các phần tử cùng vị trí trong các danh sách sẽ ghép thành một record hoàn chỉnh.</li>
+                    <li>Thuộc tính <span class="code-inline">document</span> của record không bắt buộc vì vector có thể phản ánh ngữ nghĩa của hình ảnh hoặc audio.</li>
+                    <li>Thuộc tính <span class="code-inline">metadata</span> của mỗi record là nơi lưu thông tin bổ sung cho record đó, được dùng để lọc, tổ chức và quản lý dữ liệu tốt hơn.</li>
+                    <li>Thuộc tính <span class="code-inline">metadata</span> khi update sẽ bị ghi đè hoàn toàn.</li>
+                </ul>
+            </div>
+            <div>
+                <div class="code-container">
+<pre><code><span class="cmt"># Ví dụ về metadata</span>
+collection.add(
+    ids=[<span class="str">"doc_1"</span>],
+    embeddings=[vector],  <span class="cmt"># Vector tạo bởi OpenAI API</span>
+    documents=[<span class="str">"ChromaDB là database cho vector"</span>],
+    metadatas=[{
+        <span class="str">"topic"</span>: <span class="str">"AI"</span>,
+        <span class="str">"title"</span>: <span class="str">"Giới thiệu ChromaDB"</span>,
+        <span class="str">"user_id"</span>: <span class="str">"user_001"</span>,
+        <span class="str">"created_at"</span>: <span class="str">"2026-03-12T10:00:00Z"</span>
+    }]
+)</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 18: Thêm record bằng code -->
+<div class="slide-container" id="slide18">
+    <h2 class="slide-title">Thêm Record Bằng Source Code</h2>
+    <div class="content-area">
+        <div class="two-column" style="align-items: flex-start; gap: 32px;">
+            <div>
+                <div class="code-container" style="font-size: 12px; padding: 18px;">
+<pre><code>collection.<span class="func">add</span>(
+    ids=[<span class="str">"doc_1"</span>],
+    embeddings=[vector],
+    documents=[<span class="str">"ChromaDB là database cho vector"</span>],
+    metadatas=[{
+        <span class="str">"topic"</span>: <span class="str">"AI"</span>,
+        <span class="str">"source"</span>: <span class="str">"slide"</span>
+    }]
+)</code></pre>
+                </div>
+            </div>
+            <div>
+                <h3>Cách đọc đoạn code</h3>
+                <ul>
+                    <li><span class="code-inline">collection.add(...)</span>: thêm record mới vào collection.</li>
+                    <li><span class="code-inline">ids</span>, <span class="code-inline">embeddings</span>, <span class="code-inline">documents</span>, <span class="code-inline">metadatas</span> đều là danh sách.</li>
+                    <li>Các phần tử cùng vị trí sẽ ghép thành một record hoàn chỉnh.</li>
+                    <li>Ví dụ trên chỉ thêm 1 record, nên mỗi danh sách có đúng 1 phần tử.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 19: Luồng thao tác cơ bản -->
 <div class="slide-container section-slide" id="slide19">
     <div class="section-title-layout" style="max-width: 980px;">
         <hr>
-        <h2>Pipeline Lưu Dữ Liệu Vào ChromaDB</h2>
-        <div class="code-container" style="font-size: 21px; padding: 24px; max-width: 440px; margin-top: 20px;">
-<pre><code>Document
+        <h2>Luồng Làm Việc Cơ Bản Với ChromaDB</h2>
+        <div class="code-container" style="font-size: 21px; padding: 24px; max-width: 470px; margin-top: 20px;">
+<pre><code>Tạo client
 ↓
-Chunking
+Tạo collection
 ↓
-Embedding
+Chuẩn bị record
 ↓
-ChromaDB</code></pre>
+add vào collection</code></pre>
         </div>
+        <p style="margin-top: 20px; max-width: 900px;">Sau khi hiểu rõ 4 bước này, phần còn lại chỉ là chuẩn bị dữ liệu tốt hơn: chia nhỏ tài liệu, tạo embedding và truy vấn đúng record cần dùng.</p>
     </div>
 </div>
 
