@@ -522,8 +522,8 @@ results = collection.<span class="func">query</span>(
                 <h3>Giải thích</h3>
                 <ul>
                     <li><span class="code-inline">collection.query(...)</span>: tìm các record gần nhất với vector câu hỏi.</li>
-                    <li><span class="code-inline">query_embeddings</span>: vector của câu hỏi cần đem đi search.</li>
-                    <li><span class="code-inline">where</span>: điều kiện lọc theo metadata. Ở đây, chỉ tìm các record có metadata <i>user_id</i> bằng <i>user_001</i>. Điều kiện <span class="code-inline">where</span> được ưu tiên tìm kiếm trước.</li>
+                    <li><span class="code-inline">query_embeddings</span>: vector của câu hỏi cần truy vấn.</li>
+                    <li><span class="code-inline">where</span>: điều kiện lọc theo metadata. Ở đây chỉ tìm các record có metadata <i>user_id</i> bằng <i>user_001</i>. Điều kiện <span class="code-inline">where</span> được ưu tiên tìm kiếm trước.</li>
                     <li><span class="code-inline">n_results=3</span>: lấy ra top 3 kết quả gần nhất.</li>
                     <li>Thứ tự kết quả được sắp xếp theo khoảng cách ngữ nghĩa, với kết quả có nghĩa gần nhất được liệt kê đầu tiên.</li>
                 </ul>
@@ -532,391 +532,363 @@ results = collection.<span class="func">query</span>(
     </div>
 </div>
 
-<!-- Slide 19: Filter metadata -->
-<div class="slide-container" id="slide19">
-    <h2 class="slide-title">Filter Record Bằng Metadata</h2>
-    <div class="content-area">
-        <div class="two-column" style="align-items: flex-start; gap: 32px;">
-            <div>
-                <div class="code-container" style="font-size: 12px; padding: 18px;">
-<pre><code>results = collection.<span class="func">query</span>(
-    query_embeddings=[query_vector],
-    where={<span class="str">"topic"</span>: <span class="str">"AI"</span>},
-    n_results=<span class="builtin">3</span>,
-    include=[<span class="str">"documents"</span>, <span class="str">"metadatas"</span>]
-)</code></pre>
-                </div>
-            </div>
-            <div>
-                <h3>Giải thích</h3>
-                <ul>
-                    <li><span class="code-inline">where</span>: điều kiện lọc theo metadata trước khi search.</li>
-                    <li>Ví dụ <span class="code-inline">{"topic": "AI"}</span> nghĩa là chỉ tìm trong các record có metadata topic bằng AI.</li>
-                    <li>Kết hợp <span class="code-inline">where</span> với semantic search giúp kết quả chính xác hơn và ít nhiễu hơn.</li>
-                    <li>Cách này rất hữu ích khi cùng một collection chứa nhiều nhóm tài liệu khác nhau.</li>
-                </ul>
-            </div>
-        </div>
+<!-- Slide 19: Bắt đầu thực hành -->
+<div class="slide-container section-slide" id="slide19">
+    <div class="section-title-layout" style="max-width: 980px;">
+        <h2>Thực Hành Xây Dựng RAG Tool</h2>
+        <p>Từ nhập tài liệu đến truy vấn bằng terminal app</p>
     </div>
 </div>
 
-<!-- Slide 20: Chunking -->
+<!-- Slide 20: RAG là gì -->
 <div class="slide-container" id="slide20">
-    <h2 class="slide-title">Chunking Tài Liệu</h2>
+    <h2 class="slide-title">RAG Là Gì?</h2>
     <div class="content-area">
         <div class="two-column" style="align-items: flex-start; gap: 34px;">
             <div>
-                <p><strong>Chunking</strong> là chia tài liệu dài thành các đoạn nhỏ trước khi tạo embedding.</p>
-                <div class="code-container" style="font-size: 22px; padding: 22px; margin: 18px 0;">
-<pre><code>500 token / chunk</code></pre>
-                </div>
+                <p><strong>RAG (Retrieval-Augmented Generation)</strong> là cách kết hợp:</p>
+                <ul>
+                    <li><strong>Retrieval:</strong> tìm đoạn tài liệu liên quan nhất trong kho tài liệu (knowledge base).</li>
+                    <li><strong>Generation:</strong> đưa các đoạn đó cho LLM để sinh câu trả lời có căn cứ.</li>
+                </ul>
+
+                <p><strong>Lợi ích chính:</strong></p>
+                <ul>
+                    <li>Giảm ảo giác vì câu trả lời dựa trên tài liệu thật.</li>
+                    <li>Cho phép cập nhật tri thức mà không cần huấn luyện lại model.</li>
+                    <li>Dễ kiểm tra nguồn thông tin bằng metadata và document trả về.</li>
+                </ul>
             </div>
             <div>
-                <h3>Vì sao cần chunking?</h3>
-                <ul>
-                    <li>Embedding hiệu quả hơn vì mỗi đoạn mang ý nghĩa rõ hơn.</li>
-                    <li>Search chính xác hơn vì kết quả trả về là đoạn liên quan, không phải cả tài liệu dài.</li>
-                    <li>Dễ kiểm soát chi phí và chất lượng retrieval.</li>
-                </ul>
+                <div class="image-wrapper">
+                    <!-- Ảnh ví dụ -->
+                    <img src="../images/rag-overview.png" alt="RAG Overview Illustration">
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Slide 21: Overlap -->
+<!-- Slide 21: Data loader -->
 <div class="slide-container" id="slide21">
-    <h2 class="slide-title">Chunk Overlap</h2>
+    <h2 class="slide-title">Data Loader Cho TXT Và PDF</h2>
     <div class="content-area">
         <div class="two-column" style="align-items: flex-start; gap: 34px;">
             <div>
-                <p><strong>Ví dụ:</strong></p>
-                <div class="code-container" style="font-size: 20px; padding: 22px;">
-<pre><code>chunk 1: 0-500
-chunk 2: 450-950</code></pre>
+                <div class="code-container" style="font-size: 15px;">
+<pre><code><span class="kw">from</span> pathlib <span class="kw">import</span> Path
+<span class="kw">from</span> pypdf <span class="kw">import</span> PdfReader
+
+<span class="kw">def</span> <span class="func">load_txt</span>(path):
+    <span class="kw">return</span> Path(path).read_text(encoding=<span class="str">"utf-8"</span>)
+
+<span class="kw">def</span> <span class="func">load_pdf</span>(path):
+    reader = PdfReader(path)
+    pages = [page.extract_text() <span class="kw">or</span> <span class="str">""</span>
+                <span class="kw">for</span> page <span class="kw">in</span> reader.pages]
+    <span class="kw">return</span> <span class="str">"\n"</span>.join(pages)</code></pre>
                 </div>
             </div>
             <div>
-                <h3>Overlap giúp gì?</h3>
-                <div class="code-container" style="font-size: 22px; padding: 22px; margin-bottom: 16px;">
-<pre><code>giữ context</code></pre>
-                </div>
                 <ul>
-                    <li>Giảm nguy cơ một ý quan trọng bị cắt mất giữa hai chunk.</li>
-                    <li>Hữu ích khi thông tin liên quan kéo dài qua nhiều câu.</li>
-                    <li>Không nên overlap quá lớn vì gây lặp dữ liệu và tăng chi phí.</li>
+                    <li>Trong đa số trường hợp, tài liệu được lưu dưới dạng file. Data loader là hàm xử lý giúp lấy nội dung từ file.</li>
+                    <li>Ý tưởng chung: mọi loader đều trả về text thuần để lưu vào CSDL.</li>
+                    <li><span class="code-inline">.txt</span>: đọc trực tiếp bằng UTF-8.</li>
+                    <li><span class="code-inline">.pdf</span>: dùng package <span class="code-inline">pypdf</span> để trích text theo trang.</li>
+                    <li>Mở rộng: loader cho các định dạng phổ biến khác như <span class="code-inline">.docx</span>, <span class="code-inline">.html</span>, <span class="code-inline">.md</span>.</li>
                 </ul>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Slide 22: Code chunking -->
+<!-- Slide 22: Chunking và overlap -->
 <div class="slide-container" id="slide22">
-    <h2 class="slide-title">Triển Khai Chunking Bằng Python Thuần</h2>
+    <h2 class="slide-title">Chunking, Overlap Và Cách Chọn Tham Số</h2>
+    <div class="content-area">
+        <div class="two-column" style="align-items: flex-start; gap: 28px;">
+            <div>
+                <p><strong>Chunking</strong> là chia tài liệu thành đoạn nhỏ để embedding rõ nghĩa hơn.</p>
+                <p><strong>Overlap</strong> là phần chồng lấn giữa hai chunk liên tiếp để không mất ngữ cảnh.</p>
+                <p>Ví dụ:</p>
+                <ul>
+                    <li>Nếu không có overlap, câu <i>"Rắn là loài bò sát không chân"</i> có thể bị cắt thành <i>"Rắn là loài bò"</i> và <i>"sát không chân"</i>, làm mất hoặc sai ý nghĩa của câu ban đầu.</li>
+                    <li>Với chunking và overlap, ta có thể tạo ra các chunk như <i>"Rắn là loài bò sát"</i> và <i>"bò sát không chân"</i>, giữ được ngữ nghĩa đầy đủ hơn.</li>
+                </ul>
+            </div>
+            <div>
+                <p>Thông thường, phần overlap có kích thước từ 10% đến 20% kích thước chunk. Kích thước overlap quá nhỏ dễ mất ngữ cảnh, kích thước quá lớn gây tốn tài nguyên. Dưới đây là một số mẫu kích thước tham khảo:</p>
+                <ul>
+                    <li><strong>FAQ ngắn:</strong> chunk 250-400 token, overlap 30-60. Hoặc chunk theo cả câu.</li>
+                    <li><strong>Bài viết blog:</strong> chunk 400-700 token, overlap 60-120.</li>
+                    <li><strong>Tài liệu kỹ thuật dài:</strong> chunk 700-1200 token, overlap 100-180.</li>
+                    <li><strong>PDF scan nhiều nhiễu:</strong> chunk nhỏ hơn để giảm lỗi ngữ nghĩa.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 23: Chunk bằng tay -->
+<div class="slide-container" id="slide23">
+    <h2 class="slide-title">Code Mẫu: Triển Khai Hàm Chunk Theo Ký Tự</h2>
     <div class="content-area">
         <div class="two-column" style="align-items: flex-start; gap: 24px;">
             <div>
-                <div class="code-container" style="font-size: 13px;">
-<pre><code><span class="kw">def</span> <span class="func">chunk_text</span>(text, chunk_size=<span class="builtin">500</span>, overlap=<span class="builtin">50</span>):
+                <div class="code-container" style="font-size: 16px;">
+<pre><code><span class="kw">def</span> <span class="func">chunk_by_chars</span>(text, chunk_size=<span class="builtin">1200</span>, overlap=<span class="builtin">150</span>):
     chunks = []
     start = <span class="builtin">0</span>
 
     <span class="kw">while</span> start &lt; <span class="builtin">len</span>(text):
         end = start + chunk_size
-        chunk = text[start:end]
-        chunks.append(chunk)
+        piece = text[start:end].strip()
+        <span class="kw">if</span> piece:
+            chunks.append(piece)
 
         <span class="kw">if</span> end &gt;= <span class="builtin">len</span>(text):
             <span class="kw">break</span>
-
         start = end - overlap
 
     <span class="kw">return</span> chunks</code></pre>
                 </div>
             </div>
             <div>
-                <p><strong>Ý tưởng:</strong> đi từng bước trên chuỗi, mỗi lần lấy một đoạn có kích thước cố định rồi lùi lại một phần để tạo overlap.</p>
+                <h3>Khi nào dùng?</h3>
                 <ul>
-                    <li>Dễ hiểu để học nguyên lý.</li>
-                    <li>Phù hợp demo text nhỏ.</li>
-                    <li>Thực tế thường chunk theo token thay vì đếm ký tự để ổn định hơn.</li>
+                    <li>Triển khai nhanh và dễ.</li>
+                    <li>Không muốn cài thêm package bên ngoài.</li>
+                    <li>Nhược điểm: không kiểm soát chính xác số token cho model.</li>
+                    <li>Phù hợp bản demo nhanh và dữ liệu nhỏ.</li>
                 </ul>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Slide 23: Tạo embedding -->
-<div class="slide-container" id="slide23">
-    <h2 class="slide-title">Tạo Embedding Với OpenAI</h2>
-    <div class="content-area">
-        <div class="two-column" style="align-items: flex-start; gap: 24px;">
-            <div>
-                <p>Embedding được tạo qua endpoint embeddings, không phải Responses API.</p>
-                <div class="code-container" style="font-size: 13px;">
-<pre><code><span class="kw">from</span> openai <span class="kw">import</span> OpenAI
-
-client = <span class="cls">OpenAI</span>()
-
-response = client.embeddings.<span class="func">create</span>(
-    model=<span class="str">"text-embedding-3-small"</span>,
-    input=<span class="str">"ChromaDB là vector database nhẹ cho AI"</span>
-)
-
-vector = response.data[<span class="builtin">0</span>].embedding
-<span class="builtin">print</span>(<span class="builtin">len</span>(vector))  <span class="cmt"># thường là 1536 chiều</span></code></pre>
-                </div>
-            </div>
-            <div>
-                <h3>Điểm cần nhớ</h3>
-                <ul>
-                    <li>Ví dụ hiện tại nên dùng <span class="code-inline">text-embedding-3-small</span> hoặc <span class="code-inline">text-embedding-3-large</span>.</li>
-                    <li><span class="code-inline">text-embedding-3-small</span> mặc định có 1536 chiều.</li>
-                    <li>Sau khi có vector, bạn mới lưu vào ChromaDB để query nhanh.</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Slide 24: Lưu vào chroma -->
+<!-- Slide 24: Chunk bằng tiktoken -->
 <div class="slide-container" id="slide24">
-    <h2 class="slide-title">Lưu Vào ChromaDB</h2>
+    <h2 class="slide-title">Code Mẫu: Chunk Bằng tiktoken</h2>
     <div class="content-area">
         <div class="two-column" style="align-items: flex-start; gap: 24px;">
             <div>
-                <div class="code-container" style="font-size: 12px;">
-<pre><code><span class="kw">import</span> chromadb
+                <div class="code-container">
+<pre><code><span class="kw">import</span> tiktoken
 
-client = chromadb.<span class="cls">PersistentClient</span>(path=<span class="str">"./chroma_data"</span>)
-collection = client.get_or_create_collection(
-    name=<span class="str">"rag_docs"</span>,
-    embedding_function=<span class="kw">None</span>
-)
+<span class="kw">def</span> <span class="func">chunk_by_tokens</span>(text, chunk_size=<span class="builtin">500</span>, overlap=<span class="builtin">80</span>,
+                    model=<span class="str">"gpt-5-mini"</span>):
+    enc = tiktoken.encoding_for_model(model)
+    token_ids = enc.encode(text)
+    chunks = []
+    step = chunk_size - overlap
 
-collection.<span class="func">add</span>(
-    ids=[<span class="str">"doc_1"</span>],
-    embeddings=[vector],
-    documents=[<span class="str">"ChromaDB là vector database nhẹ cho AI"</span>],
-    metadatas=[{<span class="str">"topic"</span>: <span class="str">"AI"</span>, <span class="str">"source"</span>: <span class="str">"slide"</span>}]
-)</code></pre>
+    <span class="kw">for</span> i <span class="kw">in</span> <span class="builtin">range</span>(<span class="builtin">0</span>, <span class="builtin">len</span>(token_ids), step):
+        piece_ids = token_ids[i:i + chunk_size]
+        <span class="kw">if</span> <span class="kw">not</span> piece_ids:
+            <span class="kw">continue</span>
+        chunks.append(enc.decode(piece_ids).strip())
+
+    <span class="kw">return</span> [c <span class="kw">for</span> c <span class="kw">in</span> chunks <span class="kw">if</span> c]</code></pre>
                 </div>
             </div>
             <div>
-                <p>Thông tin thường được lưu theo bộ:</p>
-                <div class="code-container" style="font-size: 20px; padding: 22px; margin: 18px 0;">
-<pre><code>id
-embedding
-document
-metadata</code></pre>
-                </div>
-                <p>Khi bạn tự tạo embedding bằng OpenAI trước, nên để <span class="code-inline">embedding_function=None</span> cho collection để tránh re-embed.</p>
+                <h3>Ưu điểm</h3>
+                <ul>
+                    <li>Chunk theo token gần với cách model xử lý thật.</li>
+                    <li>Ổn định hơn khi embedding, xử lý truy vấn tốt hơn .</li>
+                    <li>Nên dùng khi làm tool chạy lâu dài hoặc dữ liệu lớn.</li>
+                </ul>
+                <p style="margin-top: 14px;">Cài package: <span class="code-inline">pip install tiktoken</span></p>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Slide 25: Persistence -->
+<!-- Slide 25: Source tổng thể 1 -->
 <div class="slide-container" id="slide25">
-    <h2 class="slide-title">Persistence Trong ChromaDB</h2>
+    <h2 class="slide-title">Source Quy Trình (1/7): Khai Báo Và Khởi Tạo</h2>
     <div class="content-area">
-        <div class="two-column tiled" style="align-items: stretch;">
-            <div>
-                <h3>In-memory</h3>
-                <div class="code-container" style="font-size: 20px; padding: 20px; margin-bottom: 18px;">
-<pre><code>RAM only</code></pre>
-                </div>
-                <p>Nhanh để thử nghiệm nhưng chỉ tồn tại trong phiên chạy hiện tại.</p>
-            </div>
-            <div>
-                <h3>Persistent</h3>
-                <div class="code-container" style="font-size: 20px; padding: 20px; margin-bottom: 18px;">
-<pre><code>ghi xuống ổ đĩa</code></pre>
-                </div>
-                <p>Nếu không persist thì:</p>
-                <div class="code-container" style="font-size: 20px; padding: 18px; margin-top: 16px;">
-<pre><code>restart → mất dữ liệu</code></pre>
-                </div>
-            </div>
+        <div class="code-container" style="font-size: 11px;">
+<pre><code><span class="kw">import</span> os
+<span class="kw">import</span> uuid
+<span class="kw">from</span> pathlib <span class="kw">import</span> Path
+
+<span class="kw">import</span> chromadb
+<span class="kw">from</span> openai <span class="kw">import</span> OpenAI
+<span class="kw">from</span> pypdf <span class="kw">import</span> PdfReader
+
+openai_client = OpenAI(api_key=os.getenv(<span class="str">"OPENAI_API_KEY"</span>))
+chroma_client = chromadb.PersistentClient(path=<span class="str">"./chroma_data"</span>)
+
+collection = chroma_client.get_or_create_collection(
+    name=<span class="str">"rag_terminal_demo"</span>,
+    embedding_function=<span class="kw">None</span>
+)</code></pre>
         </div>
     </div>
 </div>
 
-<!-- Slide 26: Query vector -->
+<!-- Slide 26: Source tổng thể 2 -->
 <div class="slide-container" id="slide26">
-    <h2 class="slide-title">Query Vector</h2>
+    <h2 class="slide-title">Source Quy Trình (2/7): Loader TXT Và PDF</h2>
     <div class="content-area">
-        <div class="two-column" style="align-items: flex-start; gap: 24px;">
-            <div>
-                <div class="code-container" style="font-size: 20px; padding: 24px;">
-<pre><code>Query text
-↓
-Embedding
-↓
-Vector search</code></pre>
-                </div>
-            </div>
-            <div>
-                <div class="code-container" style="font-size: 13px;">
-<pre><code>query_result = collection.<span class="func">query</span>(
-    query_embeddings=[query_vector],
-    n_results=<span class="builtin">3</span>,
-    include=[<span class="str">"documents"</span>, <span class="str">"metadatas"</span>, <span class="str">"distances"</span>]
-)</code></pre>
-                </div>
-                <p style="margin-top: 14px;">Nếu collection có gắn embedding function, bạn cũng có thể query trực tiếp bằng <span class="code-inline">query_texts</span>.</p>
-            </div>
+        <div class="code-container" style="font-size: 11px;">
+<pre><code><span class="kw">def</span> <span class="func">load_txt</span>(path):
+    <span class="kw">return</span> Path(path).read_text(encoding=<span class="str">"utf-8"</span>)
+
+<span class="kw">def</span> <span class="func">load_pdf</span>(path):
+    reader = PdfReader(path)
+    pages = [page.extract_text() <span class="kw">or</span> <span class="str">""</span> <span class="kw">for</span> page <span class="kw">in</span> reader.pages]
+    <span class="kw">return</span> <span class="str">"\n"</span>.join(pages)
+
+<span class="kw">def</span> <span class="func">load_document</span>(path):
+    ext = Path(path).suffix.lower()
+    <span class="kw">if</span> ext == <span class="str">".txt"</span>:
+        <span class="kw">return</span> load_txt(path)
+    <span class="kw">if</span> ext == <span class="str">".pdf"</span>:
+        <span class="kw">return</span> load_pdf(path)
+    <span class="kw">raise</span> ValueError(<span class="str">f"Chưa hỗ trợ định dạng: {ext}"</span>)</code></pre>
         </div>
     </div>
 </div>
 
-<!-- Slide 27: Top-K -->
+<!-- Slide 27: Source tổng thể 3 -->
 <div class="slide-container" id="slide27">
-    <h2 class="slide-title">Top-K Search</h2>
+    <h2 class="slide-title">Source Quy Trình (3/7): Chia Nhỏ Tài Liệu</h2>
     <div class="content-area">
-        <div class="two-column" style="align-items: flex-start; gap: 32px;">
-            <div>
-                <p><strong>Ví dụ:</strong></p>
-                <div class="code-container" style="font-size: 22px; padding: 22px;">
-<pre><code>n_results = 3</code></pre>
-                </div>
-            </div>
-            <div>
-                <p>ChromaDB sẽ trả về:</p>
-                <div class="code-container" style="font-size: 22px; padding: 22px; margin-bottom: 16px;">
-<pre><code>3 vector giống nhất</code></pre>
-                </div>
-                <ul>
-                    <li>Top-k nhỏ giúp kết quả tập trung hơn.</li>
-                    <li>Top-k lớn cho nhiều ngữ cảnh hơn nhưng có thể tăng nhiễu.</li>
-                </ul>
-            </div>
+        <div class="code-container" style="font-size: 11px;">
+<pre><code><span class="kw">def</span> <span class="func">chunk_by_chars</span>(text, chunk_size=<span class="builtin">1200</span>, overlap=<span class="builtin">150</span>):
+    chunks = []
+    start = <span class="builtin">0</span>
+    <span class="kw">while</span> start &lt; <span class="builtin">len</span>(text):
+        end = start + chunk_size
+        part = text[start:end].strip()
+        <span class="kw">if</span> part:
+            chunks.append(part)
+        <span class="kw">if</span> end &gt;= <span class="builtin">len</span>(text):
+            <span class="kw">break</span>
+        start = end - overlap
+    <span class="kw">return</span> chunks
+
+<span class="kw">def</span> <span class="func">build_chunks</span>(path):
+    raw_text = load_document(path)
+    <span class="kw">return</span> chunk_by_chars(raw_text, chunk_size=<span class="builtin">1200</span>, overlap=<span class="builtin">150</span>)</code></pre>
         </div>
     </div>
 </div>
 
-<!-- Slide 28: Metadata filtering -->
+<!-- Slide 28: Source tổng thể 4 -->
 <div class="slide-container" id="slide28">
-    <h2 class="slide-title">Metadata Filtering</h2>
+    <h2 class="slide-title">Source Quy Trình (4/7): Tạo Embedding Hàng Loạt</h2>
     <div class="content-area">
-        <div class="two-column" style="align-items: flex-start; gap: 24px;">
-            <div>
-                <p><strong>Ví dụ:</strong></p>
-                <div class="code-container" style="font-size: 18px; padding: 22px;">
-<pre><code>where = {"topic": "AI"}</code></pre>
-                </div>
-            </div>
-            <div>
-                <p>Hệ thống chỉ search trong phần dữ liệu:</p>
-                <div class="code-container" style="font-size: 21px; padding: 22px; margin-bottom: 18px;">
-<pre><code>topic = AI</code></pre>
-                </div>
-                <div class="code-container" style="font-size: 13px;">
-<pre><code>results = collection.<span class="func">query</span>(
-    query_embeddings=[query_vector],
-    where={<span class="str">"topic"</span>: <span class="str">"AI"</span>},
-    n_results=<span class="builtin">3</span>
-)</code></pre>
-                </div>
-            </div>
+        <div class="code-container" style="font-size: 11px;">
+<pre><code><span class="kw">def</span> <span class="func">embed_chunks</span>(chunks, model=<span class="str">"text-embedding-3-small"</span>):
+    response = openai_client.embeddings.create(
+        model=model,
+        input=chunks
+    )
+    <span class="kw">return</span> [item.embedding <span class="kw">for</span> item <span class="kw">in</span> response.data]
+
+<span class="kw">def</span> <span class="func">make_ids</span>(n):
+    <span class="kw">return</span> [<span class="builtin">str</span>(uuid.uuid4()) <span class="kw">for</span> _ <span class="kw">in</span> <span class="builtin">range</span>(n)]</code></pre>
         </div>
     </div>
 </div>
 
-<!-- Slide 29: Demo ứng dụng -->
-<div class="slide-container section-slide" id="slide29">
-    <div class="section-title-layout" style="max-width: 980px;">
-        <hr>
-        <h2>Demo Ứng Dụng ChromaDB + RAG</h2>
-        <div class="code-container" style="font-size: 20px; padding: 24px; max-width: 520px; margin-top: 20px;">
-<pre><code>Upload file
-↓
-Chunk
-↓
-Embedding
-↓
-ChromaDB
-↓
-Search</code></pre>
+<!-- Slide 29: Source tổng thể 5 -->
+<div class="slide-container" id="slide29">
+    <h2 class="slide-title">Source Quy Trình (5/7): Nạp Dữ Liệu Vào ChromaDB</h2>
+    <div class="content-area">
+        <div class="code-container" style="font-size: 11px;">
+<pre><code><span class="kw">def</span> <span class="func">index_file</span>(path, topic=<span class="str">"general"</span>):
+    chunks = build_chunks(path)
+    vectors = embed_chunks(chunks)
+    ids = make_ids(<span class="builtin">len</span>(chunks))
+
+    metadatas = [
+        {
+            <span class="str">"topic"</span>: topic,
+            <span class="str">"source_file"</span>: Path(path).name,
+            <span class="str">"chunk_idx"</span>: i
+        }
+        <span class="kw">for</span> i <span class="kw">in</span> <span class="builtin">range</span>(<span class="builtin">len</span>(chunks))
+    ]
+
+    collection.add(
+        ids=ids,
+        embeddings=vectors,
+        documents=chunks,
+        metadatas=metadatas
+    )</code></pre>
         </div>
-        <p style="margin-top: 20px; max-width: 900px;">Sau bước search, các đoạn phù hợp nhất sẽ được ghép vào prompt và gửi sang <span class="code-inline">client.responses.create(...)</span> để LLM tạo câu trả lời có căn cứ.</p>
     </div>
 </div>
 
-<!-- Slide 30: Giao diện demo -->
+<!-- Slide 30: Source tổng thể 6 -->
 <div class="slide-container" id="slide30">
-    <h2 class="slide-title">Giao Diện Demo</h2>
+    <h2 class="slide-title">Source Quy Trình (6/7): Query Và Trả Kết Quả</h2>
     <div class="content-area">
-        <div class="two-column" style="align-items: flex-start; gap: 28px;">
-            <div>
-                <p>UI có thể xây nhanh bằng:</p>
-                <ul>
-                    <li><strong>Gradio</strong> để tạo form upload và ô search.</li>
-                    <li>Dễ demo trực tiếp trong lớp học hoặc workshop.</li>
-                </ul>
-                <p style="margin-top: 18px;">Tính năng cần có:</p>
-                <div class="code-container" style="font-size: 20px; padding: 22px;">
-<pre><code>upload text
-upload pdf
-search</code></pre>
-                </div>
-            </div>
-            <div>
-                <h3>Luồng xử lý phía sau UI</h3>
-                <div class="code-container" style="font-size: 12px;">
-<pre><code><span class="kw">def</span> <span class="func">answer_query</span>(question):
-    query_vector = client.embeddings.<span class="func">create</span>(
+        <div class="code-container" style="font-size: 11px;">
+<pre><code><span class="kw">def</span> <span class="func">search</span>(question, top_k=<span class="builtin">3</span>, topic=<span class="kw">None</span>):
+    q_vec = openai_client.embeddings.create(
         model=<span class="str">"text-embedding-3-small"</span>,
         input=question
     ).data[<span class="builtin">0</span>].embedding
 
-    hits = collection.<span class="func">query</span>(
-        query_embeddings=[query_vector],
-        n_results=<span class="builtin">3</span>
-    )
+    kwargs = {
+        <span class="str">"query_embeddings"</span>: [q_vec],
+        <span class="str">"n_results"</span>: top_k,
+        <span class="str">"include"</span>: [<span class="str">"documents"</span>, <span class="str">"metadatas"</span>, <span class="str">"distances"</span>]
+    }
+    <span class="kw">if</span> topic:
+        kwargs[<span class="str">"where"</span>] = {<span class="str">"topic"</span>: topic}
 
-    context = <span class="str">"\n\n"</span>.join(hits[<span class="str">"documents"</span>][<span class="builtin">0</span>])
-    response = llm.responses.<span class="func">create</span>(
-        model=<span class="str">"gpt-5-mini"</span>,
-        instructions=<span class="str">"Trả lời dựa trên ngữ cảnh được cung cấp."</span>,
-        input=<span class="str">f"Câu hỏi: {question}\n\nNgữ cảnh:\n{context}"</span>
-    )
-    <span class="kw">return</span> response.output_text</code></pre>
-                </div>
-            </div>
+    result = collection.query(**kwargs)
+    <span class="kw">return</span> result[<span class="str">"documents"</span>][<span class="builtin">0</span>], result[<span class="str">"metadatas"</span>][<span class="builtin">0</span>]</code></pre>
         </div>
     </div>
 </div>
 
-<!-- Slide 31: Tối ưu -->
+<!-- Slide 31: Source tổng thể 7 -->
 <div class="slide-container" id="slide31">
-    <h2 class="slide-title">Tối Ưu Kết Quả Tìm Kiếm Trong RAG</h2>
+    <h2 class="slide-title">Source Quy Trình (7/7): Terminal App Nhập/Xuất</h2>
     <div class="content-area">
-        <div class="tiled-content">
-            <div class="tile" style="min-width: 220px; padding: 28px;">
-                <div class="icon"><i class="fa-solid fa-scissors"></i></div>
-                <h3 style="font-size: 24px;">Chunk size</h3>
-                <p style="font-size: 18px;">Quá lớn thì loãng ý, quá nhỏ thì mất ngữ cảnh.</p>
+        <div class="two-column" style="align-items: flex-start; gap: 24px;">
+            <div>
+                <div class="code-container" style="font-size: 11px;">
+<pre><code><span class="kw">def</span> <span class="func">main</span>():
+    file_path = <span class="builtin">input</span>(<span class="str">"Nhập đường dẫn file (.txt/.pdf): "</span>).strip()
+    topic = <span class="builtin">input</span>(<span class="str">"Nhập topic metadata: "</span>).strip() <span class="kw">or</span> <span class="str">"general"</span>
+
+    index_file(file_path, topic=topic)
+    <span class="builtin">print</span>(<span class="str">"Đã index xong. Bắt đầu hỏi đáp, gõ 'exit' để thoát."</span>)
+
+    <span class="kw">while</span> <span class="kw">True</span>:
+        question = <span class="builtin">input</span>(<span class="str">"\nCâu hỏi: "</span>).strip()
+        <span class="kw">if</span> question.lower() == <span class="str">"exit"</span>:
+            <span class="kw">break</span>
+
+        docs, metas = search(question, top_k=<span class="builtin">3</span>, topic=topic)
+        <span class="builtin">print</span>(<span class="str">"\nTop kết quả:"</span>)
+        <span class="kw">for</span> i, (doc, meta) <span class="kw">in</span> <span class="builtin">enumerate</span>(<span class="builtin">zip</span>(docs, metas), start=<span class="builtin">1</span>):
+            <span class="builtin">print</span>(<span class="str">f"[{i}] {meta['source_file']} - chunk {meta['chunk_idx']}"</span>)
+            <span class="builtin">print</span>(doc[:<span class="builtin">280</span>], <span class="str">"...\n"</span>)
+
+<span class="kw">if</span> __name__ == <span class="str">"__main__"</span>:
+    main()</code></pre>
+                </div>
             </div>
-            <div class="tile" style="min-width: 220px; padding: 28px;">
-                <div class="icon"><i class="fa-solid fa-link"></i></div>
-                <h3 style="font-size: 24px;">Chunk overlap</h3>
-                <p style="font-size: 18px;">Giúp giữ mạch thông tin khi ý chính nằm ở ranh giới hai đoạn.</p>
-            </div>
-            <div class="tile" style="min-width: 220px; padding: 28px;">
-                <div class="icon"><i class="fa-solid fa-cube"></i></div>
-                <h3 style="font-size: 24px;">Embedding model</h3>
-                <p style="font-size: 18px;">Model tốt hơn thường cho retrieval sát nghĩa hơn.</p>
-            </div>
-            <div class="tile" style="min-width: 220px; padding: 28px;">
-                <div class="icon"><i class="fa-solid fa-filter"></i></div>
-                <h3 style="font-size: 24px;">Metadata filter</h3>
-                <p style="font-size: 18px;">Thu hẹp không gian tìm kiếm để giảm nhiễu.</p>
-            </div>
-            <div class="tile" style="min-width: 220px; padding: 28px;">
-                <div class="icon"><i class="fa-solid fa-ranking-star"></i></div>
-                <h3 style="font-size: 24px;">Top-k</h3>
-                <p style="font-size: 18px;">Chọn số lượng chunk phù hợp để cân bằng độ đủ và độ sạch của context.</p>
+            <div>
+                <h3>Chạy thử trong terminal</h3>
+                <div class="code-container" style="font-size: 13px;">
+<pre><code>pip install chromadb openai pypdf tiktoken
+python rag_terminal.py
+
+Nhập đường dẫn file (.txt/.pdf): data/intro_ai.pdf
+Nhập topic metadata: ai_course
+
+Câu hỏi: ChromaDB dùng để làm gì?</code></pre>
+                </div>
             </div>
         </div>
     </div>
