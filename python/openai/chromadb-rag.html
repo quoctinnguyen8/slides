@@ -501,52 +501,62 @@ collection.add(
     </div>
 </div>
 
-<!-- Slide 18: Thêm record bằng code -->
+<!-- Slide 18: Query record -->
 <div class="slide-container" id="slide18">
-    <h2 class="slide-title">Thêm Record Bằng Source Code</h2>
+    <h2 class="slide-title">ChromaDB: Query Record</h2>
     <div class="content-area">
         <div class="two-column" style="align-items: flex-start; gap: 32px;">
             <div>
-                <div class="code-container" style="font-size: 12px; padding: 18px;">
-<pre><code>collection.<span class="func">add</span>(
-    ids=[<span class="str">"doc_1"</span>],
-    embeddings=[vector],
-    documents=[<span class="str">"ChromaDB là database cho vector"</span>],
-    metadatas=[{
-        <span class="str">"topic"</span>: <span class="str">"AI"</span>,
-        <span class="str">"source"</span>: <span class="str">"slide"</span>
-    }]
-)</code></pre>
+                <div class="code-container">
+<pre><code><span class="cmt"># query_vector được tạo bởi OpenAI API trước</span>
+results = collection.<span class="func">query</span>(
+    query_embeddings=[query_vector],
+    where={<span class="str">"user_id"</span>: <span class="str">"user_001"</span>},
+    n_results=<span class="builtin">3</span>
+)
+
+<span class="builtin">print</span>(results)</code></pre>
                 </div>
             </div>
             <div>
-                <h3>Cách đọc đoạn code</h3>
+                <h3>Giải thích</h3>
                 <ul>
-                    <li><span class="code-inline">collection.add(...)</span>: thêm record mới vào collection.</li>
-                    <li><span class="code-inline">ids</span>, <span class="code-inline">embeddings</span>, <span class="code-inline">documents</span>, <span class="code-inline">metadatas</span> đều là danh sách.</li>
-                    <li>Các phần tử cùng vị trí sẽ ghép thành một record hoàn chỉnh.</li>
-                    <li>Ví dụ trên chỉ thêm 1 record, nên mỗi danh sách có đúng 1 phần tử.</li>
+                    <li><span class="code-inline">collection.query(...)</span>: tìm các record gần nhất với vector câu hỏi.</li>
+                    <li><span class="code-inline">query_embeddings</span>: vector của câu hỏi cần đem đi search.</li>
+                    <li><span class="code-inline">where</span>: điều kiện lọc theo metadata. Ở đây, chỉ tìm các record có metadata <i>user_id</i> bằng <i>user_001</i>. Điều kiện <span class="code-inline">where</span> được ưu tiên tìm kiếm trước.</li>
+                    <li><span class="code-inline">n_results=3</span>: lấy ra top 3 kết quả gần nhất.</li>
+                    <li>Thứ tự kết quả được sắp xếp theo khoảng cách ngữ nghĩa, với kết quả có nghĩa gần nhất được liệt kê đầu tiên.</li>
                 </ul>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Slide 19: Luồng thao tác cơ bản -->
-<div class="slide-container section-slide" id="slide19">
-    <div class="section-title-layout" style="max-width: 980px;">
-        <hr>
-        <h2>Luồng Làm Việc Cơ Bản Với ChromaDB</h2>
-        <div class="code-container" style="font-size: 21px; padding: 24px; max-width: 470px; margin-top: 20px;">
-<pre><code>Tạo client
-↓
-Tạo collection
-↓
-Chuẩn bị record
-↓
-add vào collection</code></pre>
+<!-- Slide 19: Filter metadata -->
+<div class="slide-container" id="slide19">
+    <h2 class="slide-title">Filter Record Bằng Metadata</h2>
+    <div class="content-area">
+        <div class="two-column" style="align-items: flex-start; gap: 32px;">
+            <div>
+                <div class="code-container" style="font-size: 12px; padding: 18px;">
+<pre><code>results = collection.<span class="func">query</span>(
+    query_embeddings=[query_vector],
+    where={<span class="str">"topic"</span>: <span class="str">"AI"</span>},
+    n_results=<span class="builtin">3</span>,
+    include=[<span class="str">"documents"</span>, <span class="str">"metadatas"</span>]
+)</code></pre>
+                </div>
+            </div>
+            <div>
+                <h3>Giải thích</h3>
+                <ul>
+                    <li><span class="code-inline">where</span>: điều kiện lọc theo metadata trước khi search.</li>
+                    <li>Ví dụ <span class="code-inline">{"topic": "AI"}</span> nghĩa là chỉ tìm trong các record có metadata topic bằng AI.</li>
+                    <li>Kết hợp <span class="code-inline">where</span> với semantic search giúp kết quả chính xác hơn và ít nhiễu hơn.</li>
+                    <li>Cách này rất hữu ích khi cùng một collection chứa nhiều nhóm tài liệu khác nhau.</li>
+                </ul>
+            </div>
         </div>
-        <p style="margin-top: 20px; max-width: 900px;">Sau khi hiểu rõ 4 bước này, phần còn lại chỉ là chuẩn bị dữ liệu tốt hơn: chia nhỏ tài liệu, tạo embedding và truy vấn đúng record cần dùng.</p>
     </div>
 </div>
 
