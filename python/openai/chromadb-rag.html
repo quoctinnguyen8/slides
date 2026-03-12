@@ -145,8 +145,115 @@ Tìm nội dung tương tự</code></pre>
     </div>
 </div>
 
-<!-- Slide 6: Vector database -->
+<!-- Slide 6: Embedding là gì -->
 <div class="slide-container" id="slide6">
+    <h2 class="slide-title">Vector Embedding Là Gì?</h2>
+    <div class="content-area">
+        <div class="two-column" style="align-items: flex-start; gap: 30px;">
+            <div>
+                <p><strong>Vector Embedding</strong> là kỹ thuật chuyển đổi các dạng dữ liệu phi cấu trúc (đoạn văn, hình ảnh, âm thanh) thành các mảng <strong>số thực</strong> (vector).</p>
+                <p>Có thể hiểu đây là cách "số hóa" ngữ nghĩa của dữ liệu để máy tính có thể hiểu, phân tích và tính toán được.</p>
+                <p>Ví dụ văn bản gốc:</p>
+                <div class="code-container" style="margin-bottom: 20px;"><pre><code>Tôi thích học AI</code></pre></div>
+                <p>Sau khi thực hiện embedding:</p>
+                <div class="code-container" style="margin-bottom: 20px;"><pre><code>[0.21, -0.43, 0.77, ...]</code></pre></div>
+                <p>Mỗi con số trong vector đại diện cho một <strong>đặc trưng ngữ nghĩa</strong> của văn bản.</p>
+            </div>
+            <div>
+                <h3>Ví dụ cụ thể với bộ dữ liệu sau</h3>
+                <div class="image-wrapper">
+                    <!-- Ảnh ví dụ -->
+                    <img src="../images/rag-vector-embedding-data-sample.png" alt="Embedding Illustration">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 7: Giải thích trực quan về Embedding -->
+<div class="slide-container" id="slide7">
+    <h2 class="slide-title">Embedding: Giải Thích Trực Quan</h2>
+    <div class="content-area">
+        <div class="two-column" style="align-items: stretch;">
+            <div>
+                <p><strong>Biểu diễn dữ liệu với 1 tiêu chí</strong></p>
+                <img src="../images/rag-vector-embedding-1d.png" alt="Biễu diễn dữ liệu 1D" style="width: 100%;">
+                <p><strong>Biểu diễn dữ liệu với 2 tiêu chí</strong></p>
+                <img src="../images/rag-vector-embedding-2d.png" alt="Biễu diễn dữ liệu 2D" style="width: 100%; max-height: 350px; object-fit: contain;">
+            </div>
+            <div>
+                <p><strong>Biểu diễn dữ liệu với đủ 3 tiêu chí</strong></p>
+                <img src="../images/rag-vector-embedding-3d.png" alt="Biễu diễn dữ liệu 3D" style="width: 100%; max-height: 350px; object-fit: contain;">
+
+                <p>Mỗi tiêu chí được gọi là một <strong>chiều</strong> (dimension) trong vector.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 8: Embedding model -->
+<div class="slide-container" id="slide8">
+    <h2 class="slide-title">Embedding Được Tạo Bởi Model</h2>
+    <div class="content-area">
+        <div class="two-column" style="align-items: flex-start; gap: 34px;">
+            <div>
+                <p>Vector embedding được tạo ra bằng cách sử dụng các mô hình đã được huấn luyện. Các mô hình này có khả năng đánh giá văn bản dựa trên hàng ngàn tiêu chí (dimensions) khác nhau.</p>
+                <ul>
+                    <li>Model khác nhau sẽ cho vector khác nhau.</li>
+                    <li>Số chiều (dimensions) càng lớn khả năng tìm kiếm càng chính xác, tuy nhiên tốc độ tìm kiếm và chi phí lưu trữ sẽ tăng lên. Chức năng RAG thông thường cần vector có 768-1536 chiều.</li>
+                    <li><strong>Lưu ý quan trọng:</strong> mỗi dimensions trong vector không có nghĩa rõ ràng với con người. Ngữ nghĩa của câu/đoạn văn nằm ở toàn bộ vector.</li>
+                </ul>
+            </div>
+            <div>
+                <h3>Ví dụ tạo vector với OpenAI</h3>
+                <div class="code-container">
+                    <pre><code><span class="kw">import</span> openai
+
+response = openai.embeddings.<span class="func">create</span>(
+    input=<span class="str">"Your text string goes here"</span>,
+    model=<span class="str">"text-embedding-3-small"</span>
+)
+
+<span class="builtin">print</span>(response.data[0].embedding)
+<span class="builtin">print</span>(<span class="str">"Length of embedding:"</span>, len(response.data[0].embedding))
+<span class="cmt"># Length of embedding: 1536</span></code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 9: Similarity search -->
+<div class="slide-container" id="slide9">
+    <h2 class="slide-title">Similarity Search Hoạt Động Thế Nào?</h2>
+    <div class="content-area">
+        <div class="two-column" style="align-items: flex-start; gap: 32px;">
+            <div>
+                <ul>
+                    <li><strong>Similarity search</strong> là quá trình tìm kiếm các vector trong database có <strong>độ tương đồng cao nhất</strong> với vector của câu hỏi.</li>
+                    <li>Độ tương đồng được tính bằng cách sử dụng khoảng cách giữa các vector, khoảng cách càng nhỏ thì độ tương đồng càng cao.</li>
+                    <li>Với vector 2 chiều, độ tương đồng có thể được biểu diễn bằng khoảng cách Euclidean như sau:
+<pre><code>d = sqrt((x2 - x1)² + (y2 - y1)²)</code></pre>
+                    </li>
+                    <li>Với vector 3 chiều:
+<pre><code>d = sqrt((x2 - x1)² + (y2 - y1)² + (z2 - z1)²)</code></pre>
+                    </li>
+                    <li>Tương tự cho các chiều cao hơn.</li>
+                </ul>
+            </div>
+            <div>
+                <ul>
+                    <li>Trong thực tế khi số chiều vượt quá 200, giá trị khoảng cách giữa các vector được tính bằng phương pháp Euclidean có thể trở nên gần như bằng nhau <i>(hiện tượng Lời nguyền chiều không gian - Curse of Dimensionality)</i>, làm giảm hiệu quả tìm kiếm.</li>
+                    <li>Để giải quyết vấn đề này, các phương pháp khác như <strong>Cosine similarity</strong> thường được sử dụng để đánh giá độ tương đồng giữa các vector trong không gian nhiều chiều.</li>
+                    <li>Thay vì đo khoảng cách, cosine similarity đo góc giữa hai vector. Góc càng nhỏ thì độ tương đồng càng cao. Góc 180 độ tương ứng với ngữ nghĩa hoàn toàn khác nhau - điều mà khoảng cách Euclidean không thể phản ánh.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 10: Vector database -->
+<div class="slide-container" id="slide10">
     <h2 class="slide-title">Vector Database Là Gì?</h2>
     <div class="content-area">
         <div class="two-column" style="align-items: flex-start;">
@@ -167,8 +274,8 @@ Tìm nội dung tương tự</code></pre>
     </div>
 </div>
 
-<!-- Slide 7: Các DB phổ biến -->
-<div class="slide-container" id="slide7">
+<!-- Slide 11: Các DB phổ biến -->
+<div class="slide-container" id="slide11">
     <h2 class="slide-title">Các Vector Database Phổ Biến</h2>
     <div class="content-area">
         <div class="content-table-wrap">
@@ -212,8 +319,8 @@ Tìm nội dung tương tự</code></pre>
     </div>
 </div>
 
-<!-- Slide 8: Vì sao Chroma -->
-<div class="slide-container" id="slide8">
+<!-- Slide 12: Vì sao Chroma -->
+<div class="slide-container" id="slide12">
     <h2 class="slide-title">Vì Sao Dùng ChromaDB?</h2>
     <div class="content-area">
         <div class="tiled-content">
@@ -241,114 +348,7 @@ Tìm nội dung tương tự</code></pre>
     </div>
 </div>
 
-<!-- Slide 9: Embedding là gì -->
-<div class="slide-container" id="slide9">
-    <h2 class="slide-title">Vector Embedding Là Gì?</h2>
-    <div class="content-area">
-        <div class="two-column" style="align-items: flex-start; gap: 30px;">
-            <div>
-                <p><strong>Vector Embedding</strong> là kỹ thuật chuyển đổi các dạng dữ liệu phi cấu trúc (đoạn văn, hình ảnh, âm thanh) thành các mảng <strong>số thực</strong> (vector).</p>
-                <p>Có thể hiểu đây là cách "số hóa" ngữ nghĩa của dữ liệu để máy tính có thể hiểu, phân tích và tính toán được.</p>
-                <p>Ví dụ văn bản gốc:</p>
-                <div class="code-container" style="margin-bottom: 20px;"><pre><code>Tôi thích học AI</code></pre></div>
-                <p>Sau khi thực hiện embedding:</p>
-                <div class="code-container" style="margin-bottom: 20px;"><pre><code>[0.21, -0.43, 0.77, ...]</code></pre></div>
-                <p>Mỗi con số trong vector đại diện cho một <strong>đặc trưng ngữ nghĩa</strong> của văn bản.</p>
-            </div>
-            <div>
-                <h3>Ví dụ cụ thể với bộ dữ liệu sau</h3>
-                <div class="image-wrapper">
-                    <!-- Ảnh ví dụ -->
-                    <img src="../images/rag-vector-embedding-data-sample.png" alt="Embedding Illustration">
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Slide 10: Placeholder -->
-<div class="slide-container" id="slide10">
-    <h2 class="slide-title">Embedding: Giải Thích Trực Quan</h2>
-    <div class="content-area">
-        <div class="two-column" style="align-items: stretch;">
-            <div>
-                <p><strong>Biểu diễn dữ liệu với 1 tiêu chí</strong></p>
-                <img src="../images/rag-vector-embedding-1d.png" alt="Biễu diễn dữ liệu 1D" style="width: 100%;">
-                <p><strong>Biểu diễn dữ liệu với 2 tiêu chí</strong></p>
-                <img src="../images/rag-vector-embedding-2d.png" alt="Biễu diễn dữ liệu 2D" style="width: 100%; max-height: 350px; object-fit: contain;">
-            </div>
-            <div>
-                <p><strong>Biểu diễn dữ liệu với đủ 3 tiêu chí</strong></p>
-                <img src="../images/rag-vector-embedding-3d.png" alt="Biễu diễn dữ liệu 3D" style="width: 100%; max-height: 350px; object-fit: contain;">
-
-                <p>Mỗi tiêu chí được gọi là một <strong>chiều</strong> (dimension) trong vector.</p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Slide 11: Embedding model -->
-<div class="slide-container" id="slide11">
-    <h2 class="slide-title">Embedding Được Tạo Bởi Model</h2>
-    <div class="content-area">
-        <div class="two-column" style="align-items: flex-start; gap: 34px;">
-            <div>
-                <p>Vector embedding được tạo ra bằng cách sử dụng các mô hình đã được huấn luyện. Các mô hình này có khả năng đánh giá văn bản dựa trên hàng ngàn tiêu chí (dimensions) khác nhau.</p>
-                <ul>
-                    <li>Model khác nhau sẽ cho vector khác nhau.</li>
-                    <li>Số chiều (dimensions) càng lớn khả năng tìm kiếm càng chính xác, tuy nhiên tốc độ tìm kiếm và chi phí lưu trữ sẽ tăng lên. Chức năng RAG thông thường cần vector có 768-1536 chiều.</li>
-                    <li><strong>Lưu ý quan trọng:</strong> mỗi dimensions trong vector không có nghĩa rõ ràng với con người. Ngữ nghĩa của câu/đoạn văn nằm ở toàn bộ vector.</li>
-                </ul>
-            </div>
-            <div>
-                <h3>Ví dụ tạo vector với OpenAI</h3>
-                <div class="code-container">
-                    <pre><code><span class="kw">import</span> openai
-
-response = openai.embeddings.<span class="func">create</span>(
-    input=<span class="str">"Your text string goes here"</span>,
-    model=<span class="str">"text-embedding-3-small"</span>
-)
-
-<span class="builtin">print</span>(response.data[0].embedding)
-<span class="builtin">print</span>(<span class="str">"Length of embedding:"</span>, len(response.data[0].embedding))
-<span class="cmt"># Length of embedding: 1536</span></code></pre>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Slide 12: Similarity search -->
-<div class="slide-container" id="slide12">
-    <h2 class="slide-title">Similarity Search Hoạt Động Thế Nào?</h2>
-    <div class="content-area">
-        <div class="two-column" style="align-items: flex-start; gap: 32px;">
-            <div>
-                <ul>
-                    <li><strong>Similarity search</strong> là quá trình tìm kiếm các vector trong database có <strong>độ tương đồng cao nhất</strong> với vector của câu hỏi.</li>
-                    <li>Độ tương đồng được tính bằng cách sử dụng khoảng cách giữa các vector, khoảng cách càng nhỏ thì độ tương đồng càng cao.</li>
-                    <li>Với vector 2 chiều, độ tương đồng có thể được biểu diễn bằng khoảng cách Euclidean như sau:
-<pre><code>d = sqrt((x2 - x1)² + (y2 - y1)²)</code></pre>
-                    </li>
-                    <li>Với vector 3 chiều:
-<pre><code>d = sqrt((x2 - x1)² + (y2 - y1)² + (z2 - z1)²)</code></pre>
-                    </li>
-                    <li>Tương tự cho các chiều cao hơn.</li>
-                </ul>
-            </div>
-            <div>
-                <ul>
-                    <li>Trong thực tế khi số chiều vượt quá 200, giá trị khoảng cách giữa các vector được tính bằng phương pháp Euclidean có thể trở nên gần như bằng nhau <i>(hiện tượng Lời nguyền chiều không gian - Curse of Dimensionality)</i>, làm giảm hiệu quả tìm kiếm.</li>
-                    <li>Để giải quyết vấn đề này, các phương pháp khác như <strong>Cosine similarity</strong> thường được sử dụng để đánh giá độ tương đồng giữa các vector trong không gian nhiều chiều.</li>
-                    <li>Thay vì đo khoảng cách, cosine similarity đo góc giữa hai vector. Góc càng nhỏ thì độ tương đồng càng cao. Góc 180 độ tương ứng với ngữ nghĩa hoàn toàn khác nhau - điều mà khoảng cách Euclidean không thể phản ánh.</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Slide 13: Cấu trúc dữ liệu -->
+<!-- Slide 13: Thao Tác Với ChromaDB -->
 <div class="slide-container section-slide" id="slide13">
     <div class="section-title-layout" style="max-width: 960px;">
         <h2>Thao Tác Với ChromaDB</h2>
