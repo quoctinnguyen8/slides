@@ -512,19 +512,24 @@ collection.add(
 results = collection.<span class="func">query</span>(
     query_embeddings=[query_vector],
     where={<span class="str">"user_id"</span>: <span class="str">"user_001"</span>},
-    n_results=<span class="builtin">3</span>
+    n_results=<span class="builtin">5</span>,
+    <span class="cmt"># Các trường dữ liệu cần lấy
+    # documents: nội dung gốc
+    # metadata: dữ liệu phụ
+    # distances: khoảng cách ngữ nghĩa (0-1)
+    # Distance càng nhỏ càng tương đồng</span>
+    include=[<span class="str">"documents"</span>, <span class="str">"metadatas"</span>, <span class="str">"distances"</span>]
 )
 
 <span class="builtin">print</span>(results)</code></pre>
                 </div>
             </div>
             <div>
-                <h3>Giải thích</h3>
                 <ul>
-                    <li><span class="code-inline">collection.query(...)</span>: tìm các record gần nhất với vector câu hỏi.</li>
+                    <li><span class="code-inline">collection.query(...)</span>: tìm các record có embedding gần nhất với embedding của câu hỏi.</li>
                     <li><span class="code-inline">query_embeddings</span>: vector của câu hỏi cần truy vấn.</li>
-                    <li><span class="code-inline">where</span>: điều kiện lọc theo metadata. Ở đây chỉ tìm các record có metadata <i>user_id</i> bằng <i>user_001</i>. Điều kiện <span class="code-inline">where</span> được ưu tiên tìm kiếm trước.</li>
-                    <li><span class="code-inline">n_results=3</span>: lấy ra top 3 kết quả gần nhất.</li>
+                    <li><span class="code-inline">where</span>: điều kiện lọc theo metadata. Ở đây chỉ tìm các record có metadata <i>user_id</i> bằng <i>user_001</i>. Các record thỏa metadata được lọc trước, sau đó thực hiện tìm kiếm vector.</li>
+                    <li><span class="code-inline">n_results=5</span>: lấy ra top 5 kết quả gần nhất.</li>
                     <li>Thứ tự kết quả được sắp xếp theo khoảng cách ngữ nghĩa, với kết quả có nghĩa gần nhất được liệt kê đầu tiên.</li>
                 </ul>
             </div>
