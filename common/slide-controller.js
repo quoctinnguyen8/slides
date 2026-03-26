@@ -10,6 +10,8 @@
     // Trạng thái điều hướng hiện tại
     const totalSlides = slides.length;
     let currentIndex = 0;
+    // Theo dõi trạng thái cũ của mỗi slide để chỉ cập nhật khi thay đổi
+    const slideStates = new Map(slides.map((slide) => [slide, null]));
     document.body.classList.add('slide-controller-active');
     document.body.classList.add('slide-loading');
 
@@ -288,13 +290,23 @@
     // Cập nhật trạng thái hiển thị slide và trạng thái điều hướng
     const applyState = () => {
         slides.forEach((slide, index) => {
-            slide.classList.remove('is-active', 'is-prev', 'is-next');
+            let newState;
             if (index < currentIndex) {
-                slide.classList.add('is-prev');
+                newState = 'is-prev';
             } else if (index > currentIndex) {
-                slide.classList.add('is-next');
+                newState = 'is-next';
             } else {
-                slide.classList.add('is-active');
+                newState = 'is-active';
+            }
+
+            const oldState = slideStates.get(slide);
+            if (oldState !== newState) {
+                // Chỉ cập nhật nếu trạng thái thực sự thay đổi
+                if (oldState) {
+                    slide.classList.remove(oldState);
+                }
+                slide.classList.add(newState);
+                slideStates.set(slide, newState);
             }
         });
 
