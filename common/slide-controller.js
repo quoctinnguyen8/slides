@@ -419,7 +419,7 @@
     // - lăn lên: slide trước
     let wheelAccumulatedDelta = 0;
     let wheelCooldown = false;
-    const WHEEL_THRESHOLD = 90;
+    const WHEEL_THRESHOLD = 70;
     const WHEEL_COOLDOWN_MS = 100;
 
     const onWheelNavigate = (event) => {

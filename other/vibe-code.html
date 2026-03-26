@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vibe Coding & GitHub Setup</title>
+    <link rel="shortcut icon" href="../common/icon.png" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="vibe-code.css">
+    <link rel="stylesheet" href="../common/slide-controller.css">
+    <link rel="stylesheet" href="../common/slide-print.css">
+</head>
+<body>
+
+<!-- Slide 1: Title_Slide -->
+<div class="slide-container" id="slide1">
+    <div class="title-layout">
+        <h1>Vibe Coding & GitHub Setup</h1>
+        <p class="subtitle">Hướng dẫn tư duy lập trình bằng AI và thiết lập tài nguyên dành cho sinh viên</p>
+        <p style="font-size: 18px; font-style: italic; margin-bottom: 0;" class="subtitle">
+            Lỡ cả đời không biết code thì sao? - Thì mình vibe code
+        </p>
+        <p style="font-size: 18px; font-style: italic; margin: 0;" class="subtitle">
+            -- Albert Einstein <span style="font-size: x-small;">không nói thế</span> --
+        </p>
+    </div>
+</div>
+
+<!-- Slide 2: Section_Title -->
+<div class="slide-container" id="slide2">
+    <div class="section-title-layout">
+        <hr>
+        <h2>01. Vibe Coding</h2>
+        <p>Khái niệm cốt lõi, ưu nhược điểm.</p>
+    </div>
+</div>
+
+<!-- Slide 3: Image_Right_Text_Left -->
+<div class="slide-container" id="slide3">
+    <h2 class="slide-title">Khái niệm Vibe Coding</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <ul>
+                    <li>Lập trình bằng ngôn ngữ tự nhiên thông qua các công cụ AI (Claude Code, GitHub Copilot, Antigravity,...) thay vì gõ code thủ công.</li>
+                    <li>Người dùng cung cấp ý tưởng/mô tả để AI tạo ra mã nguồn tương ứng.</li>
+                    <li>Trong mô hình này, người dùng đóng vai trò là khách hàng hoặc kiến trúc sư, AI đóng vai trò là người thực hiện.</li>
+                    <li>Giúp bạn tập trung hoàn toàn vào luồng logic/mục tiêu của sản phẩm thay vì phải nhớ cú pháp ngôn ngữ.</li>
+                </ul>
+            </div>
+            <div>
+                <div class="image-wrapper">
+                    <img src="images/vibe-coding.gif" alt="Vibe Coding concept illustration">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 4: Title_Slide (Repurposed for Demo) -->
+<div class="slide-container" id="slide4">
+    <div class="title-layout">
+        <h1 style="color: #2563eb; font-size: 80px;"><i class="fa-solid fa-laptop-code" style="margin-bottom: 30px;"></i><br>Demo</h1>
+        <p class="subtitle">Sản phẩm được tạo ra qua quá trình Vibe Coding</p>
+    </div>
+</div>
+
+<!-- Slide 5: Two_Column_Tiled_Text -->
+<div class="slide-container" id="slide5">
+    <h2 class="slide-title">Ưu và Nhược điểm của Vibe Coding</h2>
+    <div class="content-area">
+        <div class="two-column tiled">
+            <div>
+                <h3><i class="fa-solid fa-circle-check" style="margin-right: 10px;"></i>Ưu điểm</h3>
+                <p><strong>Tốc độ cực nhanh:</strong> Khởi tạo dự án và tính năng trong thời gian cực ngắn so với lập trình truyền thống.</p>
+                <p><strong>Giảm rào cản:</strong> Phù hợp cho người không chuyên sâu về kỹ thuật, người mới bắt đầu vẫn có thể tạo ra sản phẩm.</p>
+                <p><strong>Prototyping:</strong> Dễ dàng thử nghiệm và xây dựng các bản mẫu (MVP) ngay lập tức để kiểm chứng ý tưởng.</p>
+            </div>
+            <div>
+                <h3 style="color: #ef4444;"><i class="fa-solid fa-triangle-exclamation" style="margin-right: 10px;"></i>Nhược điểm</h3>
+                <p>Chất lượng code phụ thuộc hoàn toàn vào độ thông minh của model và ngữ cảnh cung cấp cho AI.</p>
+                <p>Khó kiểm soát và sửa lỗi khi hệ thống trở nên phức tạp.</p>
+                <p>Đòi hỏi tư duy hệ thống và khả năng diễn đạt (viết chỉ thị) chi tiết, rõ ràng.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 6: Two_Column_Tiled_Text -->
+<div class="slide-container" id="slide6">
+    <h2 class="slide-title">Tư duy Vibe Code: Đúng & Sai</h2>
+    <div class="content-area">
+        <div class="two-column tiled">
+            <div>
+                <h3 style="color: #ef4444;"><i class="fa-solid fa-xmark" style="margin-right: 10px;"></i>Tư duy SAI</h3>
+                <p><strong>Prompt "All-in-one":</strong> Yêu cầu AI viết toàn bộ ứng dụng lớn từ A-Z chỉ trong 1 câu lệnh duy nhất.</p>
+                <p><strong>Phó mặc hoàn toàn:</strong> Không kiểm tra lại chức năng do AI tạo ra, mù quáng tin tưởng 100% vào kết quả trả về.</p>
+                <p><strong>Nhận vơ:</strong> Năng lực &ne; năng suất. Sản phẩm do AI tạo ra không đại diện cho năng lực/tư duy lập trình của người tạo ra nó.</p>
+            </div>
+            <div>
+                <h3 style="color: #22c55e;"><i class="fa-solid fa-check" style="margin-right: 10px;"></i>Tư duy ĐÚNG</h3>
+                <p><strong>Chia nhỏ:</strong> Tách nhỏ dự án thành từng tính năng/thành phần đơn giản để xử lý dần.</p>
+                <p><strong>Vai trò "Reviewer":</strong> Luôn đọc, kiểm tra logic và yêu cầu AI giải thích đoạn code/chức năng vừa sinh ra.</p>
+                <p><strong>Làm chủ hệ thống:</strong> Nắm vững tổng thể dự án, dùng AI như một nhân viên lập trình tốc độ cao.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 7: Two_Column_Tiled_Text -->
+<div class="slide-container" id="slide7">
+    <h2 class="slide-title">Khả năng ứng dụng</h2>
+    <div class="content-area">
+        <div class="two-column tiled">
+            <div>
+                <h3 style="color: #2563eb;"><i class="fa-solid fa-layer-group" style="margin-right: 10px;"></i>Sản phẩm Vibe Code TỐT</h3>
+                <p><strong>Web/Landing Page:</strong> Web cá nhân, trang giới thiệu doanh nghiệp, portfolio.</p>
+                <p><strong>CRUD Apps:</strong> Ứng dụng quản lý dữ liệu cơ bản (Thêm, Xóa, Sửa, Đọc) như quản lý kho, Web bán hàng,...</p>
+                <p><strong>Tự động hóa/tool:</strong> Tool crawl dữ liệu web, xử lý/chuyển đổi file Excel hàng loạt.</p>
+                <p><strong>Giao diện (UI/UX):</strong> Dựng giao diện web bằng Tailwind CSS, Bootstrap hoặc các thư viện có sẵn.</p>
+            </div>
+            <div>
+                <h3 style="color: #64748b;"><i class="fa-solid fa-shield-halved" style="margin-right: 10px;"></i>KHÓ áp dụng</h3>
+                <p><strong>Hệ thống lõi/Bảo mật:</strong> Ứng dụng ngân hàng (Banking), ví điện tử (Crypto), hệ thống xử lý thanh toán tài chính.</p>
+                <p><strong>Hiệu năng cao:</strong> Game 3D phức tạp, phần mềm cấp hệ điều hành.</p>
+                <p><strong>Game:</strong> Cần kết hợp nhiều kỹ năng: thiết kế (nhân vật, gameplay), lập trình, âm thanh, kể chuyện.</p>
+                <p><strong>Hệ thống cũ/hệ thống đặc thù:</strong> Mã nguồn cũ khổng lồ, phức tạp, không có tài liệu đầy đủ.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 8: Section_Title -->
+<div class="slide-container" id="slide8">
+    <div class="section-title-layout">
+        <hr>
+        <h2>02. GitHub Education Pack</h2>
+        <p>Chuẩn bị tài nguyên và thiết lập môi trường để nhận các đặc quyền dành riêng cho sinh viên.</p>
+        <p><a href="https://github.com/quoctinnguyen8/bai-tap-tong-hop/blob/main/github/github-student-registration.md" target="_blank">Xem hướng dẫn</a></p>
+    </div>
+</div>
+
+<!-- Slide 9: Section_Title -->
+<div class="slide-container" id="slide9">
+    <div class="section-title-layout">
+        <hr>
+        <h2>03. Thực Hành Thực Tế</h2>
+        <p>Quy trình tư duy, thiết lập agents và triển khai dự án mẫu từ con số 0.</p>
+    </div>
+</div>
+
+<!-- Slide 10: Timeline -->
+<div class="slide-container" id="slide10">
+    <h2 class="slide-title">Quy trình Vibe Code cho người không biết code</h2>
+    <div class="content-area">
+        <div class="timeline-layout">
+            <div class="timeline-line"></div>
+            <div class="timeline-item">
+                <div class="content-wrapper">
+                    <h3>1. Ý tưởng</h3>
+                    <p>Trình bày rõ ràng sản phẩm muốn làm. Dùng văn xuôi miêu tả luồng sử dụng.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="content-wrapper">
+                    <h3>2. Lập Rules</h3>
+                    <p>Thiết lập luật chơi thông qua các file Instructions và AGENTS.md.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="content-wrapper">
+                    <h3>3. Thực thi</h3>
+                    <p>Yêu cầu AI code từng phần nhỏ, từ layout đến chức năng cơ bản nhất.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="content-wrapper">
+                    <h3>4. Tinh chỉnh</h3>
+                    <p>Chạy thử ứng dụng ngay. Nếu có lỗi, copy lỗi báo lại cho AI để sửa ngay lập tức.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="content-wrapper">
+                    <h3>5. Lặp lại</h3>
+                    <p>Quay lại bước 3 với các tính năng mới cho đến khi hoàn thiện sản phẩm cuối.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 11: Tiled_Text_With_Icons -->
+<div class="slide-container" id="slide11">
+    <h2 class="slide-title">Chuẩn bị & Tư duy Vibe Code</h2>
+    <div class="content-area">
+        <div class="tiled-content">
+            <div class="tile">
+                <div class="icon"><i class="fa-solid fa-brain"></i></div>
+                <h3>Tư duy khách hàng</h3>
+                <p>Nắm rõ yêu cầu và kết quả. Chia nhỏ yêu cầu, không yêu cầu AI làm toàn bộ hệ thống cùng một lúc.</p>
+            </div>
+            <div class="tile">
+                <div class="icon"><i class="fa-solid fa-file-code"></i></div>
+                <h3 style="font-size: 24px;">copilot-instructions.md</h3>
+                <p>Luôn tạo file này để cung cấp ngữ cảnh (thông tin dự án, đối tượng sử dụng, phong cách thiết kế, công nghệ/ngôn ngữ,...).</p>
+            </div>
+            <div class="tile">
+                <div class="icon"><i class="fa-solid fa-robot"></i></div>
+                <h3>AGENTS.md</h3>
+                <p>Nơi định nghĩa quy trình làm việc để AI tuân theo.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 12: Two_Column_Tiled_Text -->
+<div class="slide-container" id="slide12">
+    <h2 class="slide-title">Ví dụ</h2>
+    <div class="content-area">
+        <div class="two-column tiled">
+            <div>
+                <h3><i class="fa-solid fa-file-code" style="margin-right: 10px;"></i>copilot-instructions.md</h3>
+                <pre style="word-break: break-word; white-space: pre-wrap;"><code>
+# Dự án: Web bán đồng hồ
+
+## Bối cảnh
+
+Tôi là một người đam mê đồng hồ và muốn tạo một trang web để giới thiệu và bán các mẫu đồng hồ yêu thích của mình. Tôi muốn trang web này có giao diện đẹp, dễ sử dụng và có thể hiển thị thông tin chi tiết về từng sản phẩm.
+Phong cách thiết kế: hiện đại, tối giản nhưng sang trọng, phù hợp với đối tượng khách hàng yêu thích đồng hồ.
+
+## Mục tiêu
+- Tạo một trang web đơn giản để giới thiệu và bán đồng hồ.
+- Trang chủ có banner, danh sách sản phẩm, trang chi tiết sản phẩm và giỏ hàng cơ bản.
+
+## Công nghệ
+- AI tự chọn công nghệ phù hợp hoặc người dùng chỉ định nếu cần.
+
+## Quy tắc
+- Luôn phản hồi bằng tiếng Việt.
+                </code></pre>
+            </div>
+            <div>
+                <h3><i class="fa-solid fa-robot" style="margin-right: 10px;"></i>AGENTS.md</h3>
+                <pre style="word-break: break-word; white-space: pre-wrap;"><code>
+# Quy trình làm việc
+
+1. Nhận yêu cầu từ người dùng.
+2. Đọc qua lịch sử yêu cầu từ `memories` để hiểu ngữ cảnh và các yêu cầu đã được thực hiện trước đó.
+3. Phân tích yêu cầu và lên kế hoạch thực hiện.
+4. Yêu cầu người dùng xác nhận kế hoạch trước khi bắt đầu viết code.
+5. Thực hiện theo kế hoạch đã được xác nhận.
+6. Sau khi hoàn thành, kiểm tra lại code và đảm bảo không có lỗi.
+7. Chạy trình duyệt và kiểm tra chức năng.
+8. Sửa các lỗi nếu có và lặp lại quá trình cho đến khi chức năng hoàn chỉnh.
+9. Lưu nội dung đã thực hiện vào `memories` để sử dụng cho các yêu cầu tiếp theo.
+10. Gợi ý các tính năng tiếp theo.
+
+# Quy tắc code
+- Không sử dụng emoji trong code.
+- Nội dung trang web dùng tiếng Việt có dấu.
+
+# Quy tắc test
+- Luôn chạy thử bằng trình duyệt sau khi hoàn thành mỗi tính năng.
+</code></pre>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 13: Tree Directory Layout -->
+<div class="slide-container" id="slide13">
+    <h2 class="slide-title">Agent Skills</h2>
+    <div class="content-area">
+        <div class="two-column" style="gap: 40px;">
+            <div class="tree-box">
+                <ul>
+                    <li><i class="fa-solid fa-folder"></i><strong>web-ban-dong-ho</strong>
+                        <ul>
+                            <li><i class="fa-solid fa-folder"></i>.github
+                                <ul>
+                                    <li><i class="fa-brands fa-markdown"></i>copilot-instructions.md</li>
+                                </ul>
+
+                            </li>
+                            <li><i class="fa-solid fa-folder"></i>.agents
+                                <ul>
+                                    <li><i class="fa-solid fa-folder"></i>skills
+                                        <ul>
+                                            <li><i class="fa-solid fa-folder"></i>db-designer
+                                                <ul>
+                                                    <li><i class="fa-brands fa-markdown"></i>SKILL.md</li>
+                                                </ul>
+                                            </li>
+                                            <li><i class="fa-solid fa-folder"></i>asp-classic
+                                                <ul>
+                                                    <li><i class="fa-brands fa-markdown"></i>SKILL.md</li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>...</li>
+                            <li><i class="fa-brands fa-markdown"></i>AGENTS.md</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <div class="bullet-list" style="max-width: 100%;">
+                    <ul>
+                        <li>Là phiên bản mở rộng của AGENTS.md, nơi chứa các chỉ dẫn cụ thể mà Agent có thể sử dụng trong quá trình hoạt động.</li>
+                        <li>Mỗi skill được định nghĩa trong một thư mục riêng biệt, chứa file SKILL.md mô tả chi tiết về kỹ năng và cách sử dụng. Có thể bao gồm code mẫu, template và cả code thực thi, skill được <strong>gọi tự động</strong> khi cần thiết.</li>
+                        <li>Giống như <em>copilot-instructions.md</em> hay <em>AGENTS.md</em>, file <em>SKILL.md</em> là định dạng markdown tự do.</li>
+                        <li><strong>Ứng dụng:</strong> Cung cấp hướng dẫn về 1 thư viện cụ thể, một ngôn ngữ ít được hỗ trợ, cú pháp đặc thù của một phiên bản thư viện/framework/ngôn ngữ,...</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 14: Bleed_Image_Right -->
+<div class="slide-container bleed-image-layout" id="slide14">
+    <div class="content-container">
+        <h2 class="slide-title">Quick Practice</h2>
+        <div class="content-area">
+            <div class="bleed-text-side">
+                <p>Chọn một trong các đề tài sau để thực hành:</p>
+                <ul>
+                    <li>Xây dựng trang web cho cửa hàng trái cây & bánh kẹo</li>
+                    <li>Xây dựng trang web cho blog cá nhân với khả năng upload hình ảnh và video</li>
+                    <li>Xây dựng trang web giới thiệu du lịch với bản đồ tương tác và đánh giá địa điểm cho tỉnh nhà.</li>
+                    <li>Xây dựng trang web kết nối chủ trọ và người thuê trọ (web tìm phòng trọ)</li>
+                    <li>Xây dựng ứng dụng chat P2P trong môi trường mạng LAN (giữa 2 máy tính)</li>
+                    <li>Xây dựng ứng dụng chat P2P qua bluetooth cho thiết bị di động (Android)</li>
+                    <li>Tạo một hệ thống trả lời câu hỏi dựa trên tài liệu được cung cấp (RAG)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="image-container">
+        <img class="bleed-image-side" src="images/practice.png" alt="Github coding project screen light background">
+    </div>
+</div>
+
+<!-- Tài liệu tham khảo -->
+<div class="slide-container" id="slide15">
+    <div class="content-container">
+        <h2 class="slide-title">Tài liệu tham khảo</h2>
+        <ul>
+            <li>Copilot Instructions: <a href="https://docs.github.com/en/copilot/tutorials/use-custom-instructions" target="_blank">https://docs.github.com/en/copilot/tutorials/use-custom-instructions</a></li>
+            <li>AGENTS.md: <a href="https://agents.md/" target="_blank">https://agents.md/</a></li>
+            <li>Agent Skills: <a href="https://agentskills.io/home" target="_blank">https://agentskills.io/home</a></li>
+        </ul>
+    </div>
+</div>
+
+<script src="../common/slide-controller.js"></script>
+</body>
+</html>
