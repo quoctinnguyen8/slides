@@ -1,0 +1,924 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khóa Học Lập Trình C++ Căn Bản</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Roboto+Mono:wght@400;500&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="shortcut icon" href="../common/icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="../common/slide-style-2.css">
+    <link rel="stylesheet" href="../common/slide-controller.css">
+</head>
+<body>
+
+    <div class="slide-container">
+        <div class="title-layout">
+            <h1>Lập Trình C++ Căn Bản</h1>
+            <p class="subtitle">Khóa học dành cho người mới bắt đầu</p>
+        </div>
+    </div>
+
+    <div class="slide-container">
+        <div class="section-title-layout">
+            <h2>Chương 1</h2>
+            <hr>
+            <h1 style="color: #1E293B;">Cơ Bản Về Ngôn Ngữ C++</h1>
+            <p class="subtitle">Giới thiệu, cài đặt và viết chương trình đầu tiên</p>
+        </div>
+    </div>
+
+    <div class="slide-container">
+        <h2 class="slide-title">Giới thiệu ngôn ngữ C++ và Công cụ</h2>
+        <div class="content-area">
+            <div class="two-column">
+                <div>
+                    <h3>Tại sao chọn C++?</h3>
+                    <ul class="bullet-list">
+                        <li><strong>Kết hợp sức mạnh:</strong> Hỗ trợ lập trình thủ tục, hướng đối tượng và generic.</li>
+                        <li><strong>Hiệu suất cao:</strong> Phù hợp game, hệ thống nhúng, ứng dụng hiệu năng cao.</li>
+                        <li><strong>Hệ sinh thái lớn:</strong> STL, thư viện đa dạng, sử dụng rộng rãi trong công nghiệp.</li>
+                    </ul>
+                    <h3 style="margin-top: 25px;">Công cụ lập trình</h3>
+                    <ul class="bullet-list">
+                        <li>Visual Studio Code + MinGW/GCC hoặc MSVC.</li>
+                        <li>Code::Blocks, Visual Studio Community cho người mới.</li>
+                        <li>Biên dịch với tiêu chuẩn C++17/C++20 để dùng tính năng hiện đại.</li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="tiled-content" style="display: block;">
+                        <div class="tile" style="margin-bottom: 16px;">
+                            <div class="icon"><i class="fa-solid fa-gears"></i></div>
+                            <h3>Trình biên dịch</h3>
+                            <p>GCC, Clang, MSVC chuyển mã C++ thành chương trình chạy được.</p>
+                        </div>
+                        <div class="tile">
+                            <div class="icon"><i class="fa-solid fa-code"></i></div>
+                            <h3>Chuẩn ngôn ngữ</h3>
+                            <p>Ưu tiên C++17 trở lên để code ngắn gọn, an toàn và dễ bảo trì hơn.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide-container">
+        <h2 class="slide-title">Chương trình C++ đầu tiên</h2>
+        <div class="content-area">
+            <div class="two-column">
+                <div>
+<pre class="code-block">
+<span class="cmt">// Chương trình in ra câu chào</span>
+<span class="kw">#include</span> &lt;iostream&gt;
+
+<span class="type">int</span> <span class="fn">main</span>() {
+    <span class="cmt">// std::cout dùng để xuất dữ liệu</span>
+    std::<span class="fn">cout</span> &lt;&lt; <span class="str">"Hello, C++!\n"</span>;
+
+    <span class="kw">return</span> <span class="num">0</span>;
+}
+</pre>
+                </div>
+                <div>
+                    <h3>Giải thích từng dòng lệnh</h3>
+                    <ul class="bullet-list">
+                        <li><strong><span class="kw">#include</span> &lt;iostream&gt;</strong>: Thư viện cho luồng vào/ra chuẩn (<strong>cin/cout</strong>).</li>
+                        <li><strong><span class="type">int</span> <span class="fn">main</span>()</strong>: Hàm chính, điểm bắt đầu thực thi.</li>
+                        <li><strong>std::cout &lt;&lt; ...</strong>: Toán tử <code>&lt;&lt;</code> đưa dữ liệu ra màn hình.</li>
+                        <li><strong>\n</strong>: Ký tự xuống dòng.</li>
+                        <li><strong><span class="kw">return</span> <span class="num">0</span>;</strong>: Kết thúc chương trình thành công.</li>
+                        <li><strong>Dấu ;</strong>: Mỗi câu lệnh kết thúc bằng chấm phẩy.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide-container">
+        <h2 class="slide-title">Kiểu dữ liệu, Biến và Hằng</h2>
+        <div class="content-area">
+            <div class="tiled-content">
+                <div class="tile">
+                    <div class="icon"><i class="fa-solid fa-cube"></i></div>
+                    <h3>Kiểu Dữ Liệu</h3>
+                    <p>Xác định loại giá trị và bộ nhớ.</p>
+                    <ul class="bullet-list">
+                        <li><strong>int:</strong> Số nguyên</li>
+                        <li><strong>double:</strong> Số thực độ chính xác cao</li>
+                        <li><strong>char:</strong> Ký tự đơn</li>
+                        <li><strong>bool:</strong> true/false</li>
+                    </ul>
+                </div>
+                <div class="tile">
+                    <div class="icon"><i class="fa-solid fa-box-open"></i></div>
+                    <h3>Bien (Variables)</h3>
+                    <p>Vùng nhớ lưu trữ dữ liệu, có thể thay đổi giá trị.</p>
+                    <p><strong>Cú pháp:</strong><br><code>type tenBien = giaTri;</code></p>
+                    <p><strong>Ví dụ:</strong><br><code>int age = 20;</code><br><code>double gpa = 3.25;</code></p>
+                </div>
+                <div class="tile">
+                    <div class="icon"><i class="fa-solid fa-lock"></i></div>
+                    <h3>Hằng (Constants)</h3>
+                    <p>Giá trị cố định, không được thay đổi khi chạy.</p>
+                    <p><strong>Từ khóa const:</strong><br><code>const double PI = 3.14159;</code></p>
+                    <p><strong>Ưu tiên:</strong> Dùng <code>const</code> thay vì <code>#define</code> để an toàn kiểu dữ liệu.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide-container">
+        <h2 class="slide-title">Các Phép Toán: 1. Phép toán số học</h2>
+        <div class="content-area">
+            <p>Sử dụng để thực hiện các phép tính toán học cơ bản.</p>
+            <div class="two-column">
+                <div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Ký hiệu</th>
+                                <th>Ý nghĩa</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><code>+</code></td><td>Cộng hai toán hạng</td></tr>
+                            <tr><td><code>-</code></td><td>Trừ hai toán hạng</td></tr>
+                            <tr><td><code>*</code></td><td>Nhân hai toán hạng</td></tr>
+                            <tr><td><code>/</code></td><td>Chia (int/int sẽ lấy phần nguyên)</td></tr>
+                            <tr><td><code>%</code></td><td>Chia lấy phần dư (chỉ cho số nguyên)</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+<pre class="code-block">
+<span class="type">int</span> a = <span class="num">10</span>, b = <span class="num">3</span>;
+
+<span class="type">int</span> tong = a + b;      <span class="cmt">// 13</span>
+<span class="type">int</span> hieu = a - b;      <span class="cmt">// 7</span>
+<span class="type">int</span> tich = a * b;      <span class="cmt">// 30</span>
+<span class="type">int</span> thuong = a / b;    <span class="cmt">// 3</span>
+<span class="type">int</span> du = a % b;        <span class="cmt">// 1</span>
+
+<span class="type">double</span> chìnhxac = <span class="num">10.0</span> / <span class="num">3</span>; <span class="cmt">// 3.333...</span>
+</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide-container">
+        <h2 class="slide-title">Các Phép Toán: 2. Phép toán so sánh</h2>
+        <div class="content-area">
+            <p>Dùng để so sánh 2 giá trị. Trong C++, kết quả là kiểu <strong>bool</strong> (<strong>true</strong> hoặc <strong>false</strong>).</p>
+            <div class="two-column">
+                <div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Ký hiệu</th>
+                                <th>Ý nghĩa</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><code>==</code></td><td>Bằng nhau</td></tr>
+                            <tr><td><code>!=</code></td><td>Khác nhau</td></tr>
+                            <tr><td><code>&gt;</code></td><td>Lớn hơn</td></tr>
+                            <tr><td><code>&lt;</code></td><td>Nhỏ hơn</td></tr>
+                            <tr><td><code>&gt;=</code></td><td>Lớn hơn hoặc bằng</td></tr>
+                            <tr><td><code>&lt;=</code></td><td>Nhỏ hơn hoặc bằng</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+<pre class="code-block" style="font-size: 17px;">
+<span class="type">int</span> a = <span class="num">5</span>, b = <span class="num">8</span>;
+
+std::<span class="fn">cout</span> &lt;&lt; (a == b) &lt;&lt; <span class="str">"\n"</span>; <span class="cmt">// 0</span>
+std::<span class="fn">cout</span> &lt;&lt; (a != b) &lt;&lt; <span class="str">"\n"</span>; <span class="cmt">// 1</span>
+std::<span class="fn">cout</span> &lt;&lt; (a &lt; b) &lt;&lt; <span class="str">"\n"</span>;  <span class="cmt">// 1</span>
+
+<span class="cmt">// Có thể in bool rõ ràng hơn:</span>
+std::<span class="fn">cout</span> &lt;&lt; std::boolalpha &lt;&lt; (a &lt; b); <span class="cmt">// true</span>
+</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide-container">
+        <h2 class="slide-title">Các Phép Toán: 3. Phép toán Logic</h2>
+        <div class="content-area">
+            <p>Dùng để kết hợp nhiều điều kiện (thường dùng trong if, while).</p>
+            <div class="two-column">
+                <div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Ký hiệu</th>
+                                <th>Tên gọi</th>
+                                <th>Điều kiện đúng khi nào?</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><code>&&</code></td><td>AND (Và)</td><td>Khi <strong>TẤT CẢ</strong> điều kiện đều đúng.</td></tr>
+                            <tr><td><code>||</code></td><td>OR (Hoặc)</td><td>Khi có <strong>ÍT NHẤT 1</strong> điều kiện đúng.</td></tr>
+                            <tr><td><code>!</code></td><td>NOT (Phủ định)</td><td>Đảo ngược kết quả true/false.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+<pre class="code-block" style="font-size: 17px;">
+<span class="type">int</span> diemToan = <span class="num">8</span>;
+<span class="type">int</span> diemLy = <span class="num">6</span>;
+<span class="type">bool</span> hanhKiemTot = <span class="kw">true</span>;
+
+<span class="type">bool</span> hocSinhGioi = (diemToan &gt;= <span class="num">8</span>) && hanhKiemTot;
+<span class="type">bool</span> duDieuKienDau = (diemToan &gt;= <span class="num">5</span>) || (diemLy &gt;= <span class="num">5</span>);
+
+std::<span class="fn">cout</span> &lt;&lt; std::boolalpha
+          &lt;&lt; hocSinhGioi &lt;&lt; <span class="str">" "</span>
+          &lt;&lt; duDieuKienDau;
+</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide-container">
+        <h2 class="slide-title">Các Phép Toán: 4. Gán và Tăng/Giảm</h2>
+        <div class="content-area">
+            <div class="two-column">
+                <div>
+                    <h3>Phép Gán (Assignment)</h3>
+                    <p>Dùng để gán giá trị từ bên phải sang biến bên trái.</p>
+                    <table>
+                        <tbody>
+                            <tr><td><code>=</code></td><td><code>a = 5</code></td></tr>
+                            <tr><td><code>+=</code></td><td><code>a += 3</code> (tương đương <code>a = a + 3</code>)</td></tr>
+                            <tr><td><code>-=</code></td><td><code>a -= 2</code> (tương đương <code>a = a - 2</code>)</td></tr>
+                            <tr><td><code>*=</code>, <code>/=</code></td><td>Hoạt động tương tự</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <h3>Phép Tăng / Giảm</h3>
+                    <p>Tăng hoặc giảm biến đi 1 đơn vị.</p>
+                    <ul class="bullet-list">
+                        <li><code>++a</code> hoặc <code>a++</code>: Tăng a lên 1.</li>
+                        <li><code>--a</code> hoặc <code>a--</code>: Giảm a đi 1.</li>
+                    </ul>
+<pre class="code-block" style="margin-top: 10px;">
+<span class="type">int</span> x = <span class="num">10</span>;
+x++; <span class="cmt">// x = 11</span>
+++x; <span class="cmt">// x = 12</span>
+x--; <span class="cmt">// x = 11</span>
+</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide-container">
+        <h2 class="slide-title">Nhập/Xuất và Comment trong C++</h2>
+        <div class="content-area">
+            <div class="two-column">
+                <div>
+<pre class="code-block" style="font-size: 16px;">
+<span class="kw">#include</span> &lt;iostream&gt;
+<span class="kw">#include</span> &lt;string&gt;
+
+<span class="type">int</span> <span class="fn">main</span>() {
+    <span class="type">int</span> age;
+    std::<span class="type">string</span> name;
+
+    <span class="cmt">// cout: xuất thông tin</span>
+    std::<span class="fn">cout</span> &lt;&lt; <span class="str">"Nhập tên: "</span>;
+    std::<span class="fn">getline</span>(std::cin, name);
+
+    std::<span class="fn">cout</span> &lt;&lt; <span class="str">"Nhập tuổi: "</span>;
+    std::cin &gt;&gt; age;
+
+    std::<span class="fn">cout</span> &lt;&lt; <span class="str">"Ban "</span> &lt;&lt; name
+              &lt;&lt; <span class="str">", "</span> &lt;&lt; age &lt;&lt; <span class="str">" tuổi.\n"</span>;
+    <span class="kw">return</span> <span class="num">0</span>;
+}
+</pre>
+                </div>
+                <div>
+                    <h3>Lưu ý quan trọng</h3>
+                    <ul class="bullet-list">
+                        <li><strong>cin</strong> dùng toán tử <code>&gt;&gt;</code> để nhập dữ liệu.</li>
+                        <li><strong>getline(cin, str)</strong> dùng khi cần đọc cả dòng có dấu cách.</li>
+                        <li>Nên dùng <code>std::</code> rõ ràng thay vì <code>using namespace std;</code> trong dự án lớn.</li>
+                        <li><strong>Comment 1 dòng:</strong> <code>// nội dung</code></li>
+                        <li><strong>Comment nhiều dòng:</strong> <code>/* noi dùng */</code></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide-container">
+        <h2 class="slide-title">Định dạng dữ liệu với iomanip</h2>
+        <div class="content-area">
+            <p>Trong C++, ta thường dùng <code>&lt;iomanip&gt;</code> để căn lề và định dạng số khi in ra màn hình.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Lệnh</th>
+                        <th>Ý nghĩa</th>
+                        <th>Ví dụ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>fixed</code></td>
+                        <td>In số thực ở dạng cố định</td>
+                        <td><code>cout &lt;&lt; fixed;</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>setprecision(n)</code></td>
+                        <td>Đặt số chữ số sau dấu phẩy</td>
+                        <td><code>cout &lt;&lt; setprecision(2);</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>setw(n)</code></td>
+                        <td>Đặt độ rộng cột</td>
+                        <td><code>cout &lt;&lt; setw(10) &lt;&lt; x;</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>left / right</code></td>
+                        <td>Căn trái hoặc căn phải</td>
+                        <td><code>cout &lt;&lt; left &lt;&lt; setw(12);</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>boolalpha</code></td>
+                        <td>In true/false thay vì 1/0</td>
+                        <td><code>cout &lt;&lt; boolalpha &lt;&lt; ok;</code></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="slide-container">
+        <h2 class="slide-title">Bài tập vận dụng: Chương 1</h2>
+        <div class="content-area">
+            <ul class="exercise-list">
+                <li><strong>Bài 1:</strong> Viết chương trình nhập 2 số nguyên a, b. Hoán vị giá trị hai biến và in kết quả.</li>
+                <li><strong>Bài 2:</strong> Nhập bán kính r. Tính chu vi và diện tích hình tròn với <code>const double PI</code>.</li>
+                <li><strong>Bài 3:</strong> Nhập chiều dài, chiều rộng hình chữ nhật. Tính chu vi và diện tích.</li>
+                <li><strong>Bài 4:</strong> Nhập số nguyên x, in ra bình phương và lập phương của x.</li>
+                <li><strong>Bài 5:</strong> Nhập số dương n, tính căn bậc hai bằng <code>sqrt(n)</code> (<code>#include &lt;cmath&gt;</code>).</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="slide-container">
+        <div class="section-title-layout">
+            <h2>Chương 2</h2>
+            <hr>
+            <h1 style="color: #1E293B;">Cấu Trúc Điều Khiển</h1>
+            <p class="subtitle">Lệnh rẽ nhánh (if, switch) và Vòng lặp (for, while)</p>
+        </div>
+    </div>
+
+    <div class="slide-container">
+        <h2 class="slide-title">Cấu trúc rẽ nhánh (If - Else)</h2>
+        <div class="content-area">
+            <div class="two-column">
+                <div>
+                    <h3>1. Lệnh if cơ bản</h3>
+                    <p>Chỉ thực hiện nếu điều kiện đúng.</p>
+<pre class="code-block" style="font-size: 16px;">
+<span class="kw">if</span> (age &gt;= <span class="num">18</span>) {
+    std::<span class="fn">cout</span> &lt;&lt; <span class="str">"Duoc phep lai xe."</span>;
+}
+</pre>
+                    <h3>2. Lệnh if - else</h3>
+                    <p>Xử lý 2 trường hợp đúng/sai.</p>
+<pre class="code-block" style="font-size: 16px;">
+<span class="kw">if</span> (score &gt;= <span class="num">5.0</span>) {
+    std::<span class="fn">cout</span> &lt;&lt; <span class="str">"Đậu"</span>;
+} <span class="kw">else</span> {
+    std::<span class="fn">cout</span> &lt;&lt; <span class="str">"Rớt"</span>;
+}
+</pre>
+                </div>
+                <div>
+                    <h3>3. Lệnh if - else if - else</h3>
+                    <p>Kiểm tra nhiều điều kiện liên tiếp nhau.</p>
+<pre class="code-block" style="font-size: 16px;">
+<span class="type">double</span> score = <span class="num">7.5</span>;
+
+<span class="kw">if</span> (score &gt;= <span class="num">8.0</span>) {
+    std::<span class="fn">cout</span> &lt;&lt; <span class="str">"Xếp loại: Giỏi"</span>;
+}
+<span class="kw">else if</span> (score &gt;= <span class="num">6.5</span>) {
+    std::<span class="fn">cout</span> &lt;&lt; <span class="str">"Xếp loại: Khá"</span>;
+}
+<span class="kw">else if</span> (score &gt;= <span class="num">5.0</span>) {
+    std::<span class="fn">cout</span> &lt;&lt; <span class="str">"Xếp loại: Trung bình"</span>;
+}
+<span class="kw">else</span> {
+    std::<span class="fn">cout</span> &lt;&lt; <span class="str">"Xếp loại: Yếu"</span>;
+}
+</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide-container">
+        <h2 class="slide-title">Câu lệnh Switch - Case</h2>
+        <div class="content-area">
+            <div class="two-column">
+                <div>
+                    <p>Phù hợp khi so sánh một biến với các giá trị rời rạc (int, char, enum).</p>
+                    <ul class="bullet-list">
+                        <li><code>case</code>: Giá trị cụ thể cần kiểm tra.</li>
+                        <li><code>break</code>: Dừng lại sau khi xử lý xong case.</li>
+                        <li><code>default</code>: Chạy khi không trùng case nào.</li>
+                    </ul>
+                </div>
+                <div>
+<pre class="code-block">
+<span class="type">int</span> choice = <span class="num">2</span>;
+
+<span class="kw">switch</span> (choice) {
+    <span class="kw">case</span> <span class="num">1</span>:
+        std::<span class="fn">cout</span> &lt;&lt; <span class="str">"Bạn chọn Thêm mới"</span>;
+        <span class="kw">break</span>;
+    <span class="kw">case</span> <span class="num">2</span>:
+        std::<span class="fn">cout</span> &lt;&lt; <span class="str">"Bạn chọn Chỉnh sửa"</span>;
+        <span class="kw">break</span>;
+    <span class="kw">case</span> <span class="num">3</span>:
+        std::<span class="fn">cout</span> &lt;&lt; <span class="str">"Bạn chọn Xóa"</span>;
+        <span class="kw">break</span>;
+    <span class="kw">default</span>:
+        std::<span class="fn">cout</span> &lt;&lt; <span class="str">"Lựa chọn không hợp lệ"</span>;
+}
+</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide-container">
+        <h2 class="slide-title">Bài tập vận dụng: If và Switch</h2>
+        <div class="content-area">
+            <ul class="exercise-list">
+                <li><strong>Bài 1:</strong> Nhập số nguyên n, kiểm tra chẵn/lẻ.</li>
+                <li><strong>Bài 2:</strong> Nhập 3 số thực a, b, c và tìm số lớn nhất.</li>
+                <li><strong>Bài 3:</strong> Giải phương trình bậc nhất <code>ax + b = 0</code>, xử lý đầy đủ trường hợp <code>a = 0</code>.</li>
+                <li><strong>Bài 4:</strong> Tính tiền điện theo bậc thang.</li>
+                <li><strong>Bài 5:</strong> Viết máy tính cầm tay bằng <code>switch-case</code> cho các phép <code>+, -, *, /</code>.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="slide-container">
+        <h2 class="slide-title">Vòng lặp For</h2>
+        <div class="content-area">
+            <div class="two-column">
+                <div>
+                    <h3>Định nghĩa và Cú pháp</h3>
+                    <p>Dùng khi đã biết trước số lần lặp.</p>
+<pre class="code-block">
+<span class="kw">for</span> (khoi_tao; dieu_kien; buoc_nhay) {
+    <span class="cmt">// Khối lệnh lặp lại</span>
+}
+</pre>
+                    <ul class="bullet-list">
+                        <li><strong>Khởi tạo:</strong> Chạy 1 lần đầu tiên.</li>
+                        <li><strong>Điều kiện:</strong> Đúng thì lặp tiếp, sai thì dừng.</li>
+                        <li><strong>Bước nhảy:</strong> Chạy cuối mỗi vòng lặp.</li>
+                    </ul>
+                </div>
+                <div>
+<pre class="code-block">
+<span class="cmt">// In các số từ 1 đến 5</span>
+<span class="kw">for</span> (<span class="type">int</span> i = <span class="num">1</span>; i &lt;= <span class="num">5</span>; i++) {
+    std::<span class="fn">cout</span> &lt;&lt; i &lt;&lt; <span class="str">" "</span>;
+}
+
+std::<span class="fn">cout</span> &lt;&lt; <span class="str">"\n"</span>;
+
+<span class="cmt">// Vòng lặp chay lui</span>
+<span class="kw">for</span> (<span class="type">int</span> i = <span class="num">5</span>; i &gt; <span class="num">0</span>; i--) {
+    std::<span class="fn">cout</span> &lt;&lt; i &lt;&lt; <span class="str">" "</span>;
+}
+</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide-container">
+        <h2 class="slide-title">Bài tập vận dụng: Vòng lặp For</h2>
+        <div class="content-area">
+            <ul class="exercise-list">
+                <li><strong>Bài 1:</strong> Nhập n, tính tổng <code>S = 1 + 2 + ... + n</code>.</li>
+                <li><strong>Bài 2:</strong> Nhập n, tính giai thừa <code>n!</code>.</li>
+                <li><strong>Bài 3:</strong> In bảng cửu chương của N (2 đến 9).</li>
+                <li><strong>Bài 4:</strong> Tìm và in tất cả ước số của n.</li>
+                <li><strong>Bài 5:</strong> Vẽ hình chữ nhật bằng dấu <code>*</code> bằng vòng lặp lồng nhau.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="slide-container">
+        <h2 class="slide-title">Vòng lặp While và Do-While</h2>
+        <div class="content-area">
+            <div class="two-column">
+                <div>
+                    <h3>Vòng lặp while</h3>
+                    <p>Kiểm tra điều kiện trước, thích hợp khi chưa biết số lần lặp.</p>
+<pre class="code-block" style="font-size: 16px;">
+<span class="type">int</span> n = <span class="num">5</span>;
+<span class="kw">while</span> (n &gt; <span class="num">0</span>) {
+    std::<span class="fn">cout</span> &lt;&lt; n &lt;&lt; <span class="str">" "</span>;
+    n--;
+}
+</pre>
+                </div>
+                <div>
+                    <h3>Vòng lặp do - while</h3>
+                    <p>Thực hiện ít nhất 1 lần rồi mới kiểm tra điều kiện.</p>
+<pre class="code-block" style="font-size: 16px;">
+<span class="type">int</span> age;
+<span class="kw">do</span> {
+    std::<span class="fn">cout</span> &lt;&lt; <span class="str">"Nhập tuổi (&gt;0): "</span>;
+    std::cin &gt;&gt; age;
+} <span class="kw">while</span> (age &lt;= <span class="num">0</span>);
+</pre>
+                </div>
+            </div>
+            <p class="subtitle" style="text-align: center; margin-top: 15px;"><strong>Lưu ý:</strong> Nhớ cập nhật biến điều kiện để tránh vòng lặp vô tận.</p>
+        </div>
+    </div>
+
+    <div class="slide-container">
+        <h2 class="slide-title">Bài tập vận dụng: While và Do-While</h2>
+        <div class="content-area">
+            <ul class="exercise-list">
+                <li><strong>Bài 1:</strong> Dùng <code>do-while</code> yêu cầu nhập số từ 1 đến 10 đến khi hợp lệ.</li>
+                <li><strong>Bài 2:</strong> Dùng <code>while</code> đếm số chữ số của một số nguyên dương.</li>
+                <li><strong>Bài 3:</strong> Đảo ngược thứ tự chữ số của n.</li>
+                <li><strong>Bài 4:</strong> Tìm UCLN của a và b bằng thuật toán Euclid.</li>
+                <li><strong>Bài 5:</strong> Trò chơi đoán số random 1-100 với gợi ý lớn hơn/nhỏ hơn.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="slide-container">
+        <div class="section-title-layout">
+            <h2>Chương 3</h2>
+            <hr>
+            <h1 style="color: #1E293B;">Hàm và Hướng Đối Tượng Cơ Bản</h1>
+            <p class="subtitle">Tái sử dụng mã nguồn và tổ chức chương trình</p>
+        </div>
+    </div>
+
+    <div class="slide-container">
+        <h2 class="slide-title">Hàm có giá trị trả về (Return)</h2>
+        <div class="content-area">
+            <div class="two-column">
+                <div>
+                    <p>Hàm nhận tham số, xử lý và trả kết quả thông qua <code>return</code>.</p>
+                    <ul class="bullet-list">
+                        <li><strong>Kiểu trả về:</strong> <code>int</code>, <code>double</code>, <code>bool</code>...</li>
+                        <li><strong>return:</strong> Gặp là hàm kết thúc ngay.</li>
+                    </ul>
+                </div>
+                <div>
+<pre class="code-block" style="font-size: 16px;">
+<span class="type">int</span> <span class="fn">tinhTong</span>(<span class="type">int</span> a, <span class="type">int</span> b) {
+    <span class="kw">return</span> a + b;
+}
+
+<span class="type">int</span> <span class="fn">main</span>() {
+    <span class="type">int</span> tong = <span class="fn">tinhTong</span>(<span class="num">8</span>, <span class="num">9</span>);
+    std::<span class="fn">cout</span> &lt;&lt; <span class="str">"Tổng là: "</span> &lt;&lt; tong;
+    <span class="kw">return</span> <span class="num">0</span>;
+}
+</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide-container">
+        <h2 class="slide-title">Hàm không trả về giá trị (void)</h2>
+        <div class="content-area">
+            <div class="two-column">
+                <div>
+                    <p>Hàm chỉ thực hiện thao tác như in thông tin, không cần trả giá trị.</p>
+                    <ul class="bullet-list">
+                        <li>Dùng từ khóa <code>void</code>.</li>
+                        <li>Có thể không cần <code>return;</code>.</li>
+                    </ul>
+                </div>
+                <div>
+<pre class="code-block" style="font-size: 16px;">
+<span class="type">void</span> <span class="fn">inLoiChao</span>(<span class="kw">const</span> std::<span class="type">string</span>&amp; ten) {
+    std::<span class="fn">cout</span> &lt;&lt; <span class="str">"==================\n"</span>;
+    std::<span class="fn">cout</span> &lt;&lt; <span class="str">"Xin chào bạn "</span> &lt;&lt; ten &lt;&lt; <span class="str">"!\n"</span>;
+    std::<span class="fn">cout</span> &lt;&lt; <span class="str">"==================\n"</span>;
+}
+
+<span class="type">int</span> <span class="fn">main</span>() {
+    <span class="fn">inLoiChao</span>(<span class="str">"Sinh viên"</span>);
+    <span class="kw">return</span> <span class="num">0</span>;
+}
+</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide-container">
+        <h2 class="slide-title">Class và Object trong C++</h2>
+        <div class="content-area">
+            <div class="two-column">
+                <div>
+                    <p><strong>class</strong> là khuôn mẫu, <strong>object</strong> là đối tượng được tạo từ class đó.</p>
+                    <ul class="bullet-list">
+                        <li><strong>private:</strong> Thuộc tính nội bộ, không truy cập trực tiếp từ ngoài.</li>
+                        <li><strong>public:</strong> Hàm và thuộc tính cho phép truy cập.</li>
+                        <li><strong>Constructor:</strong> Hàm khởi tạo có tên trùng tên class.</li>
+                    </ul>
+                </div>
+                <div>
+<pre class="code-block" style="font-size: 15px;">
+<span class="kw">class</span> SinhVien {
+<span class="kw">private</span>:
+    std::<span class="type">string</span> ten;
+    <span class="type">double</span> diem;
+
+<span class="kw">public</span>:
+    <span class="fn">SinhVien</span>(std::<span class="type">string</span> t, <span class="type">double</span> d) : ten(t), diem(d) {}
+
+    <span class="type">void</span> <span class="fn">hienThi</span>() <span class="kw">const</span> {
+        std::<span class="fn">cout</span> &lt;&lt; ten &lt;&lt; <span class="str">" - "</span> &lt;&lt; diem &lt;&lt; <span class="str">"\n"</span>;
+    }
+};
+</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide-container">
+        <h2 class="slide-title">Bài tập vận dụng: Hàm và OOP</h2>
+        <div class="content-area">
+            <ul class="exercise-list">
+                <li><strong>Bài 1:</strong> Viết hàm <code>bool laSoNguyenTo(int n)</code> và in các số nguyên tố từ 1 đến 100.</li>
+                <li><strong>Bài 2:</strong> Viết hàm <code>int timMax(int a, int b, int c)</code>.</li>
+                <li><strong>Bài 3:</strong> Viết hàm đổi độ F sang độ C.</li>
+                <li><strong>Bài 4:</strong> Tạo class <code>HinhChuNhat</code> gồm dài, rộng và hàm tính diện tích.</li>
+                <li><strong>Bài 5:</strong> Tạo class <code>TaiKhoanNganHang</code> có nạp/rút tiền và in số dư.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="slide-container">
+        <h2 class="slide-title">Làm việc với Header và Source File</h2>
+        <div class="content-area">
+            <p>Trong C++, thường tách chương trình thành <code>.h</code> (khai báo) và <code>.cpp</code> (định nghĩa).</p>
+            <div class="two-column">
+                <div>
+                    <h3>1. File Header (math_utils.h)</h3>
+                    <p>Chứa khai báo hàm.</p>
+<pre class="code-block" style="font-size: 12px;">
+<span class="kw">#ifndef</span> MATH_UTILS_H
+<span class="kw">#define</span> MATH_UTILS_H
+
+<span class="type">int</span> <span class="fn">cong</span>(<span class="type">int</span> a, <span class="type">int</span> b);
+<span class="type">int</span> <span class="fn">tru</span>(<span class="type">int</span> a, <span class="type">int</span> b);
+
+<span class="kw">#endif</span>
+</pre>
+                    <h3>2. File Nguồn (math_utils.cpp)</h3>
+                    <p>Chứa định nghĩa hàm.</p>
+<pre class="code-block" style="font-size: 12px;">
+<span class="kw">#include</span> <span class="str">"math_utils.h"</span>
+
+<span class="type">int</span> <span class="fn">cong</span>(<span class="type">int</span> a, <span class="type">int</span> b) {
+    <span class="kw">return</span> a + b;
+}
+<span class="type">int</span> <span class="fn">tru</span>(<span class="type">int</span> a, <span class="type">int</span> b) {
+    <span class="kw">return</span> a - b;
+}</pre>
+                </div>
+                <div>
+                    <h3>3. File Nguồn (main.cpp)</h3>
+                    <p>Include file <code>math_utils.h</code> và gọi hàm.</p>
+<pre class="code-block" style="font-size: 16px;">
+<span class="kw">#include</span> &lt;iostream&gt;
+<span class="kw">#include</span> <span class="str">"math_utils.h"</span>
+
+<span class="type">int</span> <span class="fn">main</span>() {
+    <span class="type">int</span> kq = <span class="fn">cong</span>(<span class="num">5</span>, <span class="num">3</span>);
+    std::<span class="fn">cout</span> &lt;&lt; <span class="str">"KQ = "</span> &lt;&lt; kq;
+    <span class="kw">return</span> <span class="num">0</span>;
+}</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide-container">
+        <h2 class="slide-title">Bài tập vận dụng: Chia file C++</h2>
+        <div class="content-area">
+            <ul class="exercise-list">
+                <li><strong>Bài 1:</strong> Tạo <code>basic_math.h/.cpp</code> chứa hàm cộng, trừ, nhân, chia.</li>
+                <li><strong>Bài 2:</strong> Tạo <code>geometry.h/.cpp</code> tính chu vi, diện tích hình tròn/hình chữ nhật.</li>
+                <li><strong>Bài 3:</strong> Tạo <code>string_utils.h/.cpp</code> chứa hàm đếm độ dài chuỗi không dùng <code>std::string::size()</code>.</li>
+                <li><strong>Bài 4:</strong> Tách hàm kiểm tra số nguyên tố sang module riêng và dùng lại trong <code>main.cpp</code>.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="slide-container">
+        <div class="section-title-layout">
+            <h2>Chương 4</h2>
+            <hr>
+            <h1 style="color: #1E293B;">Cấu Trúc Dữ Liệu và STL</h1>
+            <p class="subtitle">Mảng, vector, con trỏ và danh sách liên kết</p>
+        </div>
+    </div>
+
+    <div class="slide-container">
+        <h2 class="slide-title">Mảng và Vector trong C++</h2>
+        <div class="content-area">
+            <div class="two-column">
+                <div>
+                    <h3>Mảng tĩnh (array)</h3>
+                    <p>Kích thước cố định, truy cập nhanh qua chỉ số.</p>
+                    <ul class="bullet-list">
+                        <li><strong>Khai báo:</strong> <code>int arr[5];</code></li>
+                        <li><strong>Khởi tạo:</strong> <code>int arr[3] = {10,20,30};</code></li>
+                    </ul>
+                    <h3>Vector (STL)</h3>
+                    <p>Kích thước động, tự mở rộng khi cần.</p>
+                    <ul class="bullet-list">
+                        <li><code>#include &lt;vector&gt;</code></li>
+                        <li>Có các hàm: <code>push_back</code>, <code>size</code>, <code>at</code></li>
+                    </ul>
+                </div>
+                <div>
+<pre class="code-block" style="font-size: 16px;">
+<span class="kw">#include</span> &lt;vector&gt;
+
+std::<span class="type">vector</span>&lt;<span class="type">int</span>&gt; diem = {<span class="num">7</span>, <span class="num">8</span>, <span class="num">9</span>};
+diem.<span class="fn">push_back</span>(<span class="num">10</span>);
+
+<span class="kw">for</span> (<span class="type">size_t</span> i = <span class="num">0</span>; i &lt; diem.<span class="fn">size</span>(); i++) {
+    std::<span class="fn">cout</span> &lt;&lt; diem[i] &lt;&lt; <span class="str">" "</span>;
+}
+</pre>
+                </div>
+            </div>
+            <p style="margin-top: 10px;"><strong>Bài tập vận dụng:</strong><br>
+            1. Nhập N phần tử vào vector, tính tổng.<br>
+            2. Tìm MAX/MIN trong vector.<br>
+            3. Sắp xếp tăng dần bằng <code>std::sort</code>.</p>
+        </div>
+    </div>
+
+    <div class="slide-container">
+        <h2 class="slide-title">Struct và Class trong C++</h2>
+        <div class="content-area">
+            <div class="two-column">
+                <div>
+                    <p><strong>struct</strong> và <strong>class</strong> đều có thể chứa thuộc tính và phương thức.</p>
+                    <p>Khác biệt chính: mặc định <code>struct</code> là public, <code>class</code> là private.</p>
+<pre class="code-block" style="font-size: 16px;">
+<span class="kw">struct</span> ToaDo {
+    <span class="type">double</span> x;
+    <span class="type">double</span> y;
+};
+</pre>
+                </div>
+                <div>
+<pre class="code-block" style="font-size: 16px;">
+<span class="kw">int</span> <span class="fn">main</span>() {
+    ToaDo p1{<span class="num">2.5</span>, <span class="num">4.0</span>};
+    std::<span class="fn">cout</span> &lt;&lt; <span class="str">"x = "</span> &lt;&lt; p1.x
+              &lt;&lt; <span class="str">", y = "</span> &lt;&lt; p1.y;
+    <span class="kw">return</span> <span class="num">0</span>;
+}
+</pre>
+                </div>
+            </div>
+            <p style="margin-top: 10px;"><strong>Bài tập vận dụng:</strong><br>
+            1. Tạo struct <code>NhanVien</code>, nhập mảng nhân viên và tìm lương cao nhất.<br>
+            2. Tạo class <code>PhanSo</code> với hàm rút gọn và cộng 2 phân số.</p>
+        </div>
+    </div>
+
+    <div class="slide-container">
+        <h2 class="slide-title">Con trỏ và Tham chiếu (References)</h2>
+        <div class="content-area">
+            <div class="two-column">
+                <div>
+                    <p>Con trỏ lưu địa chỉ bộ nhớ, tham chiếu là bí danh cho biến đã tồn tại.</p>
+                    <ul class="bullet-list">
+                        <li><code>&amp;a</code>: Lấy địa chỉ của a.</li>
+                        <li><code>*p</code>: Truy cập giá trị mà p đang trỏ tới.</li>
+                        <li><code>int&amp; ref = a;</code>: ref là tên khác của a.</li>
+                    </ul>
+                </div>
+                <div>
+<pre class="code-block" style="font-size: 16px;">
+<span class="type">int</span> a = <span class="num">10</span>;
+<span class="type">int</span>* p = &amp;a;
+<span class="type">int</span>&amp; ref = a;
+
+*p = <span class="num">20</span>;  <span class="cmt">// a = 20</span>
+ref = <span class="num">30</span>; <span class="cmt">// a = 30</span>
+
+std::<span class="fn">cout</span> &lt;&lt; a;
+</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide-container">
+        <h2 class="slide-title">Danh sách liên kết trong C++</h2>
+        <div class="content-area">
+            <p>Có 2 hướng: tự xây dựng Node bằng con trỏ hoặc dùng <code>std::list</code> trong STL.</p>
+            <div style="background: #F1F5F9; padding: 20px; text-align: center; border-radius: 8px; margin: 15px 0; font-family: 'Roboto Mono', monospace; font-size: 20px; font-weight: bold; color: #0EA5E9;">
+                [Head] -> [ Data: 10 | Next ] -> [ Data: 20 | Next ] -> NULL
+            </div>
+            <div class="two-column">
+                <div>
+                    <h3>Tự xây dựng Node</h3>
+                    <ul class="bullet-list">
+                        <li>Mỗi node gồm dữ liệu và con trỏ <code>next</code>.</li>
+                        <li>Cần quản lý bộ nhớ cẩn thận (new/delete).</li>
+                    </ul>
+                </div>
+                <div>
+<pre class="code-block" style="font-size: 15px; margin-bottom: 0;">
+<span class="kw">struct</span> Node {
+    <span class="type">int</span> data;
+    Node* next;
+};
+</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide-container">
+        <h2 class="slide-title">Cài đặt danh sách liên kết cơ bản</h2>
+        <div class="content-area">
+            <div class="two-column">
+                <div>
+                    <p>Ví dụ lien ket 3 node theo cach don gian để hiểu cơ chế.</p>
+                    <p style="margin-top: 15px;"><strong>Bài tập nâng cao:</strong><br>
+                    1. Viết hàm <code>Node* createNode(int x)</code> sử dụng <code>new</code>.<br>
+                    2. Viết hàm duyệt danh sách để in từng node.<br>
+                    3. Viết hàm them node vao đầu danh sách.</p>
+                </div>
+                <div>
+<pre class="code-block" style="font-size: 14px;">
+<span class="type">int</span> <span class="fn">main</span>() {
+    Node n1{<span class="num">10</span>, <span class="kw">nullptr</span>};
+    Node n2{<span class="num">20</span>, <span class="kw">nullptr</span>};
+    Node n3{<span class="num">30</span>, <span class="kw">nullptr</span>};
+
+    n1.next = &amp;n2;
+    n2.next = &amp;n3;
+
+    std::<span class="fn">cout</span> &lt;&lt; <span class="str">"Node 2 là: "</span>
+              &lt;&lt; n1.next-&gt;data &lt;&lt; <span class="str">"\n"</span>;
+
+    <span class="kw">return</span> <span class="num">0</span>;
+}
+</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide-container">
+        <div class="title-layout">
+            <h1>Hỏi và Đáp</h1>
+            <p class="subtitle">Cảm ơn các bạn đã theo dõi khóa học</p>
+            <hr style="width: 100px; height: 5px; background-color: #0EA5E9; border: none; margin: 30px auto;">
+        </div>
+    </div>
+
+    <script src="../common/slide-controller.js"></script>
+</body>
+</html>
+
+
