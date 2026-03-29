@@ -149,12 +149,19 @@
     const nav = document.createElement('div');
     nav.className = 'slide-nav';
 
+    // Nút nhảy về slide đầu tiên
+    const firstButton = document.createElement('button');
+    firstButton.type = 'button';
+    firstButton.setAttribute('aria-label', 'Slide đầu tiên');
+    firstButton.setAttribute('title', 'Slide đầu tiên');
+    firstButton.innerHTML = '<i class="fa-solid fa-angles-left" aria-hidden="true"></i>';
+
     // Nút lùi slide
     const backButton = document.createElement('button');
     backButton.type = 'button';
     backButton.setAttribute('aria-label', 'Slide trước (nhấn phím mũi tên trái để chuyển nhanh)');
     backButton.setAttribute('title', 'Slide trước (nhấn phím mũi tên trái để chuyển nhanh)');
-    backButton.textContent = '‹';
+    backButton.innerHTML = '<i class="fa-solid fa-angle-left" aria-hidden="true"></i>';
 
     // Ô nhập số trang để nhảy nhanh
     const indexInput = document.createElement('input');
@@ -166,9 +173,16 @@
     nextButton.type = 'button';
     nextButton.setAttribute('aria-label', 'Slide tiếp theo (nhấn phím mũi tên phải để chuyển nhanh)');
     nextButton.setAttribute('title', 'Slide tiếp theo (nhấn phím mũi tên phải để chuyển nhanh)');
-    nextButton.textContent = '›';
+    nextButton.innerHTML = '<i class="fa-solid fa-angle-right" aria-hidden="true"></i>';
 
-    nav.append(backButton, indexInput, nextButton);
+    // Nút nhảy đến slide cuối cùng
+    const lastButton = document.createElement('button');
+    lastButton.type = 'button';
+    lastButton.setAttribute('aria-label', 'Slide cuối cùng');
+    lastButton.setAttribute('title', 'Slide cuối cùng');
+    lastButton.innerHTML = '<i class="fa-solid fa-angles-right" aria-hidden="true"></i>';
+
+    nav.append(firstButton, backButton, indexInput, nextButton, lastButton);
     document.body.appendChild(nav);
 
     // Nút home, để quay về trang chủ
@@ -287,32 +301,67 @@
         });
     };
 
-    // Cập nhật trạng thái hiển thị slide và trạng thái điều hướng
-    const applyState = () => {
-        slides.forEach((slide, index) => {
-            let newState;
-            if (index < currentIndex) {
-                newState = 'is-prev';
-            } else if (index > currentIndex) {
-                newState = 'is-next';
-            } else {
-                newState = 'is-active';
-            }
+    const updateNavControls = () => {
+        indexInput.value = `${currentIndex + 1}/${totalSlides}`;
+        firstButton.disabled = currentIndex === 0;
+        backButton.disabled = currentIndex === 0;
+        nextButton.disabled = currentIndex === totalSlides - 1;
+        lastButton.disabled = currentIndex === totalSlides - 1;
+    };
 
-            const oldState = slideStates.get(slide);
-            if (oldState !== newState) {
-                // Chỉ cập nhật nếu trạng thái thực sự thay đổi
-                if (oldState) {
-                    slide.classList.remove(oldState);
-                }
-                slide.classList.add(newState);
-                slideStates.set(slide, newState);
+    const setSlideState = (index, newState) => {
+        const slide = slides[index];
+        if (!slide) return;
+
+        const oldState = slideStates.get(slide);
+        if (oldState === newState) return;
+
+        if (oldState) {
+            slide.classList.remove(oldState);
+        }
+        slide.classList.add(newState);
+        slideStates.set(slide, newState);
+    };
+
+    // Cập nhật trạng thái hiển thị slide và trạng thái điều hướng (toàn bộ)
+    const applyState = () => {
+        slides.forEach((_, index) => {
+            if (index < currentIndex) {
+                setSlideState(index, 'is-prev');
+            } else if (index > currentIndex) {
+                setSlideState(index, 'is-next');
+            } else {
+                setSlideState(index, 'is-active');
             }
         });
 
-        indexInput.value = `${currentIndex + 1}/${totalSlides}`;
-        backButton.disabled = currentIndex === 0;
-        nextButton.disabled = currentIndex === totalSlides - 1;
+        updateNavControls();
+    };
+
+    // Cập nhật vi sai: chỉ thay đổi class của các slide bị ảnh hưởng khi đổi trang
+    const applyStateDelta = (previousIndex, nextIndex) => {
+        if (previousIndex === nextIndex) {
+            updateNavControls();
+            return;
+        }
+
+        if (nextIndex > previousIndex) {
+            setSlideState(previousIndex, 'is-prev');
+            setSlideState(nextIndex, 'is-active');
+
+            for (let i = previousIndex + 1; i < nextIndex; i += 1) {
+                setSlideState(i, 'is-prev');
+            }
+        } else {
+            setSlideState(previousIndex, 'is-next');
+            setSlideState(nextIndex, 'is-active');
+
+            for (let i = nextIndex + 1; i < previousIndex; i += 1) {
+                setSlideState(i, 'is-next');
+            }
+        }
+
+        updateNavControls();
     };
 
     // Mở khóa điều hướng sau một nhịp chuyển cảnh,
@@ -336,13 +385,14 @@
         }
 
         if (safeIndex === currentIndex) {
-            applyState();
+            updateNavControls();
             return;
         }
 
         isNavigating = true;
+        const previousIndex = currentIndex;
         currentIndex = safeIndex;
-        applyState();
+        applyStateDelta(previousIndex, currentIndex);
         saveCurrentSlide();
 
         if (transitionUnlockTimer) {
@@ -356,14 +406,16 @@
         const rawValue = indexInput.value.trim();
         const matched = rawValue.match(/^\s*(\d+)/);
         if (!matched) {
-            applyState();
+            updateNavControls();
             return;
         }
         goToSlide(Number(matched[1]) - 1);
     };
 
+    firstButton.addEventListener('click', () => goToSlide(0));
     backButton.addEventListener('click', () => goToSlide(currentIndex - 1));
     nextButton.addEventListener('click', () => goToSlide(currentIndex + 1));
+    lastButton.addEventListener('click', () => goToSlide(totalSlides - 1));
 
     // Hỗ trợ vuốt ngang trên thiết bị cảm ứng để chuyển slide
     // (áp dụng cho cả chế độ dọc và xoay ngang vì dựa trên trục vuốt thực tế)
